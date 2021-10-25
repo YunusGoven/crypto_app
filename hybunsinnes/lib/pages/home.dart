@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hybunsinnes/animations/delayed_animation.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hybunsinnes/main.dart';
 import 'connexion.dart';
 
-class WelcomePage extends StatelessWidget {
-  const WelcomePage();
+class HomePage extends StatelessWidget {
+  const HomePage();
 
   @override
   Widget build(BuildContext context) {

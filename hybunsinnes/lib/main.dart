@@ -1,17 +1,31 @@
+import 'package:hybunsinnes/pages/screen_template.dart';
+import 'package:hybunsinnes/routing/route_names.dart';
+import 'package:hybunsinnes/routing/router.dart';
+import 'package:hybunsinnes/services/navigation_service.dart';
 import 'package:flutter/material.dart';
-import 'package:hybunsinnes/pages/welcome.dart';
+import 'locator.dart';
 
-const d_red = Color(0xFFE9717D);
-
-void main() => runApp(MyApp());
+void main() {
+  setupLocator();
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  const MyApp({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-        title: 'Crypto App',
-        debugShowCheckedModeBanner: false,
-        home: WelcomePage());
+    return MaterialApp(
+      title: 'HYBusiness',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      builder: (context, child) => ScreenTemplate(
+        child: child,
+      ),
+      navigatorKey: locator<NavigationService>().navigatorKey,
+      onGenerateRoute: generateRoute,
+      initialRoute: HomeRoute,
+    );
   }
 }
