@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hybunsinnes/main.dart';
+import 'package:hybunsinnes/constant.dart';
+import 'package:hybunsinnes/locator.dart';
 import 'package:hybunsinnes/animations/delayed_animation.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hybunsinnes/routing/route_names.dart';
+import 'package:hybunsinnes/services/navigation_service.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage();
@@ -10,40 +12,26 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white.withOpacity(0),
-        leading: IconButton(
-          icon: Icon(
-            Icons.close,
-            color: Colors.black,
-            size: 30,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            DelayedAnimation(
+            const DelayedAnimation(
               delay: 1000,
-              child: Container(
+              child: SizedBox(
                 height: 280,
                 child: Text("Connexion par mail"),
               ),
             ),
-            SizedBox(width: 35),
-            LoginForm(),
-            SizedBox(width: 125),
+            const SizedBox(width: 35),
+            const LoginForm(),
+            const SizedBox(width: 125),
             DelayedAnimation(
               delay: 1000,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  shape: StadiumBorder(),
-                  primary: d_red,
-                  padding: EdgeInsets.symmetric(
+                  shape: const StadiumBorder(),
+                  primary: secondaryColor,
+                  padding: const EdgeInsets.symmetric(
                     horizontal: 125,
                     vertical: 13,
                   ),
@@ -57,12 +45,7 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MyApp(),
-                    ),
-                  );
+                  locator<NavigationService>().navigateTo(HomeRoute);
                 },
               ),
             ),
@@ -74,6 +57,8 @@ class LoginPage extends StatelessWidget {
 }
 
 class LoginForm extends StatefulWidget {
+  const LoginForm({Key key}) : super(key: key);
+
   @override
   _LoginFormState createState() => _LoginFormState();
 }
@@ -83,7 +68,7 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
         horizontal: 30,
       ),
       child: Column(
@@ -99,7 +84,7 @@ class _LoginFormState extends State<LoginForm> {
               ),
             ),
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           DelayedAnimation(
             delay: 1500,
             child: TextField(
@@ -110,7 +95,7 @@ class _LoginFormState extends State<LoginForm> {
                 ),
                 labelText: 'Password',
                 suffixIcon: IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.visibility,
                     color: Colors.black,
                   ),

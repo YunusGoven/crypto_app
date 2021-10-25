@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hybunsinnes/locator.dart';
-import 'package:hybunsinnes/routing/route_names.dart';
-import 'package:hybunsinnes/routing/router.dart';
-import 'package:hybunsinnes/services/navigation_service.dart';
 import 'package:hybunsinnes/widgets/centered_view.dart';
 import 'package:hybunsinnes/widgets/navigation_bar/navigation_bar.dart';
 
@@ -15,7 +11,7 @@ class ScreenTemplate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: primaryColor,
+      backgroundColor: secondaryColor,
       body: CenteredView(
         child: Column(
           children: <Widget>[

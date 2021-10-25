@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hybunsiness/widgets/navigation_bar/navigation_bar_tablet_desktop.dart';
-import 'package:hybunsiness/widgets/navigation_bar/navigation_bar_mobile.dart';
+import 'package:hybunsinnes/widgets/navigation_bar/navigation_bar_mobile.dart';
+import 'package:hybunsinnes/widgets/navigation_bar/navigation_bar_web.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class NavigationBar extends StatelessWidget {
@@ -9,8 +9,8 @@ class NavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenTypeLayout(
-      mobile: NavigationBarMobile(),
-      tablet: NavigationBarTabletDesktop(),
+      mobile: const NavigationBarMobile(),
+      tablet: const NavigationBarWeb(),
     );
   }
 }

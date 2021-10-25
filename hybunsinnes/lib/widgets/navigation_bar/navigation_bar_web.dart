@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:the_basics/routing/route_names.dart';
-import 'package:the_basics/widgets/navbar_item/navbar_item.dart';
-
+import 'package:hybunsinnes/routing/route_names.dart';
+import 'package:hybunsinnes/widgets/navbar_item.dart';
 import 'navbar_logo.dart';
 
 class NavigationBarWeb extends StatelessWidget {
@@ -9,20 +8,20 @@ class NavigationBarWeb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 100,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          NavBarLogo(),
+          const NavBarLogo(),
           Row(
             mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              NavBarItem('Episodes', EpisodesRoute),
+            children: const <Widget>[
+              NavBarItem('home', HomeRoute),
               SizedBox(
                 width: 60,
               ),
-              NavBarItem('About', AboutRoute),
+              // NavBarItem('About', AboutRoute),
             ],
           )
         ],

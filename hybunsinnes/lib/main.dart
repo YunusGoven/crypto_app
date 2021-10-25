@@ -18,14 +18,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'HYBusiness',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
       ),
       builder: (context, child) => ScreenTemplate(
         child: child,
       ),
       navigatorKey: locator<NavigationService>().navigatorKey,
       onGenerateRoute: generateRoute,
-      initialRoute: HomeRoute,
+      initialRoute: LoginRoute,
     );
   }
 }

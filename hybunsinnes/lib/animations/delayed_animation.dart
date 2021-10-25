@@ -4,7 +4,7 @@ import 'dart:async';
 class DelayedAnimation extends StatefulWidget {
   final Widget child;
   final int delay;
-  const DelayedAnimation({required this.delay, required this.child});
+  const DelayedAnimation({@required this.delay, @required this.child});
 
   @override
   _DelayedAnimationState createState() => _DelayedAnimationState();
@@ -12,8 +12,8 @@ class DelayedAnimation extends StatefulWidget {
 
 class _DelayedAnimationState extends State<DelayedAnimation>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<Offset> _animOffset;
+  AnimationController _controller;
+  Animation<Offset> _animOffset;
 
   @override
   void initState() {
@@ -33,6 +33,7 @@ class _DelayedAnimationState extends State<DelayedAnimation>
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return FadeTransition(
       opacity: _controller,
