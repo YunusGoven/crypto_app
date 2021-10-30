@@ -1,10 +1,7 @@
-import 'package:hybunsinnes/pages/reallogin.dart';
-import 'package:hybunsinnes/pages/realregister.dart';
-import 'package:hybunsinnes/pages/screen_template.dart';
-import 'package:hybunsinnes/routing/route_names.dart';
-import 'package:hybunsinnes/routing/router.dart';
-import 'package:hybunsinnes/services/navigation_service.dart';
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:hybunsinnes/pages/realhome.dart';
 import 'locator.dart';
 
 void main() {
@@ -31,7 +28,10 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: RegisterPage(),
+      home: HomePage(
+        username: "Joueur 456",
+        solde: 10000,
+      ),
     );
   }
 }
