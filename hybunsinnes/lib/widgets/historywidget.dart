@@ -13,7 +13,7 @@ class HistoryWidget extends StatefulWidget {
 class _HistoryWidgetState extends State<HistoryWidget> {
   @override
   Widget build(BuildContext context) {
-    String formated = DateFormat('dd-mm-yyyy').format(widget.transaction.date);
+    String formated = DateFormat('dd-MM-yyyy').format(widget.transaction.date);
     return Container(
       padding: EdgeInsets.only(bottom: 10, top: 10),
       child: Row(

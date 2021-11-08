@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hybunsinnes/services/crypto_api_manager.dart';
+import 'package:mvvm/Model/repository/api_services.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);
@@ -166,21 +166,14 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     Expanded(
                       flex: 4,
-                      child: MaterialButton(
+                      child: ElevatedButton(
                         onPressed: () async {
-                          await ApiManager().connecction(
+                          await ApiService().connection(
                               pseudoController.text, passwordController.text);
                         },
-                        height: 45,
-                        color: Colors.black,
                         child: Text(
                           'Connexion',
                           style: TextStyle(color: Colors.white, fontSize: 16.0),
-                        ),
-                        padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
                         ),
                       ),
                     ),

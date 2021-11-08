@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:intl/intl.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key key}) : super(key: key);
@@ -17,18 +18,20 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
         body: Column(
       children: [
-        AppBar(
-          title: Text("Register"),
-          backgroundColor: Colors.black,
-          centerTitle: true,
-        ),
         SingleChildScrollView(
           child: Padding(
               padding: EdgeInsets.all(20.0),
               child: Column(
                 children: [
                   SizedBox(
-                    height: 60,
+                    height: 20,
+                  ),
+                  Text(
+                    "Inscription",
+                    style: TextStyle(fontSize: 24),
+                  ),
+                  SizedBox(
+                    height: 20,
                   ),
                   TextField(
                     cursorColor: Colors.black,
@@ -152,18 +155,16 @@ class _RegisterPageState extends State<RegisterPage> {
                         children: [
                           Text(_dateTime == null
                               ? 'dd-mm-yyyy'
-                              : _dateTime.toString()),
+                              : DateFormat('dd-MM-yyyy').format(_dateTime)),
                           IconButton(
                             icon: const Icon(
                               Icons.date_range,
                               size: 30,
                             ),
                             onPressed: () {
-                              _obscure1 = !_obscure1;
-
                               showDatePicker(
                                       context: context,
-                                      initialDate: DateTime.now(),
+                                      initialDate: DateTime(2000),
                                       firstDate: DateTime(1935),
                                       lastDate: DateTime(2003))
                                   .then((date) {
