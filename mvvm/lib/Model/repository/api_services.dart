@@ -47,7 +47,21 @@ class ApiService {
     var hashmdp = password;
     var response = await http.post(uri,
         headers: headers,
-        body: '{"pseudo" : "${username}", "password", "${hashmdp}"}');
+        body: '{"pseudo" : "${username}", "password": "${hashmdp}"}');
+    print(response.request);
+    if (response.statusCode == 200) {
+      print(response.body);
+    }
+  }
+
+  Future<User> register(String username, String password, String mail) async {
+    UserModel um = UserModel(pseudo: username, mail: mail, password: password);
+    var c_url = url + '/Users/Register';
+    var uri = Uri.parse(c_url);
+    var hashmdp = password;
+    var response =
+        await http.post(uri, headers: headers, body: json.encode(um.toJson()));
+    print(response.request);
     if (response.statusCode == 200) {
       print(response.body);
     }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mvvm/View/pages/connection_page.dart';
 import 'package:mvvm/View/pages/home_page.dart';
+import 'package:mvvm/View/pages/register_page.dart';
 import 'package:mvvm/View/widgets/menu_widget.dart';
 import 'package:mvvm/ViewModel/crypto_viewmodel.dart';
 import 'package:provider/provider.dart';
@@ -53,13 +54,13 @@ class _MyAppState extends State<MyApp> {
         //   ),
         // ),
 
-        body: SafeArea(
-          child: LoginPage(),
-        ),
-
         // body: SafeArea(
-        //   child: RegisterPage(),
+        //   child: LoginPage(),
         // ),
+
+        body: SafeArea(
+          child: RegisterPage(),
+        ),
 
         // body: SafeArea(
         //  child:
