@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mvvm/View/pages/wallet_page.dart';
 
 class Menu extends StatelessWidget {
   final dynamic context;
@@ -78,7 +79,11 @@ class Menu extends StatelessWidget {
             ),
             onTap: () {
               // Update the state of the app
-              // ...
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => (const WalletPage())),
+              );
               // Then close the drawer
               Navigator.pop(context);
             },

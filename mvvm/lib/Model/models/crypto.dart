@@ -1,5 +1,7 @@
 import 'package:intl/intl.dart';
 
+// max 8 chiffre apres la virgule
+
 class Crypto {
   final String _id;
   final String _symbol;
@@ -29,16 +31,16 @@ class Crypto {
       this._priceDate, this._h1, this._d1, this._d7, this._d30);
 
   Crypto.fromJson(Map<String, dynamic> json)
-      : _id = json['Id'],
-        _symbol = json['Symbol'],
-        _name = json['Name'],
-        _logoUrl = json['Logo_url'],
-        _price = json['Price'],
-        _priceDate = json['Price_date'],
-        _h1 = Day.fromJson(json['1h']),
-        _d1 = Day.fromJson(json['1d']),
-        _d7 = Day.fromJson(json['7d']),
-        _d30 = Day.fromJson(json['30d']);
+      : _id = json['id'],
+        _symbol = json['symbol'],
+        _name = json['name'],
+        _logoUrl = json['logo_url'],
+        _price = json['price'],
+        _priceDate = json['price_date'],
+        _h1 = Day.fromJson(json['price_change_pct_1h']),
+        _d1 = Day.fromJson(json['price_change_pct_1d']),
+        _d7 = Day.fromJson(json['price_change_pct_7d']),
+        _d30 = Day.fromJson(json['price_change_pct_30d']);
 }
 
 class Day {

@@ -6,7 +6,7 @@ import 'package:mvvm/ViewModel/crypto_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class CryptoWidget extends StatefulWidget {
-  final CrytoViewModel crypto;
+  final CryptoViewModel crypto;
   const CryptoWidget({Key key, @required this.crypto}) : super(key: key);
   @override
   _CryptoWidgetState createState() => _CryptoWidgetState();
@@ -15,15 +15,13 @@ class CryptoWidget extends StatefulWidget {
 class _CryptoWidgetState extends State<CryptoWidget> {
   @override
   Widget build(BuildContext context) {
-    Crypto cryptoModel = widget.crypto.crypto;
+    CryptoViewModel cryptoModel = widget.crypto;
     return InkWell(
       onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ChangeNotifierProvider(
-                  create: (context) => CryptoListViewModel(),
-                  child: DetailPage(cryptoId: cryptoModel.Id)),
+              builder: (context) => (DetailPage(cryptoId: cryptoModel.Id)),
             ));
       },
       child: Container(

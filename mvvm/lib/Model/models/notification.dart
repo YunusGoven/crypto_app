@@ -6,4 +6,6 @@ class NotificationModel {
   final bool isUp;
 
   NotificationModel(this.message, this.isUp, this.crypto);
+
+  static fromJson(res) {}
 }

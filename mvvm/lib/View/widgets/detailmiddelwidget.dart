@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mvvm/Model/models/crypto.dart';
+
+import 'package:mvvm/ViewModel/crypto_viewmodel.dart';
 
 class DetailMiddle extends StatefulWidget {
-  final Crypto crypto;
+  final CryptoViewModel crypto;
   const DetailMiddle({Key key, this.crypto}) : super(key: key);
 
   @override

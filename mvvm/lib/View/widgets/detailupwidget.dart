@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mvvm/Model/models/crypto.dart';
+import 'package:mvvm/ViewModel/crypto_viewmodel.dart';
 
 class DetailUp extends StatefulWidget {
-  final Crypto crypto;
+  final CryptoViewModel crypto;
   const DetailUp({Key key, this.crypto}) : super(key: key);
 
   @override

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mvvm/View/pages/connection_page.dart';
 import 'package:mvvm/View/pages/home_page.dart';
+import 'package:mvvm/View/pages/ranking_page.dart';
 import 'package:mvvm/View/pages/register_page.dart';
 import 'package:mvvm/View/widgets/menu_widget.dart';
 import 'package:mvvm/ViewModel/crypto_viewmodel.dart';
 import 'package:provider/provider.dart';
+
+import 'View/pages/wallet_page.dart';
 
 void main() {
   //setupLocator();
@@ -28,7 +31,180 @@ class _MyAppState extends State<MyApp> {
       ),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        drawer: /*global.user != null ? */ Menu(context: context) /* : null*/,
+        //drawer: /*global.user != null ? */ Menu(context: context) /* : null*/,
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                ),
+                child: Column(children: [
+                  Image.asset(
+                    "assets/images/logo.jpg",
+                    height: 100,
+                    width: 100,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'HYCrypto',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ]),
+              ),
+              ListTile(
+                title: Row(
+                  children: const [
+                    Icon(Icons.home),
+                    SizedBox(
+                      width: 60,
+                    ),
+                    Text("Accueil"),
+                  ],
+                ),
+                onTap: () {
+                  // Update the state of the app
+                  // ...
+                  // Then close the drawer
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: Row(
+                  children: const [
+                    Icon(Icons.shopping_cart_outlined),
+                    SizedBox(
+                      width: 60,
+                    ),
+                    Text("Cryptos"),
+                  ],
+                ),
+                onTap: () {
+                  // Update the state of the app
+                  // ...
+                  // Then close the drawer
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: Row(
+                  children: const [
+                    Icon(Icons.account_balance_wallet),
+                    SizedBox(
+                      width: 60,
+                    ),
+                    Text("Wallet"),
+                  ],
+                ),
+                onTap: () {
+                  // Update the state of the app
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => (const WalletPage())),
+                  );
+                  // Then close the drawer
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: Row(
+                  children: const [
+                    Icon(Icons.history),
+                    SizedBox(
+                      width: 60,
+                    ),
+                    Text("Historique"),
+                  ],
+                ),
+                onTap: () {
+                  // Update the state of the app
+                  // ...
+                  // Then close the drawer
+                  //global.header = "Historique";
+
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: Row(
+                  children: const [
+                    Icon(Icons.bar_chart_rounded),
+                    SizedBox(
+                      width: 60,
+                    ),
+                    Text("Classement"),
+                  ],
+                ),
+                onTap: () {
+                  // Update the state of the app
+                  // ...
+                  // Then close the drawer
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: Row(
+                  children: const [
+                    Icon(Icons.notifications_active),
+                    SizedBox(
+                      width: 60,
+                    ),
+                    Text("Notifications"),
+                  ],
+                ),
+                onTap: () {
+                  // Update the state of the app
+                  // ...
+                  // Then close the drawer
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: Row(
+                  children: const [
+                    Icon(Icons.person_outline),
+                    SizedBox(
+                      width: 60,
+                    ),
+                    Text("Profil"),
+                  ],
+                ),
+                onTap: () {
+                  // Update the state of the app
+                  // ...
+                  // Then close the drawer
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: Row(
+                  children: const [
+                    Icon(Icons.logout),
+                    SizedBox(
+                      width: 60,
+                    ),
+                    Text("Deconnexion"),
+                  ],
+                ),
+                onTap: () {
+                  // Update the state of the app
+                  // ...
+                  // Then close the drawer
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        ),
+
         appBar: /*global.user != null
             ? */
             AppBar(
@@ -54,13 +230,22 @@ class _MyAppState extends State<MyApp> {
         //   ),
         // ),
 
+        // body: HomePage(
+        //   solde: 10000,
+        //   username: 'Joueur 456',
+        // ),
+
+        //body: WalletPage(),
+
+        body: ClassementPage(),
+
         // body: SafeArea(
         //   child: LoginPage(),
         // ),
 
-        body: SafeArea(
-          child: RegisterPage(),
-        ),
+        // body: SafeArea(
+        //   child: RegisterPage(),
+        // ),
 
         // body: SafeArea(
         //  child:
