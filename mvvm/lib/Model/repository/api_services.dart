@@ -1,5 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:device_info/device_info.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 import 'package:mvvm/Model/models/crypto.dart';
 import 'package:mvvm/Model/models/history.dart';
@@ -20,7 +23,7 @@ class ApiService {
     'Content-type': 'application/json',
     'Accept': 'text/plain',
     'Authorization':
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiJiMmZiZGEyZS1jMGNiLTQzMDEtODc5NC1lZDEwOGY2MDFlODAiLCJVc2VyTmFtZSI6ImEiLCJVc2VyU3VybmFtZSI6ImEiLCJVc2VyUHNldWRvIjoic3RyaW5nIiwiVXNlck1haWwiOiJzdHJpbmdAZ21haWwuY29tIiwiVXNlclNvbGRlIjoiOTM0OSIsIm5iZiI6MTYzNjk3NDY2OSwiZXhwIjoxNjM2OTc4MjY5LCJpYXQiOjE2MzY5NzQ2Njl9.fM-KXgbFILh-Nukgyn5nPYJhfJL_zGGOTshuD5OEbL8'
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiJiMmZiZGEyZS1jMGNiLTQzMDEtODc5NC1lZDEwOGY2MDFlODAiLCJVc2VyTmFtZSI6ImEiLCJVc2VyU3VybmFtZSI6ImEiLCJVc2VyUHNldWRvIjoic3RyaW5nIiwiVXNlck1haWwiOiJzdHJpbmdAZ21haWwuY29tIiwiVXNlclNvbGRlIjoiOTM0OSIsIm5iZiI6MTYzNzE0NjMyNywiZXhwIjoxNjM3MTQ5OTI3LCJpYXQiOjE2MzcxNDYzMjd9.RuyRUaFXYpDRwGKgwKM9KF3RDXpNus-gQtD01tgsv08'
   };
 
   //All crypto
@@ -55,14 +58,17 @@ class ApiService {
 
   //Connexion
   Future<String> connection(String username, String password) async {
+    var identifier = await FirebaseMessaging.instance.getToken();
+
     var c_url = url + '/Users/SignIn';
     var uri = Uri.parse(c_url);
     var hashmdp = password;
     var response = await http.post(uri,
         headers: headers,
-        body: '{"pseudo" : "${username}", "password": "${hashmdp}"}');
+        body:
+            '{"pseudo" : "${username}", "password": "${hashmdp}" ,"deviceId": "${identifier}" }');
     if (response.statusCode == 200) {
-      ConnectedUser user = jsonDecode(response.body);
+      ConnectedUser user = ConnectedUser.fromJson(jsonDecode(response.body));
       return "Connection Succesful";
     } else {
       return response.body;
@@ -193,6 +199,18 @@ class ApiService {
       return "Ok ";
     } else {
       return "Une erreur s'est produite";
+    }
+  }
+
+  //Supprimmer notifications
+  Future<bool> deleteNotification(String notificationId) async {
+    var c_url = url + '/Notifications/${notificationId}';
+    var uri = Uri.parse(c_url);
+    var response = await http.delete(uri, headers: connectedHeaders);
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

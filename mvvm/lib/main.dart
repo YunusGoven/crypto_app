@@ -1,6 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:mvvm/View/pages/connection_page.dart';
 import 'package:mvvm/View/pages/home_page.dart';
+import 'package:mvvm/View/pages/notification_page.dart';
 import 'package:mvvm/View/pages/ranking_page.dart';
 import 'package:mvvm/View/pages/register_page.dart';
 import 'package:mvvm/View/widgets/menu_widget.dart';
@@ -9,9 +13,78 @@ import 'package:provider/provider.dart';
 
 import 'View/pages/wallet_page.dart';
 
-void main() {
-  //setupLocator();
-  //global.user = User("Joueur 456", "456@gmail.com", "Joueur 456", 10000);
+const AndroidNotificationChannel channel = AndroidNotificationChannel(
+    'high_importance_channel', // id
+    'High Importance Notifications', // title
+    'This channel is used for important notifications.', // description
+    importance: Importance.high,
+    playSound: true);
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print('A bg message just showed up :  ${message.messageId}');
+}
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  var messaging = FirebaseMessaging.instance;
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      .createNotificationChannel(channel);
+  NotificationSettings settings = await messaging.requestPermission(
+      alert: true, badge: true, provisional: true, sound: true);
+
+  if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+    print("User granted permission");
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification notification = message.notification;
+      AndroidNotification android = message.notification?.android;
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channel.description,
+                color: Colors.blue,
+                playSound: true,
+                icon: '@mipmap/ic_launcher',
+              ),
+            ));
+      }
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('A new onMessageOpenedApp event was published!');
+      RemoteNotification notification = message.notification;
+      AndroidNotification android = message.notification?.android;
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channel.description,
+                color: Colors.blue,
+                playSound: true,
+                icon: '@mipmap/ic_launcher',
+              ),
+            ));
+      }
+    });
+  }
+
   runApp(const MyApp());
 }
 
@@ -32,179 +105,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         //drawer: /*global.user != null ? */ Menu(context: context) /* : null*/,
-        drawer: Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                ),
-                child: Column(children: [
-                  Image.asset(
-                    "assets/images/logo.jpg",
-                    height: 100,
-                    width: 100,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'HYCrypto',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ]),
-              ),
-              ListTile(
-                title: Row(
-                  children: const [
-                    Icon(Icons.home),
-                    SizedBox(
-                      width: 60,
-                    ),
-                    Text("Accueil"),
-                  ],
-                ),
-                onTap: () {
-                  // Update the state of the app
-                  // ...
-                  // Then close the drawer
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: Row(
-                  children: const [
-                    Icon(Icons.shopping_cart_outlined),
-                    SizedBox(
-                      width: 60,
-                    ),
-                    Text("Cryptos"),
-                  ],
-                ),
-                onTap: () {
-                  // Update the state of the app
-                  // ...
-                  // Then close the drawer
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: Row(
-                  children: const [
-                    Icon(Icons.account_balance_wallet),
-                    SizedBox(
-                      width: 60,
-                    ),
-                    Text("Wallet"),
-                  ],
-                ),
-                onTap: () {
-                  // Update the state of the app
-
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => (const WalletPage())),
-                  );
-                  // Then close the drawer
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: Row(
-                  children: const [
-                    Icon(Icons.history),
-                    SizedBox(
-                      width: 60,
-                    ),
-                    Text("Historique"),
-                  ],
-                ),
-                onTap: () {
-                  // Update the state of the app
-                  // ...
-                  // Then close the drawer
-                  //global.header = "Historique";
-
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: Row(
-                  children: const [
-                    Icon(Icons.bar_chart_rounded),
-                    SizedBox(
-                      width: 60,
-                    ),
-                    Text("Classement"),
-                  ],
-                ),
-                onTap: () {
-                  // Update the state of the app
-                  // ...
-                  // Then close the drawer
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: Row(
-                  children: const [
-                    Icon(Icons.notifications_active),
-                    SizedBox(
-                      width: 60,
-                    ),
-                    Text("Notifications"),
-                  ],
-                ),
-                onTap: () {
-                  // Update the state of the app
-                  // ...
-                  // Then close the drawer
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: Row(
-                  children: const [
-                    Icon(Icons.person_outline),
-                    SizedBox(
-                      width: 60,
-                    ),
-                    Text("Profil"),
-                  ],
-                ),
-                onTap: () {
-                  // Update the state of the app
-                  // ...
-                  // Then close the drawer
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: Row(
-                  children: const [
-                    Icon(Icons.logout),
-                    SizedBox(
-                      width: 60,
-                    ),
-                    Text("Deconnexion"),
-                  ],
-                ),
-                onTap: () {
-                  // Update the state of the app
-                  // ...
-                  // Then close the drawer
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          ),
-        ),
-
+        drawer: Menu(),
         appBar: /*global.user != null
             ? */
             AppBar(
@@ -236,8 +137,8 @@ class _MyAppState extends State<MyApp> {
         // ),
 
         //body: WalletPage(),
-
-        body: ClassementPage(),
+        body: NotificationPage(),
+        //body: ClassementPage(),
 
         // body: SafeArea(
         //   child: LoginPage(),
@@ -245,139 +146,6 @@ class _MyAppState extends State<MyApp> {
 
         // body: SafeArea(
         //   child: RegisterPage(),
-        // ),
-
-        // body: SafeArea(
-        //  child:
-        //    ClassementPage(
-        //        users: [
-        //          User("user1", "1@", "user1", 10000),
-        //          User("user2", "2@", "user2", 100000),
-        //          User("user3", "3@", "user3", 7000),
-        //          User("user4", "4@", "user4", 5500),
-        //          User("user5", "5@", "user5", 15000),
-        //          User("user6", "6@", "user6", 10000),
-        //          User("user7", "7@", "user7", 8000),
-        //          User("user8", "8@", "user8", 100),
-        //        ]
-        //  ),
-        //)
-
-        // body: SafeArea(
-        //  child : DetailPage(
-        //    crypto: Crypto(
-        //       "Bitcoin",
-        //       "BTC",
-        //       41133.80,
-        //       -0.10,
-        //       40133.80,
-        //       42122.56,
-        //       41238.80,
-        //       41233.80,
-        //       "https://s3.us-east-2.amazonaws.com/nomics-api/static/images/currencies/eth.svg?url=https%3A%2F%2Fs3.us-east-2.amazonaws.com%2Fnomics-api%2Fstatic%2Fimages%2Fcurrencies%2Feth.svg&w=48&q=75"),
-        //  ),
-        //)
-
-        // body: SafeArea(
-        //  child: WalletPage(
-        //   wallets: [
-        //     Wallet(
-        //         "https://s3.us-east-2.amazonaws.com/nomics-api/static/images/currencies/btc.svg?url=https%3A%2F%2Fs3.us-east-2.amazonaws.com%2Fnomics-api%2Fstatic%2Fimages%2Fcurrencies%2Fbtc.svg&w=48&q=75",
-        //         0.254441,
-        //         "Bitcoin",
-        //         "BTC"),
-        //     Wallet(
-        //         "https://s3.us-east-2.amazonaws.com/nomics-api/static/images/currencies/eth.svg?url=https%3A%2F%2Fs3.us-east-2.amazonaws.com%2Fnomics-api%2Fstatic%2Fimages%2Fcurrencies%2Feth.svg&w=48&q=75",
-        //         10.254441,
-        //         "Etherum",
-        //         "ETH")
-        //   ],
-        // ),
-        //)
-
-        // body: SafeArea(
-        //  child: HistoryPage(
-        //  transactions: [
-        //    Transaction("btc", 41133.80, 41133.80, 1, 'ACHAT',
-        //           DateTime(2020, 02, 10)),
-        //    Transaction("eth", 50000, 21459.22, 2.33, 'ACHAT',
-        //           DateTime(2020, 02, 10,)),
-        //    Transaction("btc", 0.8, 41133.80, 32907.04, 'VENTE',
-        //           DateTime(2020, 02, 10)),
-        //    Transaction("eth", 1, 21459.22, 21459.22, 'VENTE',
-        //           DateTime(2020, 02, 10)),
-        //  ],
-        // ),
-        //)
-
-        // body: SafeArea(
-        //  child: TransactionDonePage(
-        //   crypto: Crypto(
-        //       "Bitcoin",
-        //       "BTC",
-        //       41133.80,
-        //       -0.10,
-        //       40133.80,
-        //       42122.56,
-        //       41238.80,
-        //       41233.80,
-        //       "https://s3.us-east-2.amazonaws.com/nomics-api/static/images/currencies/eth.svg?url=https%3A%2F%2Fs3.us-east-2.amazonaws.com%2Fnomics-api%2Fstatic%2Fimages%2Fcurrencies%2Feth.svg&w=48&q=75"),
-        //   type: "VENTE",
-        //   wallet: Wallet(
-        //       "https://s3.us-east-2.amazonaws.com/nomics-api/static/images/currencies/eth.svg?url=https%3A%2F%2Fs3.us-east-2.amazonaws.com%2Fnomics-api%2Fstatic%2Fimages%2Fcurrencies%2Feth.svg&w=48&q=75",
-        //       0.25,
-        //       "Bitcoin",
-        //       "BTC"),
-        // ),
-        //)
-
-        // body: SafeArea(
-        //   child: NotificationPage(
-        //     notifications: [
-        //       NotificationModel(
-        //         "a augmenté de 1%",
-        //         true,
-        //         Crypto(
-        //             "Bitcoin",
-        //             "BTC",
-        //             41133.80,
-        //             -0.10,
-        //             40133.80,
-        //             42122.56,
-        //             41238.80,
-        //             41233.80,
-        //             "https://nomics.com/_next/image?url=https%3A%2F%2Fs3.us-east-2.amazonaws.com%2Fnomics-api%2Fstatic%2Fimages%2Fcurrencies%2Fbtc.svg&w=48&q=75"),
-        //       ),
-        //       NotificationModel(
-        //         "a augmenté de 2%",
-        //         true,
-        //         Crypto(
-        //             "Ethereum",
-        //             "ETH",
-        //             41133.80,
-        //             -0.10,
-        //             40133.80,
-        //             42122.56,
-        //             41238.80,
-        //             41233.80,
-        //             "https://s3.us-east-2.amazonaws.com/nomics-api/static/images/currencies/eth.svg?url=https%3A%2F%2Fs3.us-east-2.amazonaws.com%2Fnomics-api%2Fstatic%2Fimages%2Fcurrencies%2Feth.svg&w=48&q=75"),
-        //       ),
-        //       NotificationModel(
-        //         "a diminué de 1%",
-        //         false,
-        //         Crypto(
-        //             "Tether",
-        //             "USDT",
-        //             41133.80,
-        //             -0.10,
-        //             40133.80,
-        //             42122.56,
-        //             41238.80,
-        //             41233.80,
-        //             "https://nomics.com/_next/image?url=https%3A%2F%2Fs3.us-east-2.amazonaws.com%2Fnomics-api%2Fstatic%2Fimages%2Fcurrencies%2Fusdt.svg&w=32&q=75"),
-        //       )
-        //     ],
-        //   ),
         // ),
       ),
     );
