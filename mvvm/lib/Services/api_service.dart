@@ -11,8 +11,9 @@ import 'package:mvvm/Model/models/user.dart';
 import 'package:mvvm/Model/models/wallet.dart';
 
 class ApiService {
-  final url = "http://127.0.0.1:44336/api";
+  //final url = "http://127.0.0.1:44336/api";
   // final url = "http://10.0.2.2:44336/api";
+  final url = "https://porthos-intra.cg.helmo.be/grGU/api";
   final Map<String, String> headers = {
     'Content-type': 'application/json',
     'Accept': 'text/plain',

@@ -153,10 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                       flex: 3,
                       child: MaterialButton(
                         onPressed: () {},
-                        child: Image.asset(
-                          "assets/logos/google.jpg",
-                          height: 45,
-                        ),
+                        child: Text("google"),
                         padding:
                             EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                         shape: RoundedRectangleBorder(
@@ -174,21 +171,6 @@ class _LoginPageState extends State<LoginPage> {
                         child: Text(
                           'Connexion',
                           style: TextStyle(color: Colors.white, fontSize: 16.0),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: MaterialButton(
-                        onPressed: () {},
-                        child: Image.asset(
-                          "assets/logos/facebook.jpg",
-                          height: 45,
-                        ),
-                        padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
                         ),
                       ),
                     ),

@@ -43,11 +43,11 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blueGrey,
       ),
       builder: (context, child) => ScreenTemplate(
-        child: child,
+        child: SafeArea(child: child),
       ),
       navigatorKey: locator<NavigationService>().navigatorKey,
       onGenerateRoute: generateRoute,
-      initialRoute: LoginRoute,
+      initialRoute: HomeRoute,
     );
   }
 }
