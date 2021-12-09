@@ -1,6 +1,6 @@
 import 'package:mvvm/Model/models/crypto.dart';
 import 'package:mvvm/Model/models/wallet.dart';
-import 'package:mvvm/Model/repository/api_services.dart';
+import 'package:mvvm/Services/api_service.dart';
 
 class WalletViewModel {
   WalletViewModel();
@@ -19,7 +19,7 @@ class WalletViewModel {
   Future<List<WalletViewModel>> getWallets() async {
     List<Wallet> wallets = await ApiService().getWallet();
 
-    var cr = List<WalletViewModel>();
+    var cr = <WalletViewModel>[];
     for (var item in wallets) {
       WalletViewModel w = WalletViewModel();
       w._wallet = item;

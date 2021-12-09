@@ -1,5 +1,5 @@
 import 'package:mvvm/Model/models/crypto.dart';
-import 'package:mvvm/Model/repository/api_services.dart';
+import 'package:mvvm/Services/api_service.dart';
 
 class CryptoViewModel {
   Crypto _crypto;

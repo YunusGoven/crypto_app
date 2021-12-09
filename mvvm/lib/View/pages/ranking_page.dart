@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:mvvm/View/widgets/classement_widget.dart';
 import 'package:mvvm/ViewModel/user_viewmodel.dart';
 
-class ClassementPage extends StatefulWidget {
-  const ClassementPage({Key key}) : super(key: key);
+class RankingPage extends StatefulWidget {
+  const RankingPage({Key key}) : super(key: key);
 
   @override
-  _ClassementPageState createState() => _ClassementPageState();
+  _RankingPageState createState() => _RankingPageState();
 }
 
-class _ClassementPageState extends State<ClassementPage> {
-  final StreamController<List<ClassementViewModel>> _rankingStreamController =
+class _RankingPageState extends State<RankingPage> {
+  final StreamController<List<RankingViewModel>> _rankingStreamController =
       StreamController();
-  final ClassementViewModel _cvm = ClassementViewModel();
+  final RankingViewModel _cvm = RankingViewModel();
 
   @override
   void initState() {
@@ -23,7 +23,7 @@ class _ClassementPageState extends State<ClassementPage> {
   }
 
   getRanking() async {
-    List<ClassementViewModel> classement = await _cvm.getClassement();
+    List<RankingViewModel> classement = await _cvm.getClassement();
     _rankingStreamController.sink.add(classement);
   }
 
@@ -62,7 +62,7 @@ class _ClassementPageState extends State<ClassementPage> {
     );
   }
 
-  createWidget(List<ClassementViewModel> data) {
+  createWidget(List<RankingViewModel> data) {
     var userList = <Widget>[];
     data.forEach((element) {
       var widget = UserClassementWidget(user: element);

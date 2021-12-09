@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 import 'package:mvvm/Model/models/crypto.dart';
 import 'package:mvvm/Model/models/history.dart';
@@ -11,8 +11,8 @@ import 'package:mvvm/Model/models/user.dart';
 import 'package:mvvm/Model/models/wallet.dart';
 
 class ApiService {
-  //final url = "http://127.0.0.1:44336/api";
-  final url = "http://10.0.2.2:44336/api";
+  final url = "http://127.0.0.1:44336/api";
+  // final url = "http://10.0.2.2:44336/api";
   final Map<String, String> headers = {
     'Content-type': 'application/json',
     'Accept': 'text/plain',
@@ -57,15 +57,14 @@ class ApiService {
 
   //Connexion
   Future<String> connection(String username, String password) async {
-    var identifier = await FirebaseMessaging.instance.getToken();
+    //var identifier = await FirebaseMessaging.instance.getToken();
 
     var c_url = url + '/Users/SignIn';
     var uri = Uri.parse(c_url);
     var hashmdp = password;
     var response = await http.post(uri,
         headers: headers,
-        body:
-            '{"pseudo" : "${username}", "password": "${hashmdp}" ,"deviceId": "${identifier}" }');
+        body: '{"pseudo" : "${username}", "password": "${hashmdp}" }');
     if (response.statusCode == 200) {
       ConnectedUser user = ConnectedUser.fromJson(jsonDecode(response.body));
       return "Connection Succesful";

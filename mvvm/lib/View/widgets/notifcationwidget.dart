@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mvvm/Model/repository/api_services.dart';
 import 'package:mvvm/ViewModel/notification_viewmodel.dart';
 
 class NotificationWidget extends StatefulWidget {

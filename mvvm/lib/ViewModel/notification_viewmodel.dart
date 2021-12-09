@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:mvvm/Model/models/notification.dart';
-import 'package:mvvm/Model/repository/api_services.dart';
+import 'package:mvvm/Services/api_service.dart';
 
 class NotificationViewModel {
   NotificationViewModel();
@@ -21,7 +21,7 @@ class NotificationViewModel {
     List<NotificationModel> notifications =
         await ApiService().getNotification();
 
-    var cr = List<NotificationViewModel>();
+    var cr = <NotificationViewModel>[];
     for (var item in notifications) {
       NotificationViewModel w = NotificationViewModel();
       w._notification = item;

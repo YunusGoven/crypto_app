@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mvvm/ViewModel/user_viewmodel.dart';
 
 class UserClassementWidget extends StatefulWidget {
-  final ClassementViewModel user;
+  final RankingViewModel user;
   const UserClassementWidget({Key key, @required this.user}) : super(key: key);
 
   @override
