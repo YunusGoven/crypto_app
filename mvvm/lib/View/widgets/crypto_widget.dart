@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mvvm/Model/models/crypto.dart';
+import 'package:mvvm/Routing/route_names.dart';
+import 'package:mvvm/Services/navigation_service.dart';
 import 'package:mvvm/View/components/image_widget.dart';
 import 'package:mvvm/View/pages/detail_page.dart';
 import 'package:mvvm/ViewModel/crypto_viewmodel.dart';
+import 'package:mvvm/locator.dart';
 
 class CryptoWidget extends StatefulWidget {
   final CryptoViewModel crypto;
@@ -18,11 +19,8 @@ class _CryptoWidgetState extends State<CryptoWidget> {
     CryptoViewModel cryptoModel = widget.crypto;
     return InkWell(
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => (DetailPage(cryptoId: cryptoModel.Id)),
-            ));
+        locator<NavigationService>().navigateTo(CryptoDetailsRoute,
+            queryParams: {'cryptoId': cryptoModel.Id});
       },
       child: Container(
         child: Padding(
@@ -41,7 +39,7 @@ class _CryptoWidgetState extends State<CryptoWidget> {
               ),
               Column(
                 children: [
-                  Text("${cryptoModel.Price} \$",
+                  Text("${cryptoModel.Price.toStringAsFixed(4)} \$",
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,

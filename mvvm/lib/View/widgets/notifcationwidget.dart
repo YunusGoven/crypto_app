@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mvvm/ViewModel/notification_viewmodel.dart';
 
 class NotificationWidget extends StatefulWidget {
@@ -15,14 +14,7 @@ class NotificationWidget extends StatefulWidget {
 class _NotificationWidgetState extends State<NotificationWidget> {
   @override
   Widget build(BuildContext context) {
-    return /*Container(
-      child: Padding(
-        padding: EdgeInsets.all(10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [*/
-        Column(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -38,18 +30,6 @@ class _NotificationWidgetState extends State<NotificationWidget> {
           style: TextStyle(color: Colors.grey),
         ),
       ],
-    ) /*,
-            IconButton(
-                onPressed: () async {
-                  var isDeleted = await ApiService()
-                      .deleteNotification(widget.notification.notificationId);
-                  if (isDeleted) {}
-                },
-                icon: Icon(Icons.delete)),
-          ],
-        ),
-      ),
-    )*/
-        ;
+    );
   }
 }

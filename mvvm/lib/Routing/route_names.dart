@@ -5,3 +5,6 @@ const String HistoryRoute = '/history';
 const String RankingRoute = '/ranking';
 const String NotificationRoute = '/notification';
 const String WalletRoute = '/wallet';
+const String CryptoDetailsRoute = '/crypto';
+const String MessagingRoute = '/messaging';
+const String RegisterRoute = '/register';

@@ -11,46 +11,47 @@ class ScreenTemplate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: kIsWeb
-          ? null
-          : AppBar(
-              backgroundColor: Colors.black26,
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [Text("Pala")],
+        appBar: kIsWeb
+            ? null
+            : AppBar(
+                backgroundColor: Colors.black26,
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [Text("Pala")],
+                ),
               ),
-            ),
-      drawer: kIsWeb
-          ? null
-          : Drawer(
-              child: ListView(
-                children: [
-                  DrawerHeader(
-                    decoration: BoxDecoration(
-                      color: Colors.black26,
+        drawer: kIsWeb
+            ? null
+            : Drawer(
+                child: ListView(
+                  children: [
+                    DrawerHeader(
+                      decoration: BoxDecoration(
+                        color: Colors.black26,
+                      ),
+                      child: Text(
+                        'HYCrypto',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
-                    child: Text(
-                      'HYCrypto',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  NavigationBarMobile()
+                    NavigationBarMobile()
+                  ],
+                ),
+              ),
+        backgroundColor: Colors.black,
+        body: kIsWeb
+            ? Column(
+                children: <Widget>[
+                  //if (kIsWeb) const NavigationBar(),
+                  NavigationBarTabletDesktop(),
+                  Expanded(
+                    child: child,
+                  )
                 ],
-              ),
-            ),
-      backgroundColor: Colors.black,
-      body: Column(
-        children: <Widget>[
-          //if (kIsWeb) const NavigationBar(),
-          if (kIsWeb) NavigationBarTabletDesktop(),
-          Expanded(
-            child: child,
-          )
-        ],
-      ),
-    );
+              )
+            : child);
   }
 }

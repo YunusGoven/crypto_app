@@ -1,7 +1,8 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-// import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 import 'package:mvvm/Model/models/crypto.dart';
 import 'package:mvvm/Model/models/history.dart';
@@ -9,35 +10,70 @@ import 'package:mvvm/Model/models/notification.dart';
 import 'package:mvvm/Model/models/transaction.dart';
 import 'package:mvvm/Model/models/user.dart';
 import 'package:mvvm/Model/models/wallet.dart';
+import 'package:mvvm/Services/api_response.dart';
+import 'package:mvvm/Services/userinfo_service.dart';
+import 'package:mvvm/locator.dart';
 
 class ApiService {
+  final _auth = locator<Auth>();
   //final url = "http://127.0.0.1:44336/api";
-  // final url = "http://10.0.2.2:44336/api";
+  //final url = "http://10.0.2.2:44336/api";
   final url = "https://porthos-intra.cg.helmo.be/grGU/api";
   final Map<String, String> headers = {
     'Content-type': 'application/json',
     'Accept': 'text/plain',
   };
 
-  final Map<String, String> connectedHeaders = {
+  Map<String, String> connectedHeaders = {
     'Content-type': 'application/json',
     'Accept': 'text/plain',
     'Authorization':
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiJiMmZiZGEyZS1jMGNiLTQzMDEtODc5NC1lZDEwOGY2MDFlODAiLCJVc2VyTmFtZSI6ImEiLCJVc2VyU3VybmFtZSI6ImEiLCJVc2VyUHNldWRvIjoic3RyaW5nIiwiVXNlck1haWwiOiJzdHJpbmdAZ21haWwuY29tIiwiVXNlclNvbGRlIjoiOTM0OSIsIm5iZiI6MTYzNzE0NjMyNywiZXhwIjoxNjM3MTQ5OTI3LCJpYXQiOjE2MzcxNDYzMjd9.RuyRUaFXYpDRwGKgwKM9KF3RDXpNus-gQtD01tgsv08'
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiIzZmE4NWY2NC01NzE3LTQ1NjItYjNmYy0yYzk2M2Y2NmFmYTYiLCJVc2VyTmFtZSI6Inl1bnVzIiwiVXNlclN1cm5hbWUiOiJnb3ZlbiIsIlVzZXJQc2V1ZG8iOiJzdHJpbmciLCJVc2VyTWFpbCI6InlzQGdtYWlsLmNvbSIsIlVzZXJTb2xkZSI6Ijk1MDAiLCJuYmYiOjE2MzgxODk1NjMsImV4cCI6MTYzODE5MzE2MywiaWF0IjoxNjM4MTg5NTYzfQ.LEe0t8x2ILS8qiqgGYVLk7cvxt9gJI_vdZmYMdgHVKA'
   };
+  //Wallet
+  Future<List<Wallet>> getWallet() async {
+    try {
+      var c_url = url + '/Wallets';
+      var uri = Uri.parse(c_url);
+      connectedHeaders = {
+        'Content-type': 'application/json',
+        'Accept': 'text/plain',
+        'Authorization': 'Bearer ${await _auth.token()}'
+      };
+      var response = await http.get(uri, headers: connectedHeaders);
+      if (response.statusCode == 200) {
+        var wallets = (json.decode(response.body) as List);
+        var walletsList = wallets.map((res) => Wallet.fromJson(res)).toList();
+        return walletsList;
+      } else {
+        return List.empty();
+      }
+    } on Exception {
+      return null;
+    }
+  }
 
   //All crypto
   Future<List<Crypto>> getAllCryptos(int number) async {
-    var c_url = url + "/Crypto";
-    List<Crypto> cryptos = List.empty();
-    var uri = Uri.parse(c_url);
-    var response = await http.get(uri, headers: headers);
-    if (response.statusCode == 200) {
-      var crypto = (json.decode(response.body) as List);
-      cryptos = crypto.map((apod) => Crypto.fromJson(apod)).toList();
-      return cryptos;
-    } else {
-      return List.empty();
+    try {
+      var c_url = url + "/Crypto";
+      List<Crypto> cryptos = List.empty();
+      var uri = Uri.parse(c_url);
+      var response = await http.get(uri, headers: headers);
+      if (response.statusCode == 200) {
+        var crypto = (json.decode(response.body) as List);
+        cryptos = crypto.map((apod) => Crypto.fromJson(apod)).toList();
+        var iterablecryptos = cryptos.take(number);
+        return iterablecryptos.toList();
+      } else {
+        return List.empty();
+      }
+    } on SocketException {
+      throw SocketException('No Internet connection');
+    } on TimeoutException {
+      throw TimeoutException('Delai dépassé');
+    } on Exception {
+      return null;
     }
   }
 
@@ -56,22 +92,46 @@ class ApiService {
     }
   }
 
-  //Connexion
-  Future<String> connection(String username, String password) async {
-    //var identifier = await FirebaseMessaging.instance.getToken();
+  Future<ApiResponse> connectiongoogle(String a) async {
+    var identifier = await FirebaseMessaging.instance.getToken();
+    var c_url = url + '/Users/SignIn';
+    var uri = Uri.parse(c_url);
+    var response = await http.post(uri,
+        headers: headers,
+        body: '{"deviceId": "${identifier}", "googleToken" :"${a}" }');
+    if (response.statusCode == 200) {
+      ConnectedUser user = ConnectedUser.fromJson(jsonDecode(response.body));
+      _auth.addToLocal(jsonDecode(response.body));
+      connectedHeaders = {
+        'Content-type': 'application/json',
+        'Accept': 'text/plain',
+        'Authorization': 'Bearer ${user.token}'
+      };
+    }
+    return ApiResponse(code: response.statusCode, value: response.body);
+  }
 
+  //Connexion
+  Future<ApiResponse> connection(String username, String password) async {
+    var identifier = await FirebaseMessaging.instance.getToken();
     var c_url = url + '/Users/SignIn';
     var uri = Uri.parse(c_url);
     var hashmdp = password;
     var response = await http.post(uri,
         headers: headers,
-        body: '{"pseudo" : "${username}", "password": "${hashmdp}" }');
+        body:
+            '{"pseudo" : "${username}", "password": "${hashmdp}" ,"deviceId": "${identifier}" }');
     if (response.statusCode == 200) {
+      print(response.statusCode);
       ConnectedUser user = ConnectedUser.fromJson(jsonDecode(response.body));
-      return "Connection Succesful";
-    } else {
-      return response.body;
+      _auth.addToLocal(jsonDecode(response.body));
+      connectedHeaders = {
+        'Content-type': 'application/json',
+        'Accept': 'text/plain',
+        'Authorization': 'Bearer ${user.token}'
+      };
     }
+    return ApiResponse(code: response.statusCode, value: response.body);
   }
 
   //Register
@@ -94,6 +154,11 @@ class ApiService {
   Future<List<ClassementUser>> getRanking() async {
     var c_url = url + '/Users/Classement';
     var uri = Uri.parse(c_url);
+    connectedHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'text/plain',
+      'Authorization': 'Bearer ${await _auth.token()}'
+    };
     var response = await http.get(uri, headers: connectedHeaders);
     if (response.statusCode == 200) {
       var users = (json.decode(response.body) as List);
@@ -108,6 +173,11 @@ class ApiService {
   Future<List<History>> getHistory() async {
     var c_url = url + '/Transaction/Historique';
     var uri = Uri.parse(c_url);
+    connectedHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'text/plain',
+      'Authorization': 'Bearer ${await _auth.token()}'
+    };
     var response = await http.get(uri, headers: connectedHeaders);
     if (response.statusCode == 200) {
       var history = (json.decode(response.body) as List);
@@ -122,6 +192,11 @@ class ApiService {
   Future<List<NotificationModel>> getNotification() async {
     var c_url = url + '/Notifications';
     var uri = Uri.parse(c_url);
+    connectedHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'text/plain',
+      'Authorization': 'Bearer ${await _auth.token()}'
+    };
     var response = await http.get(uri, headers: connectedHeaders);
     if (response.statusCode == 200) {
       var notifications = (json.decode(response.body) as List);
@@ -137,6 +212,11 @@ class ApiService {
   Future<bool> disableNotification(String crytpoId) async {
     var body = '"${crytpoId}"';
     var c_url = url + '/Wallets/DisableNotification';
+    connectedHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'text/plain',
+      'Authorization': 'Bearer ${await _auth.token()}'
+    };
     var uri = Uri.parse(c_url);
     var response = await http.post(uri, headers: connectedHeaders, body: body);
     if (response.statusCode == 200) {
@@ -146,25 +226,16 @@ class ApiService {
     }
   }
 
-  //Wallet
-  Future<List<Wallet>> getWallet() async {
-    var c_url = url + '/Wallets';
-    var uri = Uri.parse(c_url);
-    var response = await http.get(uri, headers: connectedHeaders);
-    if (response.statusCode == 200) {
-      var wallets = (json.decode(response.body) as List);
-      var walletsList = wallets.map((res) => Wallet.fromJson(res)).toList();
-      return walletsList;
-    } else {
-      return List.empty();
-    }
-  }
-
   //Buy
   Future<String> buy(String cryptoId, num number, num currentValue) async {
     var body =
         '{"CryptoId":"${cryptoId}", "Number":${number}, "CurrentValue": ${currentValue}, "Type" : "B"}';
     var c_url = url + '/Transaction';
+    connectedHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'text/plain',
+      'Authorization': 'Bearer ${await _auth.token()}'
+    };
     var uri = Uri.parse(c_url);
     var response = await http.post(uri, headers: connectedHeaders, body: body);
     if (response.statusCode == 200) {
@@ -179,6 +250,11 @@ class ApiService {
     var body =
         '{"CryptoId":"${cryptoId}",  "Number":${number}, "CurrentValue": ${currentValue}, "Type" : "S"}';
     var c_url = url + '/Transaction';
+    connectedHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'text/plain',
+      'Authorization': 'Bearer ${await _auth.token()}'
+    };
     var uri = Uri.parse(c_url);
     var response = await http.post(uri, headers: connectedHeaders, body: body);
     if (response.statusCode == 200) {
@@ -190,8 +266,13 @@ class ApiService {
 
   //Send Message
   Future<String> sendMessage(String cryptoId, String message) async {
-    var body = '{"Message":"${message}", "CryptoId":${cryptoId}}';
+    var body = '{"message":"${message}", "cryptoId":"${cryptoId}"}';
     var c_url = url + '/Messages';
+    connectedHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'text/plain',
+      'Authorization': 'Bearer ${await _auth.token()}'
+    };
     var uri = Uri.parse(c_url);
     var response = await http.post(uri, headers: connectedHeaders, body: body);
     if (response.statusCode == 200) {
@@ -205,6 +286,11 @@ class ApiService {
   Future<bool> deleteNotification(String notificationId) async {
     var c_url = url + '/Notifications/${notificationId}';
     var uri = Uri.parse(c_url);
+    connectedHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'text/plain',
+      'Authorization': 'Bearer ${await _auth.token()}'
+    };
     var response = await http.delete(uri, headers: connectedHeaders);
     if (response.statusCode == 200) {
       return true;

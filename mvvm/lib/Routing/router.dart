@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mvvm/Routing/extensions.dart';
 import 'package:mvvm/Routing/route_names.dart';
 import 'package:mvvm/View/pages/all_page.dart';
 import 'package:mvvm/View/pages/connection_page.dart';
+import 'package:mvvm/View/pages/detail_page.dart';
+import 'package:mvvm/View/pages/discussion_page.dart';
 import 'package:mvvm/View/pages/history_page.dart';
 import 'package:mvvm/View/pages/home_page.dart';
 import 'package:mvvm/View/pages/notification_page.dart';
 import 'package:mvvm/View/pages/ranking_page.dart';
+import 'package:mvvm/View/pages/register_page.dart';
 import 'package:mvvm/View/pages/wallet_page.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
-  switch (settings.name) {
+  var routingData = settings.name.getRoutingData;
+  switch (routingData.route) {
     case LoginRoute:
       return _getPageRoute(const LoginPage(), settings);
     case HomeRoute:
       return _getPageRoute(const HomePage(), settings);
+    case RegisterRoute:
+      return _getPageRoute(const RegisterPage(), settings);
     case CryptosRoute:
       return _getPageRoute(const AllCryptoPage(), settings);
     case HistoryRoute:
@@ -25,8 +32,22 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(const NotificationPage(), settings);
     case WalletRoute:
       return _getPageRoute(const WalletPage(), settings);
+    case CryptoDetailsRoute:
+      var id = (routingData['cryptoId']);
+      return _getPageRoute(
+          DetailPage(
+            cryptoId: id,
+          ),
+          settings);
+    case MessagingRoute:
+      var id = (routingData['cryptoId']);
+      return _getPageRoute(
+          DiscussionPage(
+            cryptoId: id,
+          ),
+          settings);
     default:
-      return _getPageRoute(const LoginPage(), settings);
+      return _getPageRoute(const HomePage(), settings);
   }
 }
 

@@ -1,30 +1,21 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:localstore/localstore.dart';
 import 'package:mvvm/Routing/route_names.dart';
 import 'package:mvvm/Routing/router.dart';
 import 'package:mvvm/Services/navigation_service.dart';
+import 'package:mvvm/Services/notification_service.dart';
+import 'package:mvvm/Services/userinfo_service.dart';
 import 'package:mvvm/View/pages/screen_template.dart';
 import 'locator.dart';
 
-// const AndroidNotificationChannel channel = AndroidNotificationChannel(
-//     'high_importance_channel', // id
-//     'High Importance Notifications', // title
-//     'This channel is used for important notifications.', // description
-//     importance: Importance.high,
-//     playSound: true);
-
-// final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-//     FlutterLocalNotificationsPlugin();
-
-// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-//   await Firebase.initializeApp();
-//   print('A bg message just showed up :  ${message.messageId}');
-// }
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp();
   setupLocator();
+  final db = Localstore.instance;
   runApp(const MyApp());
 }
 
@@ -35,6 +26,15 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final _auth = locator<Auth>();
+  final _messangerKey = GlobalKey<ScaffoldMessengerState>();
+
+  @override
+  void initState() {
+    super.initState();
+    if (kIsWeb) NotificationService().listen(_messangerKey);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -42,12 +42,21 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
-      builder: (context, child) => ScreenTemplate(
-        child: SafeArea(child: child),
-      ),
+      builder: (context, child) {
+        return SafeArea(
+          child: Overlay(
+            initialEntries: [
+              OverlayEntry(
+                builder: (context) => ScreenTemplate(child: child),
+              ),
+            ],
+          ),
+        );
+      },
       navigatorKey: locator<NavigationService>().navigatorKey,
       onGenerateRoute: generateRoute,
-      initialRoute: HomeRoute,
+      initialRoute: kIsWeb ? HomeRoute : LoginRoute,
+      //todo ici veriifier le token
     );
   }
 }

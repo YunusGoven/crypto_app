@@ -3,7 +3,9 @@ import 'package:mvvm/Routing/route_names.dart';
 import 'package:mvvm/View/widgets/navigation_bar/nav_bar_item_mobile.dart';
 
 class NavigationBarMobile extends StatelessWidget {
-  const NavigationBarMobile({Key key}) : super(key: key);
+  const NavigationBarMobile({
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

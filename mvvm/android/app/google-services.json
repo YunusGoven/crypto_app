@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "941247026271",
+    "firebase_url": "https://cryptoapp-3baa6-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "cryptoapp-3baa6",
     "storage_bucket": "cryptoapp-3baa6.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "941247026271-bjqqfdd2a8ekq376hh16n24cj3qoagcf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mvvm",
+            "certificate_hash": "d3249c03ea701db2c2ea7dbaf65d806060986531"
+          }
+        },
         {
           "client_id": "941247026271-dbusa25092cm39iogku99tvs3s4hsnce.apps.googleusercontent.com",
           "client_type": 3

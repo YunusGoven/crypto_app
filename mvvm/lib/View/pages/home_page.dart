@@ -2,11 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:mvvm/Services/userinfo_service.dart';
 import 'package:mvvm/View/widgets/crypto_list_widget.dart';
-import 'package:mvvm/View/widgets/crypto_widget.dart';
 import 'package:mvvm/View/widgets/home_wallet_widget.dart';
 import 'package:mvvm/ViewModel/crypto_viewmodel.dart';
 import 'package:mvvm/ViewModel/wallet_viewmodel.dart';
+import 'package:mvvm/locator.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -22,25 +23,28 @@ class _HomePageState extends State<HomePage> {
       StreamController();
   final CryptoViewModel _cvm = CryptoViewModel();
   final WalletViewModel _wvm = WalletViewModel();
-
+  final auth = locator<Auth>();
   @override
   void initState() {
     super.initState();
     getWallets();
-    done();
-    Timer.periodic(Duration(seconds: 20), (timer) {
+    Timer.periodic(Duration(seconds: 10), (timer) {
       done();
     });
   }
 
   getWallets() async {
     List<WalletViewModel> wallets = await _wvm.getWallets();
-    _walletStreamController.sink.add(wallets);
+    if (!_walletStreamController.isClosed) {
+      _walletStreamController.sink.add(wallets);
+    }
   }
 
   done() async {
-    List<CryptoViewModel> cr = await _cvm.getAllCryptos(7);
-    _cryptoStreamController.sink.add(cr);
+    List<CryptoViewModel> cr = await _cvm.getAllCryptos(6);
+    if (!_cryptoStreamController.isClosed) {
+      _cryptoStreamController.sink.add(cr);
+    }
   }
 
   @override
@@ -84,16 +88,26 @@ class _HomePageState extends State<HomePage> {
                   builder: (context, snapdata) {
                     switch (snapdata.connectionState) {
                       case ConnectionState.waiting:
-                        return Center(
-                          child: CircularProgressIndicator(),
+                      case ConnectionState.none:
+                        print("waiting");
+                        return CircularProgressIndicator(
+                          color: Colors.red,
                         );
                       default:
                         if (snapdata.hasError) {
-                          return Text("Attend frere");
+                          print("erreur");
+                          return Center(child: Text(snapdata.error));
                         } else {
-                          return Row(
-                            children: createWalletListWidget(snapdata.data),
-                          );
+                          if (!snapdata.hasData) {
+                            print("pas de donnée");
+                            return Center(
+                              child: Text("Aucune donnée n'a été trouvé"),
+                            );
+                          } else {
+                            return Row(
+                              children: createWalletListWidget(snapdata.data),
+                            );
+                          }
                         }
                     }
                   },

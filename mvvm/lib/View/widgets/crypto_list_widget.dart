@@ -1,9 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mvvm/View/widgets/crypto_widget.dart';
 import 'package:mvvm/ViewModel/crypto_viewmodel.dart';
-
-import 'crypto_widget.dart';
 
 class CryptoListWidget extends StatelessWidget {
   final StreamController<List<CryptoViewModel>> cryptoController;
@@ -17,16 +16,28 @@ class CryptoListWidget extends StatelessWidget {
       builder: (context, snapdata) {
         switch (snapdata.connectionState) {
           case ConnectionState.waiting:
+          case ConnectionState.none:
+            print("waiting");
             return Center(
-              child: CircularProgressIndicator(),
+              child: LinearProgressIndicator(),
             );
           default:
             if (snapdata.hasError) {
-              return Text("Attend frere");
-            } else {
-              return Column(
-                children: createCryptoListWidget(snapdata.data),
+              print("erreur");
+              return Center(
+                child: Text(snapdata.error),
               );
+            } else {
+              if (!snapdata.hasData) {
+                print("pas de donnée");
+                return Center(
+                  child: Text("Aucune donnée n'a été trouvé"),
+                );
+              } else {
+                return Column(
+                  children: createCryptoListWidget(snapdata.data),
+                );
+              }
             }
         }
       },

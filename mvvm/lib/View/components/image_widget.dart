@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -8,17 +9,16 @@ class LogoImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: (image.split(".").last) == "svg"
-          ? SvgPicture.network(
-              image,
-              height: 50,
-              width: 50,
-            )
-          : Image.network(
-              image,
-              height: 50,
-              width: 50,
-            ),
-    );
+        child: (image.split(".").last) == "svg"
+            ? SvgPicture.network(
+                image,
+                height: 50,
+                width: 50,
+              )
+            : Image.network(
+                image,
+                height: 50,
+                width: 50,
+              ));
   }
 }

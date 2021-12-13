@@ -12,9 +12,9 @@ class RankingPage extends StatefulWidget {
 }
 
 class _RankingPageState extends State<RankingPage> {
-  final StreamController<List<RankingViewModel>> _rankingStreamController =
+  final StreamController<List<ClassementViewModel>> _rankingStreamController =
       StreamController();
-  final RankingViewModel _cvm = RankingViewModel();
+  final ClassementViewModel _cvm = ClassementViewModel();
 
   @override
   void initState() {
@@ -23,8 +23,9 @@ class _RankingPageState extends State<RankingPage> {
   }
 
   getRanking() async {
-    List<RankingViewModel> classement = await _cvm.getClassement();
-    _rankingStreamController.sink.add(classement);
+    List<ClassementViewModel> classement = await _cvm.getClassement();
+    if (!_rankingStreamController.isClosed)
+      _rankingStreamController.sink.add(classement);
   }
 
   @override
@@ -62,18 +63,17 @@ class _RankingPageState extends State<RankingPage> {
     );
   }
 
-  createWidget(List<RankingViewModel> data) {
+  createWidget(List<ClassementViewModel> data) {
     var userList = <Widget>[];
-    data.forEach((element) {
-      var widget = UserClassementWidget(user: element);
+    for (int i = 0; i < data.length; i++) {
+      var element = data[i];
+      var widget = UserClassementWidget(user: element, pos: i + 1);
       userList.add(widget);
       var divider =
           Divider(color: Colors.black, indent: 10, endIndent: 10, thickness: 5);
       userList.add(divider);
-    });
+    }
     if (userList.isNotEmpty) userList.removeLast();
-
-    //userList.sort((UserClassementWidget a, UserClassementWidget b) => a.user.solde.compareTo(b.user.solde));
 
     return userList;
   }

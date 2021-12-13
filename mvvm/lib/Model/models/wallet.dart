@@ -24,7 +24,7 @@ class Wallet {
 
   String get walletId => _walletId;
   String get cryptoId => _cryptoId;
-  num get number => _number;
+  String get number => _number.toStringAsFixed(8);
   bool get notifiactionActivated => _notifiactionActivated;
   void set nofitication(bool active) => _notifiactionActivated = active;
   String get imageUrl => _imageUrl;
@@ -45,5 +45,32 @@ class Wallet {
     _percent = json['percent'];
     _gainsPertesTotal = json['gainsPertesTotal'];
     _gainsPertes = json['gainsPertes'];
+  }
+}
+
+class ConnectedWallet {
+  double _number;
+  String _cryptoId;
+
+  ConnectedWallet({double number, String cryptoId}) {
+    this._number = number;
+    this._cryptoId = cryptoId;
+  }
+
+  double get number => _number;
+  set number(double number) => _number = number;
+  String get cryptoId => _cryptoId;
+  set cryptoId(String cryptoId) => _cryptoId = cryptoId;
+
+  ConnectedWallet.fromJson(Map<String, dynamic> json) {
+    _number = json['Number'];
+    _cryptoId = json['CryptoId'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['Number'] = this._number;
+    data['CryptoId'] = this._cryptoId;
+    return data;
   }
 }

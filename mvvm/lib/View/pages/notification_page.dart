@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:mvvm/Services/api_service.dart';
 import 'package:mvvm/View/widgets/notifcationwidget.dart';
 import 'package:mvvm/ViewModel/notification_viewmodel.dart';
 
@@ -25,7 +24,9 @@ class _NotificationPageState extends State<NotificationPage> {
 
   getNotifications() async {
     List<NotificationViewModel> notifications = await _nvm.getNotifications();
-    notificationsController.sink.add(notifications);
+    if (!notificationsController.isClosed) {
+      notificationsController.sink.add(notifications);
+    }
   }
 
   @override
@@ -75,8 +76,8 @@ class _NotificationPageState extends State<NotificationPage> {
               NotificationWidget(notification: element),
               IconButton(
                   onPressed: () async {
-                    var isDeleted = await ApiService()
-                        .deleteNotification(element.notificationId);
+                    var isDeleted =
+                        await _nvm.deleteNotification(element.notificationId);
                     if (isDeleted) {
                       setState(() {
                         data.remove(element);

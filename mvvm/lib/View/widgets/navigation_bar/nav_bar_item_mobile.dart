@@ -12,10 +12,10 @@ class NavBarMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return menuItem(id, text, icon, context);
+    return menuItem(id, text, icon);
   }
 
-  Widget menuItem(int id, String text, IconData icon, BuildContext context) {
+  Widget menuItem(int id, String text, IconData icon) {
     return ListTile(
       //tileColor: id == currentPage ? Colors.grey : Colors.transparent,
       title: Row(

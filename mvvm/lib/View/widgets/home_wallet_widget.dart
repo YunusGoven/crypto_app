@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mvvm/View/components/image_widget.dart';
 import 'package:mvvm/View/pages/detail_page.dart';
 import 'package:mvvm/ViewModel/wallet_viewmodel.dart';

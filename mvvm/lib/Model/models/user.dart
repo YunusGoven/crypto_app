@@ -1,15 +1,25 @@
+import 'package:mvvm/Model/models/wallet.dart';
+
 class ConnectedUser {
   User _user;
   String _token;
+  List<ConnectedWallet> _wallets;
 
-  ConnectedUser(this._user, this._token);
+  ConnectedUser(this._user, this._token, this._wallets);
 
   User get user => _user;
   String get token => _token;
+  List<ConnectedWallet> get wallets => _wallets;
 
   ConnectedUser.fromJson(Map<String, dynamic> json) {
     _user = User.fromJson(json['User']);
     _token = json['token'];
+    if (json['wallets'] != null) {
+      _wallets = new List<ConnectedWallet>();
+      json['wallets'].forEach((v) {
+        _wallets.add(new ConnectedWallet.fromJson(v));
+      });
+    }
   }
 }
 

@@ -27,7 +27,9 @@ class _WalletPageState extends State<WalletPage> {
 
   getWallets() async {
     List<WalletViewModel> wallets = await _wvm.getWallets();
-    _walletStreamController.sink.add(wallets);
+    if (!_walletStreamController.isClosed) {
+      _walletStreamController.sink.add(wallets);
+    }
   }
 
   @override
@@ -41,27 +43,25 @@ class _WalletPageState extends State<WalletPage> {
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.only(top: 25, left: 20, right: 20, bottom: 25),
-        child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: StreamBuilder(
-              stream: _walletStreamController.stream,
-              builder: (context, snapdata) {
-                switch (snapdata.connectionState) {
-                  case ConnectionState.waiting:
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  default:
-                    if (snapdata.hasError) {
-                      return Text("Attend frere");
-                    } else {
-                      return Column(
-                        children: createWidget(snapdata.data),
-                      );
-                    }
+        child: StreamBuilder(
+          stream: _walletStreamController.stream,
+          builder: (context, snapdata) {
+            switch (snapdata.connectionState) {
+              case ConnectionState.waiting:
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              default:
+                if (snapdata.hasError) {
+                  return Text("Attend frere");
+                } else {
+                  return Column(
+                    children: createWidget(snapdata.data),
+                  );
                 }
-              },
-            )),
+            }
+          },
+        ),
       ),
     );
   }

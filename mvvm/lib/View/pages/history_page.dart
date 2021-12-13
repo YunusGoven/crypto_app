@@ -8,18 +8,10 @@ class HistoryPage extends StatefulWidget {
 }
 
 class _HistoryPageState extends State<HistoryPage> {
-  bool _obscure = true;
-  final pseudoController = TextEditingController();
-  final passwordController = TextEditingController();
-  @override
-  void dispose() {
-    pseudoController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Center(
+      child: Text("History"),
+    );
   }
 }

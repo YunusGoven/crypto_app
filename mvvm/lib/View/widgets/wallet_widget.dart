@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mvvm/Services/api_service.dart';
 import 'package:mvvm/View/components/image_widget.dart';
 import 'package:mvvm/ViewModel/wallet_viewmodel.dart';
 
@@ -19,10 +17,11 @@ class _WalletWidgetState extends State<WalletWidget> {
     return Container(
       padding: EdgeInsets.only(bottom: 10, top: 10),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           LogoImage(image: walletModel.Imageurl),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -31,8 +30,10 @@ class _WalletWidgetState extends State<WalletWidget> {
                     walletModel.Name,
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                   ),
-                  Text(
-                      "${walletModel.Number.toStringAsFixed(8)} ${walletModel.Cryptoid}"),
+                  SizedBox(
+                    width: 50,
+                  ),
+                  Text("${walletModel.Number} ${walletModel.Cryptoid}"),
                 ],
               ),
               SizedBox(
@@ -40,6 +41,7 @@ class _WalletWidgetState extends State<WalletWidget> {
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     '${walletModel.Percent} %',
@@ -48,11 +50,17 @@ class _WalletWidgetState extends State<WalletWidget> {
                           walletModel.Percent < 0 ? Colors.red : Colors.green,
                     ),
                   ),
+                  SizedBox(
+                    width: 30,
+                  ),
                   Text('${walletModel.gainspertes} \$',
                       style: TextStyle(
                         color:
                             walletModel.Percent < 0 ? Colors.red : Colors.green,
                       )),
+                  SizedBox(
+                    width: 30,
+                  ),
                   Text('${walletModel.Total} \$')
                 ],
               ),
@@ -60,7 +68,7 @@ class _WalletWidgetState extends State<WalletWidget> {
           ),
           IconButton(
               onPressed: () async {
-                if (await ApiService()
+                if (await walletModel
                     .disableNotification(walletModel.Cryptoid)) {
                   setState(() {
                     walletModel.NotificationActivated(

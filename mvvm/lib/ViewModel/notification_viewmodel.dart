@@ -1,11 +1,11 @@
 import 'package:intl/intl.dart';
 import 'package:mvvm/Model/models/notification.dart';
 import 'package:mvvm/Services/api_service.dart';
+import 'package:mvvm/locator.dart';
 
 class NotificationViewModel {
-  NotificationViewModel();
   NotificationModel _notification;
-
+  final _api = locator<ApiService>();
   String get notificationId => _notification.notificationId;
   String get dateNotif {
     var date = _notification.dateNotif;
@@ -18,10 +18,9 @@ class NotificationViewModel {
   String get message => _notification.message;
 
   Future<List<NotificationViewModel>> getNotifications() async {
-    List<NotificationModel> notifications =
-        await ApiService().getNotification();
+    List<NotificationModel> notifications = await _api.getNotification();
 
-    var cr = <NotificationViewModel>[];
+    List<NotificationViewModel> cr = <NotificationViewModel>[];
     for (var item in notifications) {
       NotificationViewModel w = NotificationViewModel();
       w._notification = item;
@@ -29,5 +28,9 @@ class NotificationViewModel {
     }
 
     return cr;
+  }
+
+  Future<bool> deleteNotification(String notificationId) async {
+    return await _api.deleteNotification(notificationId);
   }
 }

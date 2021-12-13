@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mvvm/View/components/detail_graph_widget.dart';
 import 'package:mvvm/View/components/detail_midde_lwidget.dart';
 import 'package:mvvm/View/components/detail_up_widget.dart';
+import 'package:mvvm/View/pages/discussion_page.dart';
 import 'package:mvvm/ViewModel/crypto_viewmodel.dart';
 
 class DetailPage extends StatefulWidget {
@@ -29,7 +30,9 @@ class _DetailPageState extends State<DetailPage> {
 
   done() async {
     CryptoViewModel cr = await _cvm.getCrypto(widget.cryptoId);
-    _streamController.sink.add(cr);
+    if (!_streamController.isClosed) {
+      _streamController.sink.add(cr);
+    }
   }
 
   @override
@@ -87,7 +90,12 @@ class _DetailPageState extends State<DetailPage> {
                           ],
                         ),
                         FloatingActionButton.extended(
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              //    Navigator.push(context,
+                              //      MaterialPageRoute(builder: (context) => DiscussionPage(cryptoId: widget.cryptoId,)),);
+                            });
+                          },
                           label: Text("Discussion"),
                           icon: Icon(Icons.message),
                         ),
