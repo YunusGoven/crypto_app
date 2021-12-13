@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mvvm/Routing/route_names.dart';
+import 'package:mvvm/Services/userinfo_service.dart';
+import 'package:mvvm/locator.dart';
 
 import 'navbar_item.dart';
 
@@ -11,8 +13,8 @@ class NavigationBarTabletDesktop extends StatelessWidget {
     return Container(
       height: 100,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
+          //790
           Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -24,19 +26,40 @@ class NavigationBarTabletDesktop extends StatelessWidget {
               SizedBox(
                 width: 60,
               ),
-              NavBarItem('Historique', HistoryRoute),
-              SizedBox(
-                width: 60,
+              FutureBuilder<bool>(
+                future: locator<Auth>().isAuthenticate(),
+                builder: (context, snapshot) {
+                  if (snapshot.data) {
+                    return Row(
+                      children: [
+                        NavBarItem('Historique', HistoryRoute),
+                        SizedBox(
+                          width: 60,
+                        ),
+                        NavBarItem('Classement', RankingRoute),
+                        SizedBox(
+                          width: 60,
+                        ),
+                        NavBarItem('Notification', NotificationRoute),
+                        SizedBox(
+                          width: 60,
+                        ),
+                        NavBarItem('Portfeuille', WalletRoute),
+                      ],
+                    );
+                  } else {
+                    return Row(
+                      children: [
+                        NavBarItem('Log In', LoginRoute),
+                        SizedBox(
+                          width: 60,
+                        ),
+                        NavBarItem('Register', RegisterRoute),
+                      ],
+                    );
+                  }
+                },
               ),
-              NavBarItem('Classement', RankingRoute),
-              SizedBox(
-                width: 60,
-              ),
-              NavBarItem('Notification', NotificationRoute),
-              SizedBox(
-                width: 60,
-              ),
-              NavBarItem('Portfeuille', WalletRoute),
             ],
           )
         ],

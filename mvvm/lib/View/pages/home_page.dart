@@ -49,6 +49,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
+    print("DISPOSSEEEE");
     _cryptoStreamController.close();
     _walletStreamController.close();
     super.dispose();

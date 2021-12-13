@@ -10,8 +10,10 @@ class ScreenTemplate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
+    var screenwidht = screenSize.width;
     return Scaffold(
-        appBar: kIsWeb
+        appBar: screenwidht > 790
             ? null
             : AppBar(
                 backgroundColor: Colors.black26,
@@ -20,7 +22,7 @@ class ScreenTemplate extends StatelessWidget {
                   children: [Text("Pala")],
                 ),
               ),
-        drawer: kIsWeb
+        drawer: screenwidht > 790
             ? null
             : Drawer(
                 child: ListView(
@@ -46,7 +48,7 @@ class ScreenTemplate extends StatelessWidget {
             ? Column(
                 children: <Widget>[
                   //if (kIsWeb) const NavigationBar(),
-                  NavigationBarTabletDesktop(),
+                  if (screenwidht >= 790) NavigationBarTabletDesktop(),
                   Expanded(
                     child: child,
                   )
