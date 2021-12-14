@@ -19,7 +19,7 @@ class ScreenTemplate extends StatelessWidget {
                 backgroundColor: Colors.black26,
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [Text("Pala")],
+                  children: [Text("CryptoYH")],
                 ),
               ),
         drawer: screenwidht > 790

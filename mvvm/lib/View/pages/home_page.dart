@@ -24,6 +24,7 @@ class _HomePageState extends State<HomePage> {
   final CryptoViewModel _cvm = CryptoViewModel();
   final WalletViewModel _wvm = WalletViewModel();
   final auth = locator<Auth>();
+  bool isAuth = false;
   @override
   void initState() {
     super.initState();
@@ -34,9 +35,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   getWallets() async {
-    List<WalletViewModel> wallets = await _wvm.getWallets();
-    if (!_walletStreamController.isClosed) {
-      _walletStreamController.sink.add(wallets);
+    isAuth = await auth.isAuthenticate();
+    if (isAuth) {
+      List<WalletViewModel> wallets = await _wvm.getWallets();
+      if (!_walletStreamController.isClosed) {
+        _walletStreamController.sink.add(wallets);
+      }
     }
   }
 
@@ -59,72 +63,25 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  "Vos cryptos",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                ),
-                SizedBox(
-                  width: 5,
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: StreamBuilder(
-                  stream: _walletStreamController.stream,
-                  builder: (context, snapdata) {
-                    switch (snapdata.connectionState) {
-                      case ConnectionState.waiting:
-                      case ConnectionState.none:
-                        print("waiting");
-                        return CircularProgressIndicator(
-                          color: Colors.red,
-                        );
-                      default:
-                        if (snapdata.hasError) {
-                          print("erreur");
-                          return Center(child: Text(snapdata.error));
-                        } else {
-                          if (!snapdata.hasData) {
-                            print("pas de donnée");
-                            return Center(
-                              child: Text("Aucune donnée n'a été trouvé"),
-                            );
-                          } else {
-                            return Row(
-                              children: createWalletListWidget(snapdata.data),
-                            );
-                          }
-                        }
-                    }
-                  },
-                )),
-            const SizedBox(
-              height: 20,
-            ),
-            Text(
-              "Cryptomonnaie",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            CryptoListWidget(cryptoController: _cryptoStreamController)
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              if (isAuth) showOwnedCrypto(),
+              Text(
+                "Cryptomonnaie",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              CryptoListWidget(cryptoController: _cryptoStreamController)
+            ],
+          ),
         ),
       ),
     );
@@ -142,5 +99,53 @@ class _HomePageState extends State<HomePage> {
     if (walletlist.isNotEmpty) walletlist.removeLast();
 
     return walletlist;
+  }
+
+  showOwnedCrypto() {
+    return Column(
+      children: [
+        Text(
+          "Vos cryptos",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: StreamBuilder(
+              stream: _walletStreamController.stream,
+              builder: (context, snapdata) {
+                switch (snapdata.connectionState) {
+                  case ConnectionState.waiting:
+                  case ConnectionState.none:
+                    print("waiting");
+                    return CircularProgressIndicator(
+                      color: Colors.red,
+                    );
+                  default:
+                    if (snapdata.hasError) {
+                      print("erreur");
+                      return Center(child: Text(snapdata.error));
+                    } else {
+                      if (!snapdata.hasData) {
+                        print("pas de donnée");
+                        return Center(
+                          child: Text("Aucune donnée n'a été trouvé"),
+                        );
+                      } else {
+                        return Row(
+                          children: createWalletListWidget(snapdata.data),
+                        );
+                      }
+                    }
+                }
+              },
+            )),
+        const SizedBox(
+          height: 20,
+        ),
+      ],
+    );
   }
 }

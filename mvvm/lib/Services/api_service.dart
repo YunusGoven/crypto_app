@@ -152,7 +152,7 @@ class ApiService {
 
   //Ranking
   Future<List<ClassementUser>> getRanking() async {
-    var c_url = url + '/Users/Classement';
+    var c_url = url + '/Users/Ranking';
     var uri = Uri.parse(c_url);
     connectedHeaders = {
       'Content-type': 'application/json',
@@ -297,5 +297,20 @@ class ApiService {
     } else {
       return false;
     }
+  }
+
+  Future<ApiResponse> sendMail(String name, String email, String subject,
+      String text, bool isCopy) async {
+    var c_url = url + '/Mail';
+    var body =
+        '{"fromName": "$name","fromEmail": "$email","subject": "$subject", "text": "$text", "copy": $isCopy}';
+    var uri = Uri.parse(c_url);
+    connectedHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'text/plain'
+    };
+    var response = await http.post(uri, headers: connectedHeaders, body: body);
+
+    return ApiResponse(code: response.statusCode, value: response.body);
   }
 }

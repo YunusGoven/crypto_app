@@ -39,6 +39,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'crypto app',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
@@ -56,7 +57,6 @@ class _MyAppState extends State<MyApp> {
       navigatorKey: locator<NavigationService>().navigatorKey,
       onGenerateRoute: generateRoute,
       initialRoute: kIsWeb ? HomeRoute : LoginRoute,
-      //todo ici veriifier le token
     );
   }
 }

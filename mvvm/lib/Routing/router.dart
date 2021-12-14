@@ -4,6 +4,7 @@ import 'package:mvvm/Routing/extensions.dart';
 import 'package:mvvm/Routing/route_names.dart';
 import 'package:mvvm/View/pages/all_page.dart';
 import 'package:mvvm/View/pages/connection_page.dart';
+import 'package:mvvm/View/pages/contact_page.dart';
 import 'package:mvvm/View/pages/detail_page.dart';
 import 'package:mvvm/View/pages/discussion_page.dart';
 import 'package:mvvm/View/pages/history_page.dart';
@@ -22,6 +23,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(const HomePage(), settings);
     case RegisterRoute:
       return _getPageRoute(const RegisterPage(), settings);
+    case ContactRoute:
+      return _getPageRoute(const ContactPage(), settings);
     case CryptosRoute:
       return _getPageRoute(const AllCryptoPage(), settings);
     case HistoryRoute:

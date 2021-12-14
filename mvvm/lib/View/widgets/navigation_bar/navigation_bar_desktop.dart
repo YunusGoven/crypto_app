@@ -11,20 +11,26 @@ class NavigationBarTabletDesktop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
+      height: 50,
       child: Row(
         children: <Widget>[
-          //790
           Row(
-            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+              SizedBox(
+                width: 20,
+              ),
               NavBarItem('Accueil', HomeRoute),
               SizedBox(
-                width: 60,
+                width: 20,
               ),
               NavBarItem('Cryptos', CryptosRoute),
               SizedBox(
-                width: 60,
+                width: 20,
+              ),
+              NavBarItem('Contact', ContactRoute),
+              SizedBox(
+                width: 20,
               ),
               FutureBuilder<bool>(
                 future: locator<Auth>().isAuthenticate(),
@@ -34,27 +40,33 @@ class NavigationBarTabletDesktop extends StatelessWidget {
                       children: [
                         NavBarItem('Historique', HistoryRoute),
                         SizedBox(
-                          width: 60,
+                          width: 20,
                         ),
                         NavBarItem('Classement', RankingRoute),
                         SizedBox(
-                          width: 60,
+                          width: 20,
                         ),
                         NavBarItem('Notification', NotificationRoute),
                         SizedBox(
-                          width: 60,
+                          width: 20,
                         ),
                         NavBarItem('Portfeuille', WalletRoute),
+                        SizedBox(
+                          width: 20,
+                        ),
                       ],
                     );
                   } else {
                     return Row(
                       children: [
-                        NavBarItem('Log In', LoginRoute),
+                        NavBarItem('Connexion', LoginRoute),
                         SizedBox(
-                          width: 60,
+                          width: 20,
                         ),
                         NavBarItem('Register', RegisterRoute),
+                        SizedBox(
+                          width: 20,
+                        ),
                       ],
                     );
                   }
