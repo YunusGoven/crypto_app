@@ -10,8 +10,10 @@ class HistoryPage extends StatefulWidget {
 class _HistoryPageState extends State<HistoryPage> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text("History"),
+    return Scaffold(
+      body: Center(
+        child: Text("History"),
+      ),
     );
   }
 }

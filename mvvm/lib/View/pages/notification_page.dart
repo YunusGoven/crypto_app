@@ -37,27 +37,29 @@ class _NotificationPageState extends State<NotificationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.only(top: 25, left: 20, right: 20, bottom: 25),
-        child: StreamBuilder(
-          stream: notificationsController.stream,
-          builder: (context, snapdata) {
-            switch (snapdata.connectionState) {
-              case ConnectionState.waiting:
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              default:
-                if (snapdata.hasError) {
-                  return Text("Attend frere");
-                } else {
-                  return Column(
-                    children: createWidget(snapdata.data),
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(top: 25, left: 20, right: 20, bottom: 25),
+          child: StreamBuilder(
+            stream: notificationsController.stream,
+            builder: (context, snapdata) {
+              switch (snapdata.connectionState) {
+                case ConnectionState.waiting:
+                  return Center(
+                    child: CircularProgressIndicator(),
                   );
-                }
-            }
-          },
+                default:
+                  if (snapdata.hasError) {
+                    return Text("Attend frere");
+                  } else {
+                    return Column(
+                      children: createWidget(snapdata.data),
+                    );
+                  }
+              }
+            },
+          ),
         ),
       ),
     );

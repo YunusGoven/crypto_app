@@ -37,22 +37,26 @@ class Auth {
   }
 
   Future<bool> isAuthenticate() async {
-    final data = _db.collection('user');
-    if (data == null) {
-      return false;
-    }
+    try {
+      final data = _db.collection('user');
+      if (data == null) {
+        return false;
+      }
 
-    final data2 = await data.doc("currentUser").get();
-    if (data2 == null || data2.isEmpty) {
-      return false;
-    }
-    String token = data2['token'];
-    if (JwtDecoder.isExpired(token)) {
-      disconnect();
-      return false;
-    }
+      final data2 = await data.doc("currentUser").get();
+      if (data2 == null || data2.isEmpty) {
+        return false;
+      }
+      String token = data2['token'];
+      if (JwtDecoder.isExpired(token)) {
+        disconnect();
+        return false;
+      }
 
-    return true;
+      return true;
+    } on Error {
+      return false;
+    }
   }
 
   void disconnect() {
