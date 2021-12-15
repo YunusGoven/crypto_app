@@ -37,14 +37,14 @@ class Crypto {
       : _id = json['id'],
         _symbol = json['symbol'],
         _name = json['name'],
-        _logoUrl = json['logo_url'],
+        _logoUrl = json['logo_Url'],
         _price = json['price'],
-        _priceDate = json['price_date'],
+        _priceDate = json['price_Date'],
         _history = json['history'],
-        _h1 = Day.fromJson(json['price_change_pct_1h']),
-        _d1 = Day.fromJson(json['price_change_pct_1d']),
-        _d7 = Day.fromJson(json['price_change_pct_7d']),
-        _d30 = Day.fromJson(json['price_change_pct_30d']);
+        _h1 = Day.fromJson(json['price_Change_Pct_1D']),
+        _d1 = Day.fromJson(json['price_Change_Pct_1H']),
+        _d7 = Day.fromJson(json['price_Change_Pct_7D']),
+        _d30 = Day.fromJson(json['price_Change_Pct_30D']);
 }
 
 class Day {
@@ -55,7 +55,7 @@ class Day {
 
   Day.fromJson(Map<String, dynamic> json)
       : _priceChangePct = json['price_change_pct'],
-        _priceChange = json['price_change'];
+        _priceChange = json['price_Change'];
 
   num get PricePercentChange => num.tryParse(_priceChangePct);
   num get PriceChange => num.tryParse(_priceChange);

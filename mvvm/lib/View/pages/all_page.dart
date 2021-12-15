@@ -18,8 +18,13 @@ class _AllCryptoPageState extends State<AllCryptoPage> {
   @override
   void initState() {
     super.initState();
-    Timer.periodic(Duration(seconds: 10), (timer) {
-      done();
+    done();
+    Timer.periodic(Duration(seconds: 25), (timer) {
+      if (!_cryptoStreamController.isClosed) {
+        done();
+      } else {
+        timer.cancel();
+      }
     });
   }
 
@@ -32,8 +37,14 @@ class _AllCryptoPageState extends State<AllCryptoPage> {
 
   @override
   void dispose() {
-    _cryptoStreamController.close();
     super.dispose();
+    _cryptoStreamController.close();
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    _cryptoStreamController.close();
   }
 
   @override

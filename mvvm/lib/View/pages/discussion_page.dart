@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mvvm/Model/models/user.dart';
+import 'package:mvvm/Routing/route_names.dart';
+import 'package:mvvm/Services/navigation_service.dart';
 import 'package:mvvm/Services/userinfo_service.dart';
 import 'package:mvvm/View/components/message_field_widget.dart';
 import 'package:mvvm/ViewModel/message_viewmodel.dart';
@@ -20,12 +22,17 @@ class _DiscussionPageState extends State<DiscussionPage> {
   Future<User> _user;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _user = getUserInfo();
   }
 
   Future<User> getUserInfo() async {
+    var bool = await _auth.isAuthenticate();
+    if (!bool) {
+      dispose();
+      locator<NavigationService>().navigateTo(HomeRoute);
+      return null;
+    }
     return await _auth.user();
   }
 
@@ -61,48 +68,63 @@ class _DiscussionPageState extends State<DiscussionPage> {
                               String currentUser = snapshotUser.data.pseudo;
                               var isCurrentUser = sender == currentUser;
 
-                              return Padding(
-                                // asymmetric padding
-                                padding: EdgeInsets.fromLTRB(
-                                  isCurrentUser ? 64.0 : 16.0,
-                                  4,
-                                  isCurrentUser ? 16.0 : 64.0,
-                                  4,
-                                ),
-                                child: Align(
-                                  // align the child within the container
-                                  alignment: isCurrentUser
-                                      ? Alignment.centerRight
-                                      : Alignment.centerLeft,
-                                  child: DecoratedBox(
-                                    // chat bubble decoration
-                                    decoration: BoxDecoration(
-                                      color: isCurrentUser
-                                          ? Colors.blue
-                                          : Colors.grey[300],
-                                      borderRadius: BorderRadius.circular(16),
+                              return Column(
+                                crossAxisAlignment: isCurrentUser
+                                    ? CrossAxisAlignment.end
+                                    : CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0, right: 8.0),
+                                    child: Text(
+                                      sender,
                                     ),
-                                    child: Padding(
-                                        padding: const EdgeInsets.all(12),
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              mesg,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1
-                                                  .copyWith(
-                                                      color: isCurrentUser
-                                                          ? Colors.white
-                                                          : Colors.black87),
-                                            ),
-                                            Text(
-                                              sender,
-                                            ),
-                                          ],
-                                        )),
                                   ),
-                                ),
+                                  Padding(
+                                    // asymmetric padding
+                                    padding: EdgeInsets.fromLTRB(
+                                      isCurrentUser ? 64.0 : 16.0,
+                                      4,
+                                      isCurrentUser ? 16.0 : 64.0,
+                                      4,
+                                    ),
+                                    child: Align(
+                                      // align the child within the container
+                                      alignment: isCurrentUser
+                                          ? Alignment.centerRight
+                                          : Alignment.centerLeft,
+                                      child: DecoratedBox(
+                                        // chat bubble decoration
+                                        decoration: BoxDecoration(
+                                          color: isCurrentUser
+                                              ? Colors.blue
+                                              : Colors.grey[300],
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                        ),
+                                        child: Padding(
+                                            padding: const EdgeInsets.all(12),
+                                            child: Column(
+                                              crossAxisAlignment: isCurrentUser
+                                                  ? CrossAxisAlignment.end
+                                                  : CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  mesg,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1
+                                                      .copyWith(
+                                                          color: isCurrentUser
+                                                              ? Colors.white
+                                                              : Colors.black87),
+                                                ),
+                                              ],
+                                            )),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               );
                             },
                           ));

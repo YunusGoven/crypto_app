@@ -113,14 +113,18 @@ class ApiService {
 
   //Connexion
   Future<ApiResponse> connection(String username, String password) async {
-    var identifier = await FirebaseMessaging.instance.getToken();
+    var hashmdp = password;
+    var identifier = FirebaseMessaging.instance;
+    var body = '{"pseudo" : "${username}", "password": "${hashmdp}" }';
+    if ((await identifier.getNotificationSettings()).authorizationStatus ==
+        AuthorizationStatus.authorized) {
+      var token = await identifier.getToken();
+      var body =
+          '{"pseudo" : "${username}", "password": "${hashmdp}" ,"deviceId": "${token}" }';
+    }
     var c_url = url + '/Users/SignIn';
     var uri = Uri.parse(c_url);
-    var hashmdp = password;
-    var response = await http.post(uri,
-        headers: headers,
-        body:
-            '{"pseudo" : "${username}", "password": "${hashmdp}" ,"deviceId": "${identifier}" }');
+    var response = await http.post(uri, headers: headers, body: body);
     if (response.statusCode == 200) {
       print(response.statusCode);
       ConnectedUser user = ConnectedUser.fromJson(jsonDecode(response.body));
@@ -135,10 +139,10 @@ class ApiService {
   }
 
   //Register
-  Future<String> register(String username, String password, String mail) async {
+  Future<String> register(String username, String password, String mail,
+      String firstname, String surname) async {
     var hashmdp = password;
-    RegisterUser um = RegisterUser(
-        "_firstName", "_surname", DateTime.now(), mail, username, hashmdp);
+    RegisterUser um = RegisterUser(firstname, surname, mail, username, hashmdp);
     var c_url = url + '/Users/Register';
     var uri = Uri.parse(c_url);
     var response =

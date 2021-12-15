@@ -1,8 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mvvm/Routing/route_names.dart';
+import 'package:mvvm/Services/navigation_service.dart';
+import 'package:mvvm/Services/userinfo_service.dart';
 import 'package:mvvm/View/widgets/classement_widget.dart';
 import 'package:mvvm/ViewModel/user_viewmodel.dart';
+import 'package:mvvm/locator.dart';
 
 class RankingPage extends StatefulWidget {
   const RankingPage({Key key}) : super(key: key);
@@ -18,14 +22,25 @@ class _RankingPageState extends State<RankingPage> {
 
   @override
   void initState() {
+    verifyIsConnected();
     super.initState();
-    getRanking();
+  }
+
+  verifyIsConnected() async {
+    var isAuth = await locator<Auth>().isAuthenticate();
+    if (!isAuth) {
+      dispose();
+      locator<NavigationService>().navigateTo(HomeRoute);
+    } else {
+      getRanking();
+    }
   }
 
   getRanking() async {
     List<ClassementViewModel> classement = await _cvm.getClassement();
-    if (!_rankingStreamController.isClosed)
+    if (!_rankingStreamController.isClosed) {
       _rankingStreamController.sink.add(classement);
+    }
   }
 
   @override

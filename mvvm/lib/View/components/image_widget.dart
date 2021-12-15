@@ -8,17 +8,23 @@ class LogoImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: (image.split(".").last) == "svg"
-            ? SvgPicture.network(
-                image,
-                height: 50,
-                width: 50,
-              )
-            : Image.network(
-                image,
-                height: 50,
-                width: 50,
-              ));
+    return kIsWeb
+        ? Image.network(
+            image,
+            height: 50,
+            width: 50,
+          )
+        : Container(
+            child: (image.split(".").last) == "svg"
+                ? SvgPicture.network(
+                    image,
+                    height: 50,
+                    width: 50,
+                  )
+                : Image.network(
+                    image,
+                    height: 50,
+                    width: 50,
+                  ));
   }
 }

@@ -1,11 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mvvm/Model/models/user.dart';
+import 'package:mvvm/Routing/route_names.dart';
+import 'package:mvvm/Services/navigation_service.dart';
+import 'package:mvvm/Services/userinfo_service.dart';
 import 'package:mvvm/View/components/detail_graph_widget.dart';
 import 'package:mvvm/View/components/detail_midde_lwidget.dart';
 import 'package:mvvm/View/components/detail_up_widget.dart';
 import 'package:mvvm/View/pages/discussion_page.dart';
 import 'package:mvvm/ViewModel/crypto_viewmodel.dart';
+import 'package:mvvm/locator.dart';
 
 class DetailPage extends StatefulWidget {
   final String cryptoId;
@@ -19,12 +24,19 @@ class _DetailPageState extends State<DetailPage> {
   final StreamController<CryptoViewModel> _streamController =
       StreamController();
   final CryptoViewModel _cvm = CryptoViewModel();
+  final _auth = locator<Auth>();
 
   @override
   void initState() {
     super.initState();
-    Timer.periodic(Duration(seconds: 10), (timer) {
-      done();
+
+    Timer.periodic(Duration(seconds: 25), (timer) {
+      if (!_streamController.isClosed) {
+        print("open");
+        done();
+      } else {
+        timer.cancel();
+      }
     });
   }
 
@@ -37,8 +49,17 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   void dispose() {
-    _streamController.close();
     super.dispose();
+    _streamController.close();
+    print("Dispose");
+  }
+
+  @override
+  void deactivate() {
+    // TODO: implement deactivate
+    super.deactivate();
+    _streamController.close();
+    print("Deac");
   }
 
   @override
@@ -51,7 +72,7 @@ class _DetailPageState extends State<DetailPage> {
             switch (snapdata.connectionState) {
               case ConnectionState.waiting:
                 return Center(
-                  child: CircularProgressIndicator(),
+                  child: LinearProgressIndicator(),
                 );
               default:
                 if (snapdata.hasError) {
@@ -74,30 +95,46 @@ class _DetailPageState extends State<DetailPage> {
                         SizedBox(
                           height: 50,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            FloatingActionButton.extended(
-                              onPressed: () {},
-                              label: Text("Acheter"),
-                              icon: Icon(Icons.add_shopping_cart),
-                            ),
-                            FloatingActionButton.extended(
-                              onPressed: () {},
-                              label: Text("Vendre"),
-                              icon: Icon(Icons.sell),
-                            ),
-                          ],
-                        ),
-                        FloatingActionButton.extended(
-                          onPressed: () {
-                            setState(() {
-                              //    Navigator.push(context,
-                              //      MaterialPageRoute(builder: (context) => DiscussionPage(cryptoId: widget.cryptoId,)),);
-                            });
+                        FutureBuilder<bool>(
+                          future: _auth.isAuthenticate(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              if (snapshot.data) {
+                                return Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        FloatingActionButton.extended(
+                                          onPressed: () {},
+                                          label: Text("Acheter"),
+                                          icon: Icon(Icons.add_shopping_cart),
+                                        ),
+                                        FloatingActionButton.extended(
+                                          onPressed: () {},
+                                          label: Text("Vendre"),
+                                          icon: Icon(Icons.sell),
+                                        ),
+                                      ],
+                                    ),
+                                    FloatingActionButton.extended(
+                                      onPressed: () {
+                                        locator<NavigationService>().navigateTo(
+                                            MessagingRoute,
+                                            queryParams: {
+                                              'cryptoId': widget.cryptoId
+                                            });
+                                      },
+                                      label: Text("Discussion"),
+                                      icon: Icon(Icons.message),
+                                    ),
+                                  ],
+                                );
+                              }
+                            }
+                            return Container();
                           },
-                          label: Text("Discussion"),
-                          icon: Icon(Icons.message),
                         ),
                       ],
                     ),

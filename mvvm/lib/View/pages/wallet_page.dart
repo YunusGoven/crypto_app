@@ -1,8 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mvvm/Routing/route_names.dart';
+import 'package:mvvm/Services/navigation_service.dart';
+import 'package:mvvm/Services/userinfo_service.dart';
 import 'package:mvvm/View/widgets/wallet_widget.dart';
 import 'package:mvvm/ViewModel/wallet_viewmodel.dart';
+import 'package:mvvm/locator.dart';
 
 class WalletPage extends StatefulWidget {
   const WalletPage({Key key}) : super(key: key);
@@ -18,11 +22,25 @@ class _WalletPageState extends State<WalletPage> {
 
   @override
   void initState() {
+    verifyIsConnected();
     super.initState();
+  }
 
-    Timer.periodic(Duration(seconds: 15), (timer) {
+  verifyIsConnected() async {
+    var isAuth = await locator<Auth>().isAuthenticate();
+    if (!isAuth) {
+      dispose();
+      locator<NavigationService>().navigateTo(HomeRoute);
+    } else {
       getWallets();
-    });
+      Timer.periodic(Duration(seconds: 35), (timer) {
+        if (!_walletStreamController.isClosed) {
+          getWallets();
+        } else {
+          timer.cancel();
+        }
+      });
+    }
   }
 
   getWallets() async {
@@ -33,9 +51,16 @@ class _WalletPageState extends State<WalletPage> {
   }
 
   @override
-  void dispose() {
+  void deactivate() {
+    // TODO: implement deactivate
+    super.deactivate();
     _walletStreamController.close();
+  }
+
+  @override
+  void dispose() {
     super.dispose();
+    _walletStreamController.close();
   }
 
   @override

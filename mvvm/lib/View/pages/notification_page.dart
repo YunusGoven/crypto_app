@@ -1,8 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mvvm/Routing/route_names.dart';
+import 'package:mvvm/Services/navigation_service.dart';
+import 'package:mvvm/Services/userinfo_service.dart';
 import 'package:mvvm/View/widgets/notifcationwidget.dart';
 import 'package:mvvm/ViewModel/notification_viewmodel.dart';
+import 'package:mvvm/locator.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({Key key}) : super(key: key);
@@ -18,8 +22,18 @@ class _NotificationPageState extends State<NotificationPage> {
 
   @override
   void initState() {
+    verifyIsConnected();
     super.initState();
-    getNotifications();
+  }
+
+  verifyIsConnected() async {
+    var isAuth = await locator<Auth>().isAuthenticate();
+    if (!isAuth) {
+      dispose();
+      locator<NavigationService>().navigateTo(HomeRoute);
+    } else {
+      getNotifications();
+    }
   }
 
   getNotifications() async {

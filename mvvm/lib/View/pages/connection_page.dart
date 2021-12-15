@@ -5,6 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mvvm/Routing/route_names.dart';
 import 'package:mvvm/Services/api_service.dart';
 import 'package:mvvm/Services/navigation_service.dart';
+import 'package:mvvm/Services/userinfo_service.dart';
 import 'package:mvvm/View/pages/register_page.dart';
 import 'package:mvvm/locator.dart';
 
@@ -16,6 +17,20 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  @override
+  void initState() {
+    verifyIsConnected();
+    super.initState();
+  }
+
+  verifyIsConnected() async {
+    var isAuth = await locator<Auth>().isAuthenticate();
+    if (isAuth) {
+      dispose();
+      locator<NavigationService>().navigateTo(HomeRoute);
+    }
+  }
+
   bool _obscure = true;
   final pseudoController = TextEditingController();
   final passwordController = TextEditingController();
@@ -164,6 +179,7 @@ class _LoginPageState extends State<LoginPage> {
                               pseudoController.text, passwordController.text);
                           print(resp.code);
                           if (resp.code == 200) {
+                            dispose();
                             locator<NavigationService>().navigateTo(HomeRoute);
                           } else {
                             print(resp.value);
@@ -222,10 +238,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 MaterialButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => RegisterPage()),
-                    );
+                    locator<NavigationService>().navigateTo(RegisterRoute);
                   },
                   height: 45,
                   color: Colors.black,

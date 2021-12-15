@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:mvvm/Routing/route_names.dart';
 import 'package:mvvm/Services/api_service.dart';
+import 'package:mvvm/Services/navigation_service.dart';
+import 'package:mvvm/Services/userinfo_service.dart';
+import 'package:mvvm/locator.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key key}) : super(key: key);
@@ -17,11 +21,30 @@ class _RegisterPageState extends State<RegisterPage> {
   final _pseudoController = TextEditingController();
   final _passwordController = TextEditingController();
   final _mailController = TextEditingController();
+  final _firstanemContro = TextEditingController();
+  final _surnameContro = TextEditingController();
+
+  @override
+  void initState() {
+    verifyIsConnected();
+    super.initState();
+  }
+
+  verifyIsConnected() async {
+    var isAuth = await locator<Auth>().isAuthenticate();
+    if (isAuth) {
+      dispose();
+      locator<NavigationService>().navigateTo(HomeRoute);
+    }
+  }
+
   @override
   void dispose() {
     _pseudoController.dispose();
     _passwordController.dispose();
     _mailController.dispose();
+    _firstanemContro.dispose();
+    _surnameContro.dispose();
     super.dispose();
   }
 
@@ -87,6 +110,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       height: 20,
                     ),
                     TextField(
+                      controller: _firstanemContro,
                       cursorColor: Colors.black,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.all(0.0),
@@ -126,6 +150,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       height: 20,
                     ),
                     TextField(
+                      controller: _surnameContro,
                       cursorColor: Colors.black,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.all(0.0),
@@ -343,8 +368,12 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        ApiService().register(_pseudoController.text,
-                            _passwordController.text, _mailController.text);
+                        ApiService().register(
+                            _pseudoController.text,
+                            _passwordController.text,
+                            _mailController.text,
+                            _firstanemContro.text,
+                            _surnameContro.text);
                       },
                       child: Text(
                         'Inscription',

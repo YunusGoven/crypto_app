@@ -28,9 +28,14 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    done();
     getWallets();
-    Timer.periodic(Duration(seconds: 10), (timer) {
-      done();
+    Timer.periodic(Duration(seconds: 25), (timer) {
+      if (!_cryptoStreamController.isClosed) {
+        done();
+      } else {
+        timer.cancel();
+      }
     });
   }
 
@@ -53,10 +58,16 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
-    print("DISPOSSEEEE");
+    super.dispose();
     _cryptoStreamController.close();
     _walletStreamController.close();
-    super.dispose();
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    _cryptoStreamController.close();
+    _walletStreamController.close();
   }
 
   @override

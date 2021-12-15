@@ -16,7 +16,7 @@ class NavigationService {
     if (queryParams != null) {
       routeName = Uri(path: routeName, queryParameters: queryParams).toString();
     }
-    return navigatorKey.currentState.pushNamed(routeName);
+    return navigatorKey.currentState.popAndPushNamed(routeName);
   }
 
   void goBack() {
