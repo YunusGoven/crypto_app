@@ -1,12 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mvvm/View/pages/connection_page.dart';
+import 'package:mvvm/View/pages/register_page.dart';
 import 'package:mvvm/View/widgets/navigation_bar/navigation_bar.dart';
 import 'package:mvvm/View/widgets/navigation_bar/navigation_bar_desktop.dart';
 import 'package:mvvm/View/widgets/navigation_bar/navigation_bar_mobile.dart';
 
 class ScreenTemplate extends StatefulWidget {
+  final BuildContext ctx;
   final Widget child;
-  const ScreenTemplate({Key key, this.child}) : super(key: key);
+  const ScreenTemplate({Key key, this.child, this.ctx}) : super(key: key);
 
   @override
   _ScreenTemplateState createState() => _ScreenTemplateState();
@@ -17,6 +20,7 @@ class _ScreenTemplateState extends State<ScreenTemplate> {
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
     var screenwidht = screenSize.width;
+
     return Scaffold(
         appBar: screenwidht >= 830
             ? null

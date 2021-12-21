@@ -189,37 +189,37 @@ class _RegisterPageState extends State<RegisterPage> {
                     SizedBox(
                       height: 20,
                     ),
-                    Column(
-                      children: [
-                        Text("Date de naissance"),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(_dateTime == null
-                                ? 'dd-mm-yyyy'
-                                : DateFormat('dd-MM-yyyy').format(_dateTime)),
-                            IconButton(
-                              icon: const Icon(
-                                Icons.date_range,
-                                size: 30,
-                              ),
-                              onPressed: () {
-                                showDatePicker(
-                                        context: context,
-                                        initialDate: DateTime(2000),
-                                        firstDate: DateTime(1935),
-                                        lastDate: DateTime(2003))
-                                    .then((date) {
-                                  setState(() {
-                                    _dateTime = date;
-                                  });
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                    // Column(
+                    //   children: [
+                    //     Text("Date de naissance"),
+                    //     Row(
+                    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //       children: [
+                    //         Text(_dateTime == null
+                    //             ? 'dd-mm-yyyy'
+                    //             : DateFormat('dd-MM-yyyy').format(_dateTime)),
+                    //         IconButton(
+                    //           icon: const Icon(
+                    //             Icons.date_range,
+                    //             size: 30,
+                    //           ),
+                    //           onPressed: () {
+                    //             showDatePicker(
+                    //                     context: context,
+                    //                     initialDate: DateTime(2000),
+                    //                     firstDate: DateTime(1935),
+                    //                     lastDate: DateTime(2003))
+                    //                 .then((date) {
+                    //               setState(() {
+                    //                 _dateTime = date;
+                    //               });
+                    //             });
+                    //           },
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ],
+                    // ),
                     SizedBox(
                       height: 20,
                     ),

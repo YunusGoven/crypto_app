@@ -16,6 +16,7 @@ class CryptoWidget extends StatefulWidget {
 class _CryptoWidgetState extends State<CryptoWidget> {
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size.width;
     CryptoViewModel cryptoModel = widget.crypto;
     return InkWell(
       onTap: () {
@@ -30,11 +31,24 @@ class _CryptoWidgetState extends State<CryptoWidget> {
             children: [
               Column(
                 children: [
-                  Text(cryptoModel.Name),
-                  SizedBox(
-                    height: 10,
-                  ),
                   LogoImage(image: cryptoModel.LogoUrl),
+                  SizedBox(
+                    width: 60,
+                  ),
+                  if (size < 380) Text(cryptoModel.Name),
+                ],
+              ),
+              if (size >= 380) Text(cryptoModel.Name),
+              Row(
+                children: [
+                  if (size >= 800)
+                    showHistory("30 Jours", cryptoModel.D30Price, cryptoModel),
+                  if (size >= 750)
+                    showHistory("7 Jours", cryptoModel.D7Price, cryptoModel),
+                  if (size >= 700)
+                    showHistory("1 Jours", cryptoModel.D1Price, cryptoModel),
+                  if (size >= 650)
+                    showHistory("1 Heure", cryptoModel.H1Price, cryptoModel),
                 ],
               ),
               Column(
@@ -75,6 +89,34 @@ class _CryptoWidgetState extends State<CryptoWidget> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget showHistory(String time, num value, CryptoViewModel cryptoModel) {
+    value = cryptoModel.Price + value;
+    return Row(
+      children: [
+        SizedBox(
+          width: 40,
+        ),
+        Column(
+          children: [
+            Text(
+              time,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              "${value.toStringAsFixed(4)} \$",
+              style: TextStyle(
+                color: cryptoModel.Price > value ? Colors.red : Colors.green,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

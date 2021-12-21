@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mvvm/Routing/route_names.dart';
 import 'package:mvvm/Services/userinfo_service.dart';
@@ -11,12 +12,13 @@ class NavigationService {
       {Map<String, String> queryParams}) {
     if (routeName.isEmpty) {
       locator<Auth>().disconnect();
-      routeName = HomeRoute;
+      routeName = kIsWeb ? HomeRoute : LoginRoute;
     }
     if (queryParams != null) {
       routeName = Uri(path: routeName, queryParameters: queryParams).toString();
     }
-    return navigatorKey.currentState.popAndPushNamed(routeName);
+
+    return navigatorKey.currentState.pushReplacementNamed(routeName);
   }
 
   void goBack() {

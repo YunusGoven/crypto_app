@@ -16,6 +16,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
   setupLocator();
   final db = Localstore.instance;
+
   runApp(const MyApp());
 }
 

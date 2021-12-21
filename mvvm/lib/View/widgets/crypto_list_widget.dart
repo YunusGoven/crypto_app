@@ -11,36 +11,39 @@ class CryptoListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: cryptoController.stream,
-      builder: (context, snapdata) {
-        switch (snapdata.connectionState) {
-          case ConnectionState.waiting:
-          case ConnectionState.none:
-            print("waiting");
-            return Center(
-              child: LinearProgressIndicator(),
-            );
-          default:
-            if (snapdata.hasError) {
-              print("erreur");
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: StreamBuilder(
+        stream: cryptoController.stream,
+        builder: (context, snapdata) {
+          switch (snapdata.connectionState) {
+            case ConnectionState.waiting:
+            case ConnectionState.none:
+              print("waiting");
               return Center(
-                child: Text(snapdata.error),
+                child: LinearProgressIndicator(),
               );
-            } else {
-              if (!snapdata.hasData) {
-                print("pas de donnée");
+            default:
+              if (snapdata.hasError) {
+                print("erreur");
                 return Center(
-                  child: Text("Aucune donnée n'a été trouvé"),
+                  child: Text(snapdata.error),
                 );
               } else {
-                return Column(
-                  children: createCryptoListWidget(snapdata.data),
-                );
+                if (!snapdata.hasData) {
+                  print("pas de donnée");
+                  return Center(
+                    child: Text("Aucune donnée n'a été trouvé"),
+                  );
+                } else {
+                  return Column(
+                    children: createCryptoListWidget(snapdata.data),
+                  );
+                }
               }
-            }
-        }
-      },
+          }
+        },
+      ),
     );
   }
 

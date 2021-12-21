@@ -63,8 +63,9 @@ class ApiService {
       if (response.statusCode == 200) {
         var crypto = (json.decode(response.body) as List);
         cryptos = crypto.map((apod) => Crypto.fromJson(apod)).toList();
-        var iterablecryptos = cryptos.take(number);
-        return iterablecryptos.toList();
+        // var iterablecryptos =
+        //     number == -1 ? crypto.iterator : cryptos.take(number);
+        return number == -1 ? cryptos : cryptos.take(number).toList();
       } else {
         return List.empty();
       }
@@ -93,12 +94,18 @@ class ApiService {
   }
 
   Future<ApiResponse> connectiongoogle(String a) async {
-    var identifier = await FirebaseMessaging.instance.getToken();
     var c_url = url + '/Users/SignIn';
+
+    var identifier = FirebaseMessaging.instance;
+    var body = '{"googleToken": "${a}"}';
+    if ((await identifier.getNotificationSettings()).authorizationStatus ==
+        AuthorizationStatus.authorized) {
+      var token = await identifier.getToken();
+      var body = '{"deviceId": "${identifier}", "googleToken" :"${a}" }';
+    }
+
     var uri = Uri.parse(c_url);
-    var response = await http.post(uri,
-        headers: headers,
-        body: '{"deviceId": "${identifier}", "googleToken" :"${a}" }');
+    var response = await http.post(uri, headers: headers, body: body);
     if (response.statusCode == 200) {
       ConnectedUser user = ConnectedUser.fromJson(jsonDecode(response.body));
       _auth.addToLocal(jsonDecode(response.body));

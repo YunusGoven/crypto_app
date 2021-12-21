@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:mvvm/Model/models/user.dart';
 import 'package:mvvm/Routing/route_names.dart';
 import 'package:mvvm/Services/navigation_service.dart';
@@ -30,6 +31,7 @@ class _DetailPageState extends State<DetailPage> {
   void initState() {
     super.initState();
 
+    done();
     Timer.periodic(Duration(seconds: 25), (timer) {
       if (!_streamController.isClosed) {
         print("open");
@@ -89,7 +91,22 @@ class _DetailPageState extends State<DetailPage> {
                         ),
                         DetailMiddle(crypto: snapdata.data),
                         SizedBox(
-                          height: 50,
+                          height: 20,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Converter",
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            CalculatorWidget(cryptoValue: snapdata.data),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
                         ),
                         Graph(crypto: snapdata.data),
                         SizedBox(
@@ -116,18 +133,19 @@ class _DetailPageState extends State<DetailPage> {
                                           label: Text("Vendre"),
                                           icon: Icon(Icons.sell),
                                         ),
+                                        FloatingActionButton.extended(
+                                          onPressed: () {
+                                            locator<NavigationService>()
+                                                .navigateTo(
+                                                    MessagingRoute,
+                                                    queryParams: {
+                                                  'cryptoId': widget.cryptoId
+                                                });
+                                          },
+                                          label: Text(""),
+                                          icon: Icon(Icons.message),
+                                        ),
                                       ],
-                                    ),
-                                    FloatingActionButton.extended(
-                                      onPressed: () {
-                                        locator<NavigationService>().navigateTo(
-                                            MessagingRoute,
-                                            queryParams: {
-                                              'cryptoId': widget.cryptoId
-                                            });
-                                      },
-                                      label: Text("Discussion"),
-                                      icon: Icon(Icons.message),
                                     ),
                                   ],
                                 );
@@ -144,6 +162,78 @@ class _DetailPageState extends State<DetailPage> {
           },
         ),
       ),
+    );
+  }
+}
+
+class CalculatorWidget extends StatefulWidget {
+  final CryptoViewModel cryptoValue;
+  CalculatorWidget({Key key, this.cryptoValue}) : super(key: key);
+
+  @override
+  _CalculatorWidgetState createState() => _CalculatorWidgetState();
+}
+
+class _CalculatorWidgetState extends State<CalculatorWidget> {
+  final _controllerMonet = TextEditingController();
+  final _controllerCrypto = TextEditingController();
+  static const _locale = 'en';
+  String _formatNumber(String s) =>
+      NumberFormat.decimalPattern(_locale).format(int.parse(s));
+  String get _currency =>
+      NumberFormat.compactSimpleCurrency(locale: _locale).currencySymbol;
+
+  @override
+  Widget build(BuildContext context) {
+    var value = widget.cryptoValue.Price;
+    return Row(
+      children: [
+        Text("Money"),
+        Expanded(
+          child: TextField(
+            controller: _controllerMonet,
+            decoration: InputDecoration(prefixText: _currency),
+            keyboardType: TextInputType.number,
+            onChanged: (string) {
+              print(string);
+              if (string.isEmpty) {
+                _controllerCrypto.text = '';
+                _controllerCrypto.clear();
+              } else {
+                var val = (double.tryParse(
+                          string,
+                        ) /
+                        value)
+                    .toStringAsFixed(8);
+
+                _controllerCrypto.value = TextEditingValue(
+                  text: val,
+                );
+              }
+            },
+          ),
+        ),
+        Icon(Icons.swap_horiz),
+        Text("Crypto"),
+        Expanded(
+          child: TextField(
+            controller: _controllerCrypto,
+            decoration: InputDecoration(prefixText: widget.cryptoValue.Id),
+            keyboardType: TextInputType.number,
+            onChanged: (string) {
+              if (string.isEmpty) {
+                _controllerMonet.text = '';
+                _controllerMonet.clear();
+              } else {
+                var val = (double.tryParse(string) * value).toStringAsFixed(4);
+                _controllerMonet.value = TextEditingValue(
+                  text: val,
+                );
+              }
+            },
+          ),
+        ),
+      ],
     );
   }
 }

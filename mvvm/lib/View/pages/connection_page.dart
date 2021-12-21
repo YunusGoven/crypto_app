@@ -10,7 +10,7 @@ import 'package:mvvm/View/pages/register_page.dart';
 import 'package:mvvm/locator.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key key}) : super(key: key);
+  LoginPage({Key key}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -36,9 +36,9 @@ class _LoginPageState extends State<LoginPage> {
   final passwordController = TextEditingController();
   @override
   void dispose() {
+    super.dispose();
     pseudoController.dispose();
     passwordController.dispose();
-    super.dispose();
   }
 
   @override
@@ -214,6 +214,7 @@ class _LoginPageState extends State<LoginPage> {
                             print(a.toString());
                             var resp = await ApiService().connectiongoogle(a);
                             if (resp.code == 200) {
+                              dispose();
                               locator<NavigationService>()
                                   .navigateTo(HomeRoute);
                             } else {

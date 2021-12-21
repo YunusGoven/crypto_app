@@ -19,18 +19,22 @@ class _DetailMiddleState extends State<DetailMiddle> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           DetailPerDay(
+            currentPirce: widget.crypto.Price,
             day: "30d",
             price: widget.crypto.D30Price,
           ),
           DetailPerDay(
+            currentPirce: widget.crypto.Price,
             day: "7d",
             price: widget.crypto.D7Price,
           ),
           DetailPerDay(
+            currentPirce: widget.crypto.Price,
             day: "1d",
             price: widget.crypto.D1Price,
           ),
           DetailPerDay(
+            currentPirce: widget.crypto.Price,
             day: "1h",
             price: widget.crypto.H1Price,
           ),

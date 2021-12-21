@@ -1,8 +1,12 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:mvvm/Routing/route_names.dart';
+import 'package:mvvm/Services/navigation_service.dart';
 import 'package:mvvm/Services/userinfo_service.dart';
+import 'package:mvvm/View/components/welcome_message_widget.dart';
 import 'package:mvvm/View/widgets/crypto_list_widget.dart';
 import 'package:mvvm/View/widgets/home_wallet_widget.dart';
 import 'package:mvvm/ViewModel/crypto_viewmodel.dart';
@@ -50,7 +54,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   done() async {
-    List<CryptoViewModel> cr = await _cvm.getAllCryptos(6);
+    List<CryptoViewModel> cr = await _cvm.getAllCryptos(4);
     if (!_cryptoStreamController.isClosed) {
       _cryptoStreamController.sink.add(cr);
     }
@@ -79,13 +83,36 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(
-                height: 10,
+              FutureBuilder<bool>(
+                future: auth.isAuthenticate(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data) {
+                      return showOwnedCrypto();
+                    } else if (!snapshot.data && kIsWeb) {
+                      return WelcomeMessage();
+                    } else {
+                      return LinearProgressIndicator();
+                    }
+                  } else {
+                    return CircularProgressIndicator();
+                  }
+                },
               ),
-              if (isAuth) showOwnedCrypto(),
-              Text(
-                "Cryptomonnaie",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Top Cryptomonnaie",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                  ),
+                  TextButton.icon(
+                      onPressed: () {
+                        locator<NavigationService>().navigateTo(CryptosRoute);
+                      },
+                      label: Text("Plus"),
+                      icon: Icon(Icons.add_circle_rounded))
+                ],
               ),
               SizedBox(
                 height: 20,

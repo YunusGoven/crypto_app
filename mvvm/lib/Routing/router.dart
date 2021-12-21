@@ -18,7 +18,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
   var routingData = settings.name.getRoutingData;
   switch (routingData.route) {
     case LoginRoute:
-      return _getPageRoute(const LoginPage(), settings);
+      return _getPageRoute(
+          LoginPage(
+            key: Key("Login"),
+          ),
+          settings);
     case HomeRoute:
       return _getPageRoute(const HomePage(), settings);
     case RegisterRoute:

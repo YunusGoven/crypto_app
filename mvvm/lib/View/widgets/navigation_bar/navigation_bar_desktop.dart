@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mvvm/Routing/route_names.dart';
+import 'package:mvvm/Services/navigation_service.dart';
 import 'package:mvvm/Services/userinfo_service.dart';
 import 'package:mvvm/locator.dart';
 
@@ -15,6 +18,24 @@ class NavigationBarTabletDesktop extends StatefulWidget {
 
 class _NavigationBarTabletDesktopState
     extends State<NavigationBarTabletDesktop> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    int i = 0;
+
+    Timer.periodic(Duration(seconds: 1), (timer) async {
+      var isAut = await locator<Auth>().isAuthenticate();
+      if (isAut && i == 0) {
+        setState(() {});
+        i = 1;
+      }
+      if (!isAut) {
+        i = 0;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -67,7 +88,18 @@ class _NavigationBarTabletDesktopState
                             SizedBox(
                               width: 20,
                             ),
-                            NavBarItem('Deconnexion', ""),
+                            //NavBarItem('Deconnexion', ""),
+                            GestureDetector(
+                              onTap: () {
+                                locator<NavigationService>().navigateTo("");
+                                setState(() {});
+                              },
+                              child: Text(
+                                "Deconnexion",
+                                style: TextStyle(
+                                    fontSize: 18, color: Colors.white),
+                              ),
+                            ),
                             SizedBox(
                               width: 20,
                             ),

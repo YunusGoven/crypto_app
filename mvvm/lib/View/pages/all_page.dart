@@ -29,7 +29,7 @@ class _AllCryptoPageState extends State<AllCryptoPage> {
   }
 
   done() async {
-    List<CryptoViewModel> cr = await _cvm.getAllCryptos(15);
+    List<CryptoViewModel> cr = await _cvm.getAllCryptos(-1);
     if (!_cryptoStreamController.isClosed) {
       _cryptoStreamController.sink.add(cr);
     }

@@ -1,5 +1,5 @@
 const String LoginRoute = '/connexion';
-const String HomeRoute = '/home';
+const String HomeRoute = '/';
 const String CryptosRoute = '/cryptos';
 const String HistoryRoute = '/history';
 const String RankingRoute = '/ranking';
