@@ -14,10 +14,7 @@ class HomeWalletWidget extends StatelessWidget {
     return ViewModelBuilder<WalletViewModel>.reactive(
       viewModelBuilder: () => WalletViewModel(),
       onModelReady: (model) => model.getWallets(),
-      builder: (context, model, child) => SingleChildScrollView(
-          child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
+      builder: (context, model, child) => Column(
         children: <Widget>[
           Text(
             "Vos cryptos",
@@ -30,7 +27,7 @@ class HomeWalletWidget extends StatelessWidget {
               ? const CircularProgressIndicator()
               : WalletWidgetHome(wallets: model.wallets),
         ],
-      )),
+      ),
     );
   }
 }

@@ -7,9 +7,18 @@ class History {
   String _imageUrl;
   String _cryptoId;
   String _cryptoName;
+  num _onTransactionValue;
 
-  History(this._transactionId, this._type, this._dateTransaction, this._number,
-      this._value, this._imageUrl, this._cryptoId, this._cryptoName);
+  History(
+      this._transactionId,
+      this._type,
+      this._dateTransaction,
+      this._number,
+      this._value,
+      this._imageUrl,
+      this._cryptoId,
+      this._cryptoName,
+      this._onTransactionValue);
 
   String get transactionId => _transactionId;
   String get type => _type;
@@ -19,6 +28,7 @@ class History {
   String get imageUrl => _imageUrl;
   String get cryptoId => _cryptoId;
   String get cryptoName => _cryptoName;
+  num get onTransactionValue => _onTransactionValue;
 
   History.fromJson(Map<String, dynamic> json) {
     _transactionId = json['transactionId'];
@@ -29,6 +39,7 @@ class History {
     _imageUrl = json['imageUrl'];
     _cryptoId = json['cryptoId'];
     _cryptoName = json['cryptoName'];
+    _onTransactionValue = json['onTransactionValue'];
   }
 
   Map<String, dynamic> toJson() {
@@ -41,6 +52,7 @@ class History {
     data['imageUrl'] = _imageUrl;
     data['cryptoId'] = _cryptoId;
     data['cryptoName'] = _cryptoName;
+    data['onTransactionValue'] = _onTransactionValue;
     return data;
   }
 }

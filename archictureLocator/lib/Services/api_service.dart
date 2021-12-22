@@ -63,8 +63,7 @@ class ApiService {
       if (response.statusCode == 200) {
         var crypto = (json.decode(response.body) as List);
         cryptos = crypto.map((apod) => Crypto.fromJson(apod)).toList();
-        var iterablecryptos = cryptos.take(number);
-        return iterablecryptos.toList();
+        return number == -1 ? cryptos : cryptos.take(number).toList();
       } else {
         return List.empty();
       }
@@ -175,7 +174,7 @@ class ApiService {
 
   //History
   Future<List<History>> getHistory() async {
-    var c_url = url + '/Transaction/Historique';
+    var c_url = url + '/Transaction';
     var uri = Uri.parse(c_url);
     connectedHeaders = {
       'Content-type': 'application/json',

@@ -14,55 +14,30 @@ class RankingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<ClassementViewModel>.reactive(
-      viewModelBuilder: () => ClassementViewModel(),
-      onModelReady: (model) => model.getClassement(),
-      builder: (context, model, child) => SingleChildScrollView(
-        child: Wrap(
-          spacing: 30,
-          runSpacing: 30,
-          children: <Widget>[
-            ...model.users
-                .asMap()
-                .map((index, user) => MapEntry(
-                      index,
-                      UserClassementWidget(
-                        model: user,
-                        pos: index,
-                      ),
-                    ))
-                .values
-                .toList()
-                .reversed
-          ],
+    return Scaffold(
+      body: ViewModelBuilder<ClassementViewModel>.reactive(
+        viewModelBuilder: () => ClassementViewModel(),
+        onModelReady: (model) => model.getClassement(),
+        builder: (context, model, child) => SingleChildScrollView(
+          child: Wrap(
+            spacing: 30,
+            runSpacing: 30,
+            children: <Widget>[
+              ...model.users
+                  .asMap()
+                  .map((index, user) => MapEntry(
+                        index,
+                        UserClassementWidget(
+                          model: user,
+                          pos: index + 1,
+                        ),
+                      ))
+                  .values
+                  .toList()
+            ],
+          ),
         ),
       ),
     );
-    //   return Scaffold(
-    //     body: SingleChildScrollView(
-    //       child: Padding(
-    //           padding: EdgeInsets.only(top: 25, left: 20, right: 20, bottom: 25),
-    //           child: StreamBuilder(
-    //             stream: _rankingStreamController.stream,
-    //             builder: (context, snapdata) {
-    //               switch (snapdata.connectionState) {
-    //                 case ConnectionState.waiting:
-    //                   return Center(
-    //                     child: CircularProgressIndicator(),
-    //                   );
-    //                 default:
-    //                   if (snapdata.hasError) {
-    //                     return Text("Attend frere");
-    //                   } else {
-    //                     return Column(
-    //                       children: createWidget(snapdata.data),
-    //                     );
-    //                   }
-    //               }
-    //             },
-    //           )),
-    //     ),
-    //   );
-    // }
   }
 }

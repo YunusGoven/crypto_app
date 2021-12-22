@@ -30,15 +30,20 @@ class _HomePageState extends State<HomePage> {
     getAuth();
   }
 
-  getAuth() async {
-    isAuth = await auth.isAuthenticate();
+  getAuth() {
+    auth.isAuthenticate().then((value) {
+      if (value) {
+        isAuth = value;
+        setState(() {});
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<CryptoViewModel>.reactive(
       viewModelBuilder: () => CryptoViewModel(),
-      onModelReady: (model) => model.getAllCryptos(15),
+      onModelReady: (model) => model.getAllCryptos(4),
       builder: (context, model, child) => SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -46,7 +51,7 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (isAuth) HomeWalletWidget(),
-              if (kIsWeb) WelcomeMessage(),
+              if (kIsWeb && !isAuth) WelcomeMessage(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

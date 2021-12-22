@@ -10,7 +10,7 @@ class AllCryptoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<CryptoViewModel>.reactive(
       viewModelBuilder: () => CryptoViewModel(),
-      onModelReady: (model) => model.getAllCryptos(15),
+      onModelReady: (model) => model.getAllCryptos(-1),
       builder: (context, model, child) => SingleChildScrollView(
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

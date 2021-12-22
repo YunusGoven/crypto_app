@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mvvm/Routing/route_names.dart';
 import 'package:mvvm/Services/userinfo_service.dart';
@@ -15,10 +17,29 @@ class NavigationBarTabletDesktop extends StatefulWidget {
 
 class _NavigationBarTabletDesktopState
     extends State<NavigationBarTabletDesktop> {
+  final auth = locator<Auth>();
+  bool isAuth = false;
+  @override
+  void initState() {
+    super.initState();
+    getAuth();
+  }
+
+  getAuth() {
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      auth.isAuthenticate().then((value) {
+        if (isAuth != value) {
+          isAuth = value;
+          setState(() {});
+        }
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.black26,
+      color: Colors.grey,
       height: 50,
       child: Row(
         children: <Widget>[
@@ -40,57 +61,44 @@ class _NavigationBarTabletDesktopState
               SizedBox(
                 width: 20,
               ),
-              FutureBuilder<bool>(
-                future: locator<Auth>().isAuthenticate(),
-                builder: (context, snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.waiting:
-                      return Text('Loading....');
-                    default:
-                      if (snapshot.hasError)
-                        return Text('Error: ${snapshot.error}');
-                      else if (snapshot.data) {
-                        return Row(
-                          children: [
-                            NavBarItem('Historique', HistoryRoute),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            NavBarItem('Classement', RankingRoute),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            NavBarItem('Notification', NotificationRoute),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            NavBarItem('Portfeuille', WalletRoute),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            NavBarItem('Deconnexion', ""),
-                            SizedBox(
-                              width: 20,
-                            ),
-                          ],
-                        );
-                      } else {
-                        return Row(
-                          children: [
-                            NavBarItem('Connexion', LoginRoute),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            NavBarItem('Register', RegisterRoute),
-                            SizedBox(
-                              width: 20,
-                            ),
-                          ],
-                        );
-                      }
-                  }
-                },
-              ),
+              if (isAuth)
+                Row(
+                  children: [
+                    NavBarItem('Historique', HistoryRoute),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    NavBarItem('Classement', RankingRoute),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    NavBarItem('Notification', NotificationRoute),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    NavBarItem('Portfeuille', WalletRoute),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    NavBarItem('Deconnexion', ""),
+                    SizedBox(
+                      width: 20,
+                    ),
+                  ],
+                ),
+              if (!isAuth)
+                Row(
+                  children: [
+                    NavBarItem('Connexion', LoginRoute),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    NavBarItem('Register', RegisterRoute),
+                    SizedBox(
+                      width: 20,
+                    ),
+                  ],
+                )
             ],
           )
         ],
