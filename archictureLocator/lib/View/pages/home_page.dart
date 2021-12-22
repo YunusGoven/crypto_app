@@ -1,10 +1,14 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:mvvm/Routing/route_names.dart';
+import 'package:mvvm/Services/navigation_service.dart';
 import 'package:mvvm/Services/userinfo_service.dart';
 import 'package:mvvm/View/widgets/crypto_list_widget.dart';
 import 'package:mvvm/View/widgets/home_wallet_widget.dart';
+import 'package:mvvm/View/widgets/welcome_message_widget.dart';
 import 'package:mvvm/ViewModel/crypto_viewmodel.dart';
 import 'package:mvvm/ViewModel/wallet_viewmodel.dart';
 import 'package:mvvm/locator.dart';
@@ -41,13 +45,22 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(
-                height: 10,
-              ),
               if (isAuth) HomeWalletWidget(),
-              Text(
-                "Cryptomonnaie",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+              if (kIsWeb) WelcomeMessage(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Top Cryptomonnaie",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                  ),
+                  TextButton.icon(
+                      onPressed: () {
+                        locator<NavigationService>().navigateTo(CryptosRoute);
+                      },
+                      label: Text("Plus"),
+                      icon: Icon(Icons.add_circle_rounded))
+                ],
               ),
               SizedBox(
                 height: 20,

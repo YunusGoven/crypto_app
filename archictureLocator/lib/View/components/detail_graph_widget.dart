@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mvvm/Model/models/crypto.dart';
 import 'package:mvvm/ViewModel/crypto_viewmodel.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class Graph extends StatelessWidget {
-  final CryptoViewModel crypto;
+  final Crypto crypto;
   const Graph({Key key, @required this.crypto}) : super(key: key);
 
   @override
@@ -25,7 +26,7 @@ class Graph extends StatelessWidget {
 
   List<HistoryData> getChartData() {
     List<HistoryData> data = [];
-    crypto.crypto.HistoryValue.forEach((key, value) {
+    crypto.HistoryValue.forEach((key, value) {
       var h = new HistoryData(key, value);
       data.add(h);
     });

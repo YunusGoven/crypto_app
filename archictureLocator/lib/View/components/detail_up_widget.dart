@@ -5,7 +5,7 @@ import 'package:mvvm/View/components/image_widget.dart';
 import 'package:mvvm/ViewModel/crypto_viewmodel.dart';
 
 class DetailUp extends StatefulWidget {
-  final CryptoViewModel crypto;
+  final Crypto crypto;
   const DetailUp({Key key, this.crypto}) : super(key: key);
 
   @override
@@ -23,16 +23,16 @@ class _DetailUpState extends State<DetailUp> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              LogoImage(image: widget.crypto.crypto.LogoUrl),
+              LogoImage(image: widget.crypto.LogoUrl),
               Text(
-                widget.crypto.crypto.Name,
+                widget.crypto.Name,
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "${widget.crypto.crypto.Price.toStringAsFixed(3)} \$",
+                    "${widget.crypto.Price.toStringAsFixed(3)} \$",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
@@ -41,9 +41,9 @@ class _DetailUpState extends State<DetailUp> {
                   Row(
                     children: [
                       Text(
-                        "${widget.crypto.crypto.Percent} %",
+                        "${widget.crypto.Percent} %",
                         style: TextStyle(
-                          color: widget.crypto.crypto.Percent < 0
+                          color: widget.crypto.Percent < 0
                               ? Colors.red
                               : Colors.green,
                         ),
@@ -52,10 +52,10 @@ class _DetailUpState extends State<DetailUp> {
                         width: 10,
                       ),
                       Icon(
-                        widget.crypto.crypto.Percent < 0
+                        widget.crypto.Percent < 0
                             ? Icons.arrow_downward_outlined
                             : Icons.arrow_upward_outlined,
-                        color: widget.crypto.crypto.Percent < 0
+                        color: widget.crypto.Percent < 0
                             ? Colors.red
                             : Colors.green,
                       )

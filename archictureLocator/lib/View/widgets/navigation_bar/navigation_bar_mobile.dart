@@ -16,6 +16,7 @@ class _NavigationBarMobileState extends State<NavigationBarMobile> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.black26,
       padding: EdgeInsets.only(
         top: 15,
       ),

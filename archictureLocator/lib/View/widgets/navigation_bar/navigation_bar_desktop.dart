@@ -18,6 +18,7 @@ class _NavigationBarTabletDesktopState
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.black26,
       height: 50,
       child: Row(
         children: <Widget>[

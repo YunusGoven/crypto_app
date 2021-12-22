@@ -15,45 +15,47 @@ class WalletWidgetHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<WalletViewModel>.reactive(
-      viewModelBuilder: () => WalletViewModel(),
-      builder: (context, model, child) => Wrap(
-        spacing: 30,
-        runSpacing: 30,
-        children: <Widget>[
-          ...wallets
-              .asMap()
-              .map((index, wallet) => MapEntry(
-                    index,
-                    GestureDetector(
-                        child: Container(
-                          child: Padding(
-                            padding: EdgeInsets.all(20),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      height: 10,
+        viewModelBuilder: () => WalletViewModel(),
+        builder: (context, model, child) => SingleChildScrollView(
+              child: Row(
+                children: <Widget>[
+                  ...wallets
+                      .asMap()
+                      .map((index, wallet) => MapEntry(
+                            index,
+                            GestureDetector(
+                                child: Container(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(20),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            LogoImage(image: wallet.imageUrl),
+                                            Text(wallet.name),
+                                          ],
+                                        ),
+                                        Text(
+                                            "${wallet.number} ${wallet.cryptoId}")
+                                      ],
                                     ),
-                                    LogoImage(image: wallet.imageUrl),
-                                    Text(wallet.name),
-                                  ],
+                                  ),
                                 ),
-                                Text("${wallet.number} ${wallet.cryptoId}")
-                              ],
-                            ),
-                          ),
-                        ),
-                        onTap: () {
-                          locator<NavigationService>().navigateTo(
-                              WalletDetailRoute,
-                              queryParams: {'cryptoId': wallet.cryptoId});
-                        }),
-                  ))
-              .values
-              .toList()
-        ],
-      ),
-    );
+                                onTap: () {
+                                  locator<NavigationService>().navigateTo(
+                                      CryptoDetailsRoute,
+                                      queryParams: {
+                                        'cryptoId': wallet.cryptoId
+                                      });
+                                }),
+                          ))
+                      .values
+                      .toList()
+                ],
+              ),
+            ));
   }
 }

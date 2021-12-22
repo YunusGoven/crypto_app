@@ -48,7 +48,7 @@ class _ScreenTemplateState extends State<ScreenTemplate> {
                   ],
                 ),
               ),
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
         body: kIsWeb
             ? Column(
                 children: <Widget>[
