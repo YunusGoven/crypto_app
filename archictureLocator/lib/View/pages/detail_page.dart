@@ -22,45 +22,9 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
-  final StreamController<CryptoViewModel> _streamController =
-      StreamController();
-  final CryptoViewModel _cvm = CryptoViewModel();
-  final _auth = locator<Auth>();
-
   @override
   void initState() {
     super.initState();
-
-    Timer.periodic(Duration(seconds: 25), (timer) {
-      if (!_streamController.isClosed) {
-        print("open");
-        done();
-      } else {
-        timer.cancel();
-      }
-    });
-  }
-
-  done() async {
-    CryptoViewModel cr = await _cvm.getCrypto(widget.cryptoId);
-    if (!_streamController.isClosed) {
-      _streamController.sink.add(cr);
-    }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _streamController.close();
-    print("Dispose");
-  }
-
-  @override
-  void deactivate() {
-    // TODO: implement deactivate
-    super.deactivate();
-    _streamController.close();
-    print("Deac");
   }
 
   @override

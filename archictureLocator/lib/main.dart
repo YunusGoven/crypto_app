@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:localstore/localstore.dart';
 import 'package:mvvm/Routing/route_names.dart';
 import 'package:mvvm/Routing/router.dart';
@@ -38,6 +38,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scrollBehavior: MyCustomScrollBehavior(),
       title: 'crypto app',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -59,4 +60,13 @@ class _MyAppState extends State<MyApp> {
       initialRoute: kIsWeb ? HomeRoute : LoginRoute,
     );
   }
+}
+
+class MyCustomScrollBehavior extends MaterialScrollBehavior {
+  // Override behavior methods and getters like dragDevices
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+      };
 }

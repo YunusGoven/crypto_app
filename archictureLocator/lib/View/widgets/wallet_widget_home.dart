@@ -17,7 +17,8 @@ class WalletWidgetHome extends StatelessWidget {
     return ViewModelBuilder<WalletViewModel>.reactive(
         viewModelBuilder: () => WalletViewModel(),
         builder: (context, model, child) => SingleChildScrollView(
-              child: Row(
+              scrollDirection: Axis.horizontal,
+              child: Wrap(
                 children: <Widget>[
                   ...wallets
                       .asMap()

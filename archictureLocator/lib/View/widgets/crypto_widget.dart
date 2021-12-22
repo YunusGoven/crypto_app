@@ -10,6 +10,12 @@ class CryptoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size.width;
     return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.black,
+          width: 5,
+        ),
+      ),
       child: Padding(
         padding: EdgeInsets.all(20),
         child: Row(
