@@ -67,7 +67,6 @@ class Rooter {
             settings);
       case MessagingRoute:
         if (user == null) return _getPageRoute(HomePage(), settings);
-        print(user.id);
         var id = (routingData['cryptoId']);
         return _getPageRoute(
             DiscussionPage(

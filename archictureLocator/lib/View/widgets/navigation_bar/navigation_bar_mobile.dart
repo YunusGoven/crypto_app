@@ -26,11 +26,16 @@ class _NavigationBarMobileState extends State<NavigationBarMobile> {
       ),
       child: Column(
         children: <Widget>[
-          NavBarMobile(1, 'Accueil', HomeRoute, Icons.home),
-          NavBarMobile(
-              2, 'Cryptos', CryptosRoute, Icons.shopping_cart_outlined),
-          NavBarMobile(
-              10, 'Contact', ContactRoute, Icons.contact_support_outlined),
+          if (kIsWeb || user != null)
+            Column(
+              children: [
+                NavBarMobile(1, 'Accueil', HomeRoute, Icons.home),
+                NavBarMobile(
+                    2, 'Cryptos', CryptosRoute, Icons.shopping_cart_outlined),
+                NavBarMobile(10, 'Contact', ContactRoute,
+                    Icons.contact_support_outlined),
+              ],
+            ),
           if (user != null)
             Column(
               children: [

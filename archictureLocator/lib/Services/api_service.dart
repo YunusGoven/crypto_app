@@ -19,9 +19,9 @@ class ApiService {
   final _auth = locator<Auth>();
   final FirebaseAuthentification _firebaseAuthentification =
       FirebaseAuthentification();
-  final url = "http://127.0.0.1:44336/api";
-  // final url = "http://10.0.2.2:44336/api";
-  // final url = "https://porthos-intra.cg.helmo.be/grGU/api";
+  //final url = "http://127.0.0.1:44336/api";
+  //final url = "http://10.0.2.2:44336/api";
+  final url = "https://porthos-intra.cg.helmo.be/grGU/api";
   final Map<String, String> headers = {
     'Content-type': 'application/json',
     'Accept': 'text/plain',
@@ -65,7 +65,9 @@ class ApiService {
       var response = await http.get(uri, headers: headers);
       if (response.statusCode == 200) {
         var crypto = (json.decode(response.body) as List);
-        cryptos = crypto.map((apod) => Crypto.fromJson(apod)).toList();
+        cryptos = crypto.map((apod) {
+          return Crypto.fromJson(apod);
+        }).toList();
         return number == -1 ? cryptos : cryptos.take(number).toList();
       } else {
         return List.empty();
@@ -148,12 +150,15 @@ class ApiService {
   Future<ApiResponse> connection(String username, String password) async {
     try {
       var identifier = FirebaseMessaging.instance;
-      var body = '{"pseudo" : "${username}", "password": "${password}" }';
-      if ((await identifier.getNotificationSettings()).authorizationStatus ==
-          AuthorizationStatus.authorized) {
+      var notsett = await identifier.getNotificationSettings();
+      var body;
+      if (notsett.authorizationStatus == AuthorizationStatus.authorized) {
         var token = await identifier.getToken();
-        var body =
-            '{"pseudo" : "${username}", "password": "${password}" ,"deviceId": "${token}" }';
+        print(token);
+        body =
+            '{"pseudo" : "${username}", "password": "${password}" ,"deviceId": "$token" }';
+      } else {
+        body = '{"pseudo" : "${username}", "password": "${password}" }';
       }
       var c_url = url + '/Users/SignIn';
       var uri = Uri.parse(c_url);

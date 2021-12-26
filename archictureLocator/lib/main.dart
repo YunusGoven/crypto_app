@@ -34,7 +34,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    if (kIsWeb) NotificationService().listen(_messangerKey);
+    /*if (kIsWeb) */ NotificationService().listen(_messangerKey);
   }
 
   @override
@@ -43,6 +43,8 @@ class _MyAppState extends State<MyApp> {
       value: _auth.userInfo,
       initialData: null,
       child: Builder(builder: (context1) {
+        final user = Provider.of<User>(context1, listen: false);
+        //print(user == null);
         return MaterialApp(
           scrollBehavior: MyCustomScrollBehavior(),
           title: 'crypto app',
@@ -63,7 +65,7 @@ class _MyAppState extends State<MyApp> {
           },
           navigatorKey: locator<NavigationService>().navigatorKey,
           onGenerateRoute: Rooter(context1).generateRoute,
-          initialRoute: kIsWeb ? HomeRoute : LoginRoute,
+          initialRoute: kIsWeb || user != null ? HomeRoute : LoginRoute,
         );
       }),
     );

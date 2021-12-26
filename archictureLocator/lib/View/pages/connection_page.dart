@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:mvvm/Model/models/user.dart';
 import 'package:mvvm/Routing/route_names.dart';
 import 'package:mvvm/Services/api_service.dart';
 import 'package:mvvm/Services/navigation_service.dart';
 import 'package:mvvm/locator.dart';
+
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);
@@ -17,18 +20,25 @@ class _LoginPageState extends State<LoginPage> {
   final navigationService = locator<NavigationService>();
   bool _obscure = true;
   final _formKey = GlobalKey<FormState>();
-  final pseudoController = TextEditingController();
-  final passwordController = TextEditingController();
+  TextEditingController pseudoController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   void dispose() {
     pseudoController.dispose();
-    passwordController.dispose();
     passwordController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    // final user = Provider.of<User>(context);
+    // if (user != null) {
+    //   //d0ispose();
+    //   navigationService.navigateTo(HomeRoute);
+    //   //return null;
+    // }
+
     return Container(
       child: SingleChildScrollView(
         child: Form(

@@ -26,11 +26,24 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   @override
+  void initState() {
+    super.initState();
+    asyncMethod();
+  }
+
+  void asyncMethod() async {
+    var isCo = await locator<Auth>().isAuthenticate();
+    if (!kIsWeb && !isCo) {
+      locator<NavigationService>().navigateTo(LoginRoute);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
     var isAuth = user != null;
 
-    print(isAuth);
+    // print(isAuth);
 
     return ViewModelBuilder<CryptoViewModel>.reactive(
       viewModelBuilder: () => CryptoViewModel(),

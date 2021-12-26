@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mvvm/Routing/route_names.dart';
 import 'package:mvvm/Services/firebase_authentification.dart';
@@ -15,7 +16,8 @@ class NavigationService {
     if (routeName.isEmpty) {
       locator<Auth>().disconnect();
       await _firebaseAuthentification.signOut();
-      routeName = HomeRoute;
+
+      routeName = kIsWeb ? HomeRoute : LoginRoute;
     }
     if (queryParams != null) {
       routeName = Uri(path: routeName, queryParameters: queryParams).toString();

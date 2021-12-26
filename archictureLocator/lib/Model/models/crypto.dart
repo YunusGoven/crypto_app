@@ -41,10 +41,18 @@ class Crypto {
         _price = json['price'],
         _priceDate = json['price_Date'],
         _history = json['history'],
-        _h1 = Day.fromJson(json['price_Change_Pct_1D']),
-        _d1 = Day.fromJson(json['price_Change_Pct_1H']),
-        _d7 = Day.fromJson(json['price_Change_Pct_7D']),
-        _d30 = Day.fromJson(json['price_Change_Pct_30D']);
+        _h1 = json['price_Change_Pct_1D'] != null
+            ? Day.fromJson(json['price_Change_Pct_1D'])
+            : Day("0", "0"),
+        _d1 = json['price_Change_Pct_1H'] != null
+            ? Day.fromJson(json['price_Change_Pct_1H'])
+            : Day("0", "0"),
+        _d7 = json['price_Change_Pct_7D'] != null
+            ? Day.fromJson(json['price_Change_Pct_7D'])
+            : Day("0", "0"),
+        _d30 = json['price_Change_Pct_30D'] != null
+            ? Day.fromJson(json['price_Change_Pct_30D'])
+            : Day("0", "0");
 }
 
 class Day {
@@ -54,8 +62,8 @@ class Day {
   Day(this._priceChangePct, this._priceChange);
 
   Day.fromJson(Map<String, dynamic> json)
-      : _priceChangePct = json['price_change_pct'],
-        _priceChange = json['price_Change'];
+      : _priceChangePct = json['price_change_pct'] ?? "0",
+        _priceChange = json['price_Change'] ?? "0";
 
   num get PricePercentChange => num.tryParse(_priceChangePct);
   num get PriceChange => num.tryParse(_priceChange);

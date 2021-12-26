@@ -20,7 +20,7 @@ class AllCryptoPage extends StatelessWidget {
           //   height: 100,
           // ),
           model.cryptos == null
-              ? const CircularProgressIndicator()
+              ? const LinearProgressIndicator()
               : CryptoListWidget(cryptos: model.cryptos),
         ],
       )),
