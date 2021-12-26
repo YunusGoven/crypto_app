@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:localstore/localstore.dart';
 import 'package:mvvm/Model/models/user.dart';
@@ -8,6 +10,12 @@ class Auth {
   final _db = Localstore.instance;
   User _user;
   User get getUsers => _user;
+
+  void setUserSolde(num updating) {
+    _user.setSolde = updating;
+  }
+
+  num get getUserSolde => _user.solde;
 
   User _userInfo(User info) {
     return info;
@@ -22,7 +30,6 @@ class Auth {
 
   void addToLocal(Map<String, dynamic> userinfo) {
     _db.collection("user").doc("currentUser").set(userinfo);
-    print(_db.collection('user').doc("currentUser").get());
   }
 
   Future<String> token() async {
@@ -31,15 +38,50 @@ class Auth {
     return data['token'];
   }
 
-  Future<List<Wallet>> wallet() async {
+  Future<List<dynamic>> wallet() async {
     final data = await _db.collection('user').doc("currentUser").get();
     if (data == null || data.isEmpty) return null;
-    var wallet = data['wallets'] as List;
-    var walets = <Wallet>[];
-    wallet.forEach((element) {
-      walets.add(Wallet.fromJson(element));
-    });
+    var wallet = data['wallets'];
+    var walets = wallet.map((e) {
+      var w = ConnectedWallet.fromJson(e);
+      return w;
+    }).toList();
+
     return walets;
+  }
+
+  Future updateWallet(String cryptoId, num number) async {
+    var wallets = await wallet();
+    var currentNumber =
+        wallets.firstWhere((element) => element.cryptoId == cryptoId).number;
+    wallets.removeWhere((element) => element.cryptoId == cryptoId);
+    num now = currentNumber - number;
+    now = num.tryParse(now.toStringAsFixed(8));
+
+    if (now > 0) {
+      wallets.add(ConnectedWallet(number: now, cryptoId: cryptoId));
+    }
+
+    var tokenn = await token();
+    print(tokenn);
+    var valetModel = <ConnectedWallet>[];
+    for (var item in wallets) {
+      var i = item as ConnectedWallet;
+      valetModel.add(i);
+    }
+    var user = ConnectedUser(tokenn, valetModel);
+    addToLocal(user.toJson());
+  }
+
+  Future<ConnectedWallet> getThisWallet(String id) async {
+    var wallets = await wallet();
+
+    for (var wallet in wallets) {
+      if (wallet.cryptoId == id) {
+        return wallet;
+      }
+    }
+    return null;
   }
 
   Future<bool> isAdmin() async {

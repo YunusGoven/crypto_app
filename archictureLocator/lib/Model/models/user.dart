@@ -18,6 +18,15 @@ class ConnectedUser {
       });
     }
   }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['token'] = token;
+    if (wallets != null) {
+      data['wallets'] = wallets.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }
 
 class RegisterUser {
@@ -84,6 +93,10 @@ class User {
   String get mail => _mail;
   String get pseudo => _pseudo;
   num get solde => _solde;
+  set setSolde(num update) {
+    _solde += update;
+  }
+
   String get password => _password;
   bool get admin => _isAdmin;
 

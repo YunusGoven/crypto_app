@@ -10,6 +10,7 @@ import 'package:mvvm/View/components/detail_midde_lwidget.dart';
 import 'package:mvvm/View/components/detail_up_widget.dart';
 import 'package:mvvm/View/pages/discussion_page.dart';
 import 'package:mvvm/View/widgets/buy_button_widget.dart';
+import 'package:mvvm/View/widgets/sell_button_widget.dart';
 import 'package:mvvm/ViewModel/crypto_viewmodel.dart';
 import 'package:mvvm/locator.dart';
 import 'package:stacked/stacked.dart';
@@ -69,13 +70,22 @@ class _DetailPageState extends State<DetailPage> {
                                             showDialog(
                                                 context: context,
                                                 builder: (context) =>
-                                                    BuyButtonWidget());
+                                                    BuyButtonWidget(
+                                                      crypto: model.crypto,
+                                                    ));
                                           },
                                           label: Text("Acheter"),
                                           icon: Icon(Icons.add_shopping_cart),
                                         ),
                                         FloatingActionButton.extended(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            showDialog(
+                                                context: context,
+                                                builder: (context) =>
+                                                    SellButtonWidget(
+                                                      crypto: model.crypto,
+                                                    ));
+                                          },
                                           label: Text("Vendre"),
                                           icon: Icon(Icons.sell),
                                         ),

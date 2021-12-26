@@ -274,12 +274,15 @@ class ApiService {
     };
     var uri = Uri.parse(c_url);
     var response = await http.post(uri, headers: connectedHeaders, body: body);
+    if (response.statusCode == 200) {
+      locator<Auth>().setUserSolde(-number);
+    }
     return ApiResponse(code: response.statusCode, value: response.body);
   }
 
   //Sell
   Future<ApiResponse> sell(
-      String cryptoId, num number, num currentValue) async {
+      String cryptoId, num number, num currentValue, num dollarTotal) async {
     var body =
         '{"CryptoId":"${cryptoId}",  "Number":${number}, "CurrentValue": ${currentValue}, "Type" : "S"}';
     var c_url = url + '/Transaction';
@@ -290,6 +293,10 @@ class ApiService {
     };
     var uri = Uri.parse(c_url);
     var response = await http.post(uri, headers: connectedHeaders, body: body);
+    if (response.statusCode == 200) {
+      locator<Auth>().setUserSolde(dollarTotal);
+      locator<Auth>().updateWallet(cryptoId, number);
+    }
     return ApiResponse(code: response.statusCode, value: response.body);
   }
 
