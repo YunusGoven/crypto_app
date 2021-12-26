@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class NotificationModel {
   String _notificationId;
   String _dateNotif;
@@ -10,7 +12,13 @@ class NotificationModel {
   }
 
   String get notificationId => _notificationId;
-  String get dateNotif => _dateNotif;
+  String get dateNotif {
+    var datetime = DateTime.parse(_dateNotif);
+    var formated = DateFormat("dd-MM-yyyy HH:mm").format(datetime);
+
+    return formated;
+  }
+
   String get message => _message;
 
   NotificationModel.fromJson(Map<String, dynamic> json) {

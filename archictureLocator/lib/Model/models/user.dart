@@ -1,18 +1,15 @@
 import 'package:mvvm/Model/models/wallet.dart';
 
 class ConnectedUser {
-  User _user;
   String _token;
   List<ConnectedWallet> _wallets;
 
-  ConnectedUser(this._user, this._token, this._wallets);
+  ConnectedUser(this._token, this._wallets);
 
-  User get user => _user;
   String get token => _token;
   List<ConnectedWallet> get wallets => _wallets;
 
   ConnectedUser.fromJson(Map<String, dynamic> json) {
-    _user = User.fromJson(json['User']);
     _token = json['token'];
     if (json['wallets'] != null) {
       _wallets = new List<ConnectedWallet>();
@@ -73,10 +70,14 @@ class User {
   String _pseudo;
   num _solde;
   String _password;
-
+  bool _isBlocked;
+  bool _isAdmin;
   User(this._id, this._firstname, this._surname, this._mail, this._pseudo,
-      this._solde, this._password);
+      this._solde, this._isAdmin);
 
+  // User(this._id, this._firstname, this._surname, this._mail, this._pseudo,
+  //     this._solde, this._password, this._isBlocked);
+  bool get isBlocked => _isBlocked;
   String get id => _id;
   String get firstname => _firstname;
   String get surname => _surname;
@@ -84,13 +85,15 @@ class User {
   String get pseudo => _pseudo;
   num get solde => _solde;
   String get password => _password;
+  bool get admin => _isAdmin;
 
   User.fromJson(Map<String, dynamic> json) {
-    _id = json['Id'];
-    _firstname = json['Firstname'];
-    _surname = json['Surname'];
-    _mail = json['Email'];
-    _pseudo = json['UserName'];
-    _solde = json['Solde'];
+    _id = json['id'];
+    _firstname = json['firstname'];
+    _surname = json['surname'];
+    _mail = json['email'];
+    _pseudo = json['userName'];
+    _solde = json['solde'];
+    _isBlocked = json['isBlocked'];
   }
 }

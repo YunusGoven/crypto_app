@@ -10,3 +10,4 @@ const String MessagingRoute = '/messaging';
 const String RegisterRoute = '/register';
 const String ContactRoute = '/contact';
 const String WalletDetailRoute = '/detail';
+const String AdminPanelRoute = '/adminpanel';

@@ -15,7 +15,6 @@ class CryptoWidget extends StatelessWidget {
           color: Colors.black,
           width: 5,
         ),
-        borderRadius: BorderRadius.circular(12),
       ),
       child: Padding(
         padding: EdgeInsets.all(20),

@@ -7,6 +7,7 @@ import 'package:mvvm/Services/userinfo_service.dart';
 import 'package:mvvm/View/components/message_field_widget.dart';
 import 'package:mvvm/ViewModel/message_viewmodel.dart';
 import 'package:mvvm/locator.dart';
+import 'package:provider/provider.dart';
 
 class DiscussionPage extends StatefulWidget {
   final String cryptoId;
@@ -18,135 +19,109 @@ class DiscussionPage extends StatefulWidget {
 
 class _DiscussionPageState extends State<DiscussionPage> {
   final MessageViewModel _mvm = MessageViewModel();
-  final _auth = locator<Auth>();
-  Future<User> _user;
   @override
   void initState() {
     super.initState();
-    _user = getUserInfo();
-  }
-
-  Future<User> getUserInfo() async {
-    var bool = await _auth.isAuthenticate();
-    if (!bool) {
-      dispose();
-      locator<NavigationService>().navigateTo(HomeRoute);
-      return null;
-    }
-    return await _auth.user();
   }
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
     return Scaffold(
-      body: FutureBuilder<User>(
-        future: _user,
-        builder: (contextUser, snapshotUser) {
-          if (snapshotUser.hasData) {
-            return Container(
-              child: Column(children: [
-                Container(
-                  child: StreamBuilder<QuerySnapshot>(
-                    stream: _mvm.getMessages(widget.cryptoId),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      } else {
-                        if (snapshot.hasData) {
-                          List<DocumentSnapshot> message = snapshot.data.docs;
-                          return Flexible(
-                              child: ListView.builder(
-                            padding: EdgeInsets.all(10),
-                            reverse: true,
-                            itemCount:
-                                message.length < 100 ? message.length : 100,
-                            itemBuilder: (context, index) {
-                              var mesg = message[index].get('message');
-                              var sender = message[index].get('idUser');
-                              String currentUser = snapshotUser.data.pseudo;
-                              var isCurrentUser = sender == currentUser;
+      body: Column(children: [
+        Container(
+          child: StreamBuilder<QuerySnapshot>(
+            stream: _mvm.getMessages(widget.cryptoId),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                if (snapshot.hasData) {
+                  List<DocumentSnapshot> message = snapshot.data.docs;
+                  return Flexible(
+                      child: ListView.builder(
+                    padding: EdgeInsets.all(10),
+                    reverse: true,
+                    itemCount: message.length < 100 ? message.length : 100,
+                    itemBuilder: (context, index) {
+                      var mesg = message[index].get('message');
+                      var sender = message[index].get('idUser');
+                      String currentUser = user.pseudo;
+                      print("send : $sender");
+                      var isCurrentUser = sender == currentUser;
 
-                              return Column(
-                                crossAxisAlignment: isCurrentUser
-                                    ? CrossAxisAlignment.end
-                                    : CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0, right: 8.0),
-                                    child: Text(
-                                      sender,
-                                    ),
-                                  ),
-                                  Padding(
-                                    // asymmetric padding
-                                    padding: EdgeInsets.fromLTRB(
-                                      isCurrentUser ? 64.0 : 16.0,
-                                      4,
-                                      isCurrentUser ? 16.0 : 64.0,
-                                      4,
-                                    ),
-                                    child: Align(
-                                      // align the child within the container
-                                      alignment: isCurrentUser
-                                          ? Alignment.centerRight
-                                          : Alignment.centerLeft,
-                                      child: DecoratedBox(
-                                        // chat bubble decoration
-                                        decoration: BoxDecoration(
-                                          color: isCurrentUser
-                                              ? Colors.blue
-                                              : Colors.grey[300],
-                                          borderRadius:
-                                              BorderRadius.circular(16),
+                      return Column(
+                        crossAxisAlignment: isCurrentUser
+                            ? CrossAxisAlignment.end
+                            : CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 8.0, right: 8.0),
+                            child: Text(
+                              sender,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(
+                              isCurrentUser ? 64.0 : 16.0,
+                              4,
+                              isCurrentUser ? 16.0 : 64.0,
+                              4,
+                            ),
+                            child: Align(
+                              alignment: isCurrentUser
+                                  ? Alignment.centerRight
+                                  : Alignment.centerLeft,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color: isCurrentUser
+                                      ? Colors.blue
+                                      : Colors.grey[300],
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Padding(
+                                    padding: const EdgeInsets.all(12),
+                                    child: Column(
+                                      crossAxisAlignment: isCurrentUser
+                                          ? CrossAxisAlignment.end
+                                          : CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          mesg,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                  color: isCurrentUser
+                                                      ? Colors.white
+                                                      : Colors.black87),
                                         ),
-                                        child: Padding(
-                                            padding: const EdgeInsets.all(12),
-                                            child: Column(
-                                              crossAxisAlignment: isCurrentUser
-                                                  ? CrossAxisAlignment.end
-                                                  : CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  mesg,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyText1
-                                                      .copyWith(
-                                                          color: isCurrentUser
-                                                              ? Colors.white
-                                                              : Colors.black87),
-                                                ),
-                                              ],
-                                            )),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
-                          ));
-                        } else {
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                      }
+                                      ],
+                                    )),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
                     },
-                  ),
-                ),
-                MessageField(
-                  cryptoId: widget.cryptoId,
-                )
-              ]),
-            );
-          } else {
-            return CircularProgressIndicator();
-          }
-        },
-      ),
+                  ));
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              }
+            },
+          ),
+        ),
+        MessageField(
+          user: user,
+          cryptoId: widget.cryptoId,
+        )
+      ]),
     );
   }
 }

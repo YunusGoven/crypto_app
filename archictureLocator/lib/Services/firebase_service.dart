@@ -4,9 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mvvm/Model/models/message.dart';
 
 class FirebaseApi {
-  static Future sendMessage(String cryptoId, String message) async {
-    //todo get user from service
-    String userId = "pseudoValide";
+  static Future sendMessage(
+      String cryptoId, String message, String userId) async {
     final ref =
         FirebaseFirestore.instance.collection('chats/$cryptoId/messages');
     final finalmessage = Message(

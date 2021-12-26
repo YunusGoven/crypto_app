@@ -4,10 +4,8 @@ import 'package:mvvm/Services/firebase_service.dart';
 import 'package:mvvm/locator.dart';
 
 class MessageViewModel {
-  final _api = locator<ApiService>();
-
-  void sendMessage(String cryptoid, String message) async {
-    await _api.sendMessage(cryptoid, message);
+  void sendMessage(String cryptoid, String message, String userId) async {
+    FirebaseApi.sendMessage(cryptoid, message, userId);
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getMessages(String cryptoId) {

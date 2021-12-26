@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mvvm/Model/models/user.dart';
 import 'package:mvvm/Routing/extensions.dart';
 import 'package:mvvm/Routing/route_names.dart';
+import 'package:mvvm/View/pages/administration_page.dart';
 import 'package:mvvm/View/pages/all_page.dart';
 import 'package:mvvm/View/pages/connection_page.dart';
 import 'package:mvvm/View/pages/contact_page.dart';
@@ -14,45 +16,67 @@ import 'package:mvvm/View/pages/ranking_page.dart';
 import 'package:mvvm/View/pages/register_page.dart';
 import 'package:mvvm/View/pages/wallet_page.dart';
 
-Route<dynamic> generateRoute(RouteSettings settings) {
-  var routingData = settings.name.getRoutingData;
-  switch (routingData.route) {
-    case LoginRoute:
-      return _getPageRoute(const LoginPage(), settings);
-    case HomeRoute:
-      return _getPageRoute(const HomePage(), settings);
-    case RegisterRoute:
-      return _getPageRoute(const RegisterPage(), settings);
-    case ContactRoute:
-      return _getPageRoute(const ContactPage(), settings);
-    case CryptosRoute:
-      return _getPageRoute(const AllCryptoPage(), settings);
-    case HistoryRoute:
-      return _getPageRoute(const HistoryPage(), settings);
-    case RankingRoute:
-      return _getPageRoute(const RankingPage(), settings);
-    case NotificationRoute:
-      return _getPageRoute(const NotificationPage(), settings);
-    case WalletRoute:
-      return _getPageRoute(const WalletPage(), settings);
-    case WalletDetailRoute:
-      return _getPageRoute(const DetailPage(), settings);
-    case CryptoDetailsRoute:
-      var id = (routingData['cryptoId']);
-      return _getPageRoute(
-          DetailPage(
-            cryptoId: id,
-          ),
-          settings);
-    case MessagingRoute:
-      var id = (routingData['cryptoId']);
-      return _getPageRoute(
-          DiscussionPage(
-            cryptoId: id,
-          ),
-          settings);
-    default:
-      return _getPageRoute(const HomePage(), settings);
+import 'package:provider/provider.dart';
+
+class Rooter {
+  final BuildContext context;
+  Rooter(this.context);
+  Route<dynamic> generateRoute(RouteSettings settings) {
+    final user = Provider.of<User>(context, listen: false);
+    var routingData = settings.name.getRoutingData;
+    switch (routingData.route) {
+      case AdminPanelRoute:
+        if (user == null || !user.admin)
+          return _getPageRoute(HomePage(), settings);
+        return _getPageRoute(const AdministrationPage(), settings);
+      case LoginRoute:
+        if (user != null) return _getPageRoute(HomePage(), settings);
+        return _getPageRoute(const LoginPage(), settings);
+      case HomeRoute:
+        return _getPageRoute(const HomePage(), settings);
+      case RegisterRoute:
+        if (user != null) {
+          if (!user.admin) return _getPageRoute(HomePage(), settings);
+        }
+
+        return _getPageRoute(const RegisterPage(), settings);
+      case ContactRoute:
+        return _getPageRoute(const ContactPage(), settings);
+      case CryptosRoute:
+        return _getPageRoute(const AllCryptoPage(), settings);
+      case HistoryRoute:
+        if (user == null) return _getPageRoute(HomePage(), settings);
+        return _getPageRoute(const HistoryPage(), settings);
+      case RankingRoute:
+        if (user == null) return _getPageRoute(HomePage(), settings);
+        return _getPageRoute(const RankingPage(), settings);
+      case NotificationRoute:
+        if (user == null) return _getPageRoute(HomePage(), settings);
+        return _getPageRoute(const NotificationPage(), settings);
+      case WalletRoute:
+        if (user == null) return _getPageRoute(HomePage(), settings);
+        return _getPageRoute(const WalletPage(), settings);
+      case WalletDetailRoute:
+        return _getPageRoute(const DetailPage(), settings);
+      case CryptoDetailsRoute:
+        var id = (routingData['cryptoId']);
+        return _getPageRoute(
+            DetailPage(
+              cryptoId: id,
+            ),
+            settings);
+      case MessagingRoute:
+        if (user == null) return _getPageRoute(HomePage(), settings);
+        print(user.id);
+        var id = (routingData['cryptoId']);
+        return _getPageRoute(
+            DiscussionPage(
+              cryptoId: id,
+            ),
+            settings);
+      default:
+        return _getPageRoute(const HomePage(), settings);
+    }
   }
 }
 

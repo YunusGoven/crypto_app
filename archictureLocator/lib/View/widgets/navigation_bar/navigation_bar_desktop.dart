@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mvvm/Model/models/user.dart';
 import 'package:mvvm/Routing/route_names.dart';
 import 'package:mvvm/Services/userinfo_service.dart';
 import 'package:mvvm/locator.dart';
 
+import 'package:provider/provider.dart';
 import 'navbar_item.dart';
 
 class NavigationBarTabletDesktop extends StatefulWidget {
@@ -17,27 +19,9 @@ class NavigationBarTabletDesktop extends StatefulWidget {
 
 class _NavigationBarTabletDesktopState
     extends State<NavigationBarTabletDesktop> {
-  final auth = locator<Auth>();
-  bool isAuth = false;
-  @override
-  void initState() {
-    super.initState();
-    getAuth();
-  }
-
-  getAuth() {
-    Timer.periodic(Duration(seconds: 1), (timer) {
-      auth.isAuthenticate().then((value) {
-        if (isAuth != value) {
-          isAuth = value;
-          setState(() {});
-        }
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
     return Container(
       color: Colors.grey,
       height: 50,
@@ -61,7 +45,7 @@ class _NavigationBarTabletDesktopState
               SizedBox(
                 width: 20,
               ),
-              if (isAuth)
+              if (user != null)
                 Row(
                   children: [
                     NavBarItem('Historique', HistoryRoute),
@@ -80,13 +64,17 @@ class _NavigationBarTabletDesktopState
                     SizedBox(
                       width: 20,
                     ),
+                    if (user.admin) NavBarItem('Admin', AdminPanelRoute),
+                    SizedBox(
+                      width: 20,
+                    ),
                     NavBarItem('Deconnexion', ""),
                     SizedBox(
                       width: 20,
                     ),
                   ],
                 ),
-              if (!isAuth)
+              if (user == null)
                 Row(
                   children: [
                     NavBarItem('Connexion', LoginRoute),

@@ -7,6 +7,7 @@ import 'package:mvvm/Services/userinfo_service.dart';
 import 'package:mvvm/View/widgets/notifcationwidget.dart';
 import 'package:mvvm/ViewModel/notification_viewmodel.dart';
 import 'package:mvvm/locator.dart';
+import 'package:stacked/stacked.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({Key key}) : super(key: key);
@@ -16,106 +17,64 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
-  final StreamController<List<NotificationViewModel>> notificationsController =
-      StreamController();
   final NotificationViewModel _nvm = NotificationViewModel();
 
-  @override
-  void initState() {
-    verifyIsConnected();
-    super.initState();
-  }
+  Widget createWildget(NotificationViewModel model) {
+    return Wrap(
+      children: [
+        ...model.notification
+            .asMap()
+            .map((index, value) => MapEntry(
+                index,
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      NotificationWidget(notification: value),
+                      IconButton(
+                          onPressed: () async {
+                            var isDeleted = await _nvm
+                                .deleteNotification(value.notificationId);
 
-  verifyIsConnected() async {
-    var isAuth = await locator<Auth>().isAuthenticate();
-    if (!isAuth) {
-      dispose();
-      locator<NavigationService>().navigateTo(HomeRoute);
-    } else {
-      getNotifications();
-    }
-  }
-
-  getNotifications() async {
-    List<NotificationViewModel> notifications = await _nvm.getNotifications();
-    if (!notificationsController.isClosed) {
-      notificationsController.sink.add(notifications);
-    }
-  }
-
-  @override
-  void dispose() {
-    notificationsController.close();
-    super.dispose();
+                            final snackBar = SnackBar(
+                              content: Text(
+                                isDeleted.value,
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              backgroundColor: isDeleted.code == 200
+                                  ? Colors.green
+                                  : Colors.red,
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          },
+                          icon: Icon(Icons.delete)),
+                    ],
+                  ),
+                )))
+            .values
+            .toList()
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.only(top: 25, left: 20, right: 20, bottom: 25),
-          child: StreamBuilder(
-            stream: notificationsController.stream,
-            builder: (context, snapdata) {
-              switch (snapdata.connectionState) {
-                case ConnectionState.waiting:
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                default:
-                  if (snapdata.hasError) {
-                    return Text("Attend frere");
-                  } else {
-                    return Column(
-                      children: createWidget(snapdata.data),
-                    );
-                  }
-              }
-            },
-          ),
-        ),
-      ),
+    return ViewModelBuilder<NotificationViewModel>.reactive(
+      viewModelBuilder: () => NotificationViewModel(),
+      onModelReady: (model) => model.getNotifications(),
+      builder: (context, model, child) => SingleChildScrollView(
+          child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          model.notification == null
+              ? const CircularProgressIndicator()
+              : createWildget(model),
+        ],
+      )),
     );
-  }
-
-  createWidget(List<NotificationViewModel> data) {
-    var notifications = <Widget>[];
-    data.forEach((element) {
-      var r = Container(
-        child: Padding(
-          padding: EdgeInsets.all(10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              NotificationWidget(notification: element),
-              IconButton(
-                  onPressed: () async {
-                    var isDeleted =
-                        await _nvm.deleteNotification(element.notificationId);
-                    if (isDeleted) {
-                      setState(() {
-                        data.remove(element);
-                      });
-                    }
-                  },
-                  icon: Icon(Icons.delete)),
-            ],
-          ),
-        ),
-      );
-
-      notifications.add(r);
-
-      //var widget = NotificationWidget(notification: element);
-      //notifications.add(widget);
-      var divider =
-          Divider(color: Colors.black, indent: 10, endIndent: 10, thickness: 5);
-      notifications.add(divider);
-    });
-
-    if (notifications.isNotEmpty) notifications.removeLast();
-    return notifications;
   }
 }

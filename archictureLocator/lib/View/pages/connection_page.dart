@@ -1,12 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:mvvm/Routing/route_names.dart';
 import 'package:mvvm/Services/api_service.dart';
 import 'package:mvvm/Services/navigation_service.dart';
-import 'package:mvvm/Services/userinfo_service.dart';
-import 'package:mvvm/View/pages/register_page.dart';
 import 'package:mvvm/locator.dart';
 
 class LoginPage extends StatefulWidget {
@@ -17,56 +13,29 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  @override
-  void initState() {
-    verifyIsConnected();
-    super.initState();
-  }
-
-  verifyIsConnected() async {
-    var isAuth = await locator<Auth>().isAuthenticate();
-    if (isAuth) {
-      dispose();
-      locator<NavigationService>().navigateTo(HomeRoute);
-    }
-  }
-
+  final _apiService = locator<ApiService>();
+  final navigationService = locator<NavigationService>();
   bool _obscure = true;
+  final _formKey = GlobalKey<FormState>();
   final pseudoController = TextEditingController();
   final passwordController = TextEditingController();
   @override
   void dispose() {
     pseudoController.dispose();
     passwordController.dispose();
+    passwordController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-            padding: EdgeInsets.all(20.0),
+    return Container(
+      child: SingleChildScrollView(
+        child: Form(
+            key: _formKey,
             child: Column(
               children: [
-                SizedBox(
-                  height: 20,
-                ),
-                // Container(
-                //   height: 250,
-                //   child: Positioned(
-                //     child: AnimatedOpacity(
-                //       opacity: 1,
-                //       duration: Duration(seconds: 1),
-                //       curve: Curves.linear,
-                //       child: Image.asset('assets/images/logo.jpg'),
-                //     ),
-                //   ),
-                // ),
-                SizedBox(
-                  height: 60,
-                ),
-                TextField(
+                TextFormField(
                   controller: pseudoController,
                   cursorColor: Colors.black,
                   decoration: InputDecoration(
@@ -101,11 +70,14 @@ class _LoginPageState extends State<LoginPage> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
+                  validator: (value) {
+                    value == null || value.isEmpty
+                        ? "Veuillez entrez votre pseudo"
+                        : null;
+                  },
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                TextField(
+                SizedBox(height: 10.0),
+                TextFormField(
                   controller: passwordController,
                   obscureText: _obscure,
                   cursorColor: Colors.black,
@@ -152,105 +124,57 @@ class _LoginPageState extends State<LoginPage> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          'Mot de passe oublié ?',
-                          style: TextStyle(color: Colors.black, fontSize: 14.0),
-                        ))
-                  ],
+                  validator: (value) => value == null || value.isEmpty
+                      ? "Veuillez entrez votre mot de passe"
+                      : null,
                 ),
                 SizedBox(
-                  height: 80,
+                  height: 10,
                 ),
-                Flex(
-                  direction: Axis.horizontal,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      flex: 4,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          var resp = await ApiService().connection(
-                              pseudoController.text, passwordController.text);
-                          print(resp.code);
-                          if (resp.code == 200) {
-                            dispose();
-                            locator<NavigationService>().navigateTo(HomeRoute);
-                          } else {
-                            print(resp.value);
-                          }
-                        },
-                        child: Text(
-                          'Connexion',
-                          style: TextStyle(color: Colors.white, fontSize: 16.0),
+                ElevatedButton(
+                    onPressed: () async {
+                      if (_formKey.currentState.validate()) {
+                        var password = passwordController.value.text;
+                        var pseudo = pseudoController.value.text;
+                        var login =
+                            await _apiService.connection(pseudo, password);
+                        if (login.code == 200) {
+                          navigationService.navigateTo(HomeRoute);
+                        } else {
+                          final snackBar = SnackBar(
+                            content: Text(
+                              login.value,
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            backgroundColor: Colors.red,
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
+                      }
+                    },
+                    child: Text(
+                      "Connection",
+                      style: TextStyle(color: Colors.white),
+                    )),
+                SignInButton(
+                  Buttons.Google,
+                  text: "Sign up with Google",
+                  onPressed: () async {
+                    var resp = await ApiService().connectiongoogle();
+                    if (resp.code == 200) {
+                      locator<NavigationService>().navigateTo(HomeRoute);
+                    } else {
+                      final snackBar = SnackBar(
+                        content: Text(
+                          resp.value,
+                          style: TextStyle(fontSize: 20),
                         ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: MaterialButton(
-                        onPressed: () async {
-                          final FirebaseAuth _auth = FirebaseAuth.instance;
-                          final GoogleSignIn _googleSignIn = GoogleSignIn();
-                          try {
-                            final GoogleSignInAccount googleSignInAccount =
-                                await _googleSignIn.signIn();
-                            final GoogleSignInAuthentication
-                                googleSignInAuthentication =
-                                await googleSignInAccount.authentication;
-                            final AuthCredential credential =
-                                GoogleAuthProvider.credential(
-                              accessToken:
-                                  googleSignInAuthentication.accessToken,
-                              idToken: googleSignInAuthentication.idToken,
-                            );
-                            await _auth.signInWithCredential(credential);
-                            var a = await _auth.currentUser.getIdToken();
-                            print(a.toString());
-                            var resp = await ApiService().connectiongoogle(a);
-                            if (resp.code == 200) {
-                              locator<NavigationService>()
-                                  .navigateTo(HomeRoute);
-                            } else {
-                              print(resp.value);
-                            }
-                          } catch (e) {
-                            print(e);
-                          }
-                        },
-                        child: Text("google"),
-                        padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                MaterialButton(
-                  onPressed: () {
-                    locator<NavigationService>().navigateTo(RegisterRoute);
+                        backgroundColor: Colors.red,
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
                   },
-                  height: 45,
-                  color: Colors.black,
-                  child: Text(
-                    'Inscription',
-                    style: TextStyle(color: Colors.white, fontSize: 16.0),
-                  ),
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                ),
+                )
               ],
             )),
       ),

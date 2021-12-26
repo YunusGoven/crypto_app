@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:mvvm/Routing/route_names.dart';
 import 'package:mvvm/Services/api_service.dart';
@@ -23,20 +22,6 @@ class _RegisterPageState extends State<RegisterPage> {
   final _mailController = TextEditingController();
   final _firstanemContro = TextEditingController();
   final _surnameContro = TextEditingController();
-
-  @override
-  void initState() {
-    verifyIsConnected();
-    super.initState();
-  }
-
-  verifyIsConnected() async {
-    var isAuth = await locator<Auth>().isAuthenticate();
-    if (isAuth) {
-      dispose();
-      locator<NavigationService>().navigateTo(HomeRoute);
-    }
-  }
 
   @override
   void dispose() {
@@ -189,37 +174,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     SizedBox(
                       height: 20,
                     ),
-                    Column(
-                      children: [
-                        Text("Date de naissance"),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(_dateTime == null
-                                ? 'dd-mm-yyyy'
-                                : DateFormat('dd-MM-yyyy').format(_dateTime)),
-                            IconButton(
-                              icon: const Icon(
-                                Icons.date_range,
-                                size: 30,
-                              ),
-                              onPressed: () {
-                                showDatePicker(
-                                        context: context,
-                                        initialDate: DateTime(2000),
-                                        firstDate: DateTime(1935),
-                                        lastDate: DateTime(2003))
-                                    .then((date) {
-                                  setState(() {
-                                    _dateTime = date;
-                                  });
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
                     SizedBox(
                       height: 20,
                     ),
@@ -367,13 +321,23 @@ class _RegisterPageState extends State<RegisterPage> {
                       height: 30,
                     ),
                     ElevatedButton(
-                      onPressed: () {
-                        ApiService().register(
+                      onPressed: () async {
+                        var register = await ApiService().register(
                             _pseudoController.text,
                             _passwordController.text,
                             _mailController.text,
                             _firstanemContro.text,
                             _surnameContro.text);
+                        print(register.value);
+                        final snackBar = SnackBar(
+                          content: Text(
+                            register.value,
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          backgroundColor:
+                              register.code == 200 ? Colors.green : Colors.red,
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       },
                       child: Text(
                         'Inscription',

@@ -18,20 +18,6 @@ class WalletPage extends StatefulWidget {
 
 class _WalletPageState extends State<WalletPage> {
   @override
-  void initState() {
-    verifyIsConnected();
-    super.initState();
-  }
-
-  verifyIsConnected() async {
-    var isAuth = await locator<Auth>().isAuthenticate();
-    if (!isAuth) {
-      dispose();
-      locator<NavigationService>().navigateTo(HomeRoute);
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<WalletViewModel>.reactive(
       viewModelBuilder: () => WalletViewModel(),
@@ -42,16 +28,21 @@ class _WalletPageState extends State<WalletPage> {
             spacing: 30,
             runSpacing: 30,
             children: <Widget>[
-              ...model.wallets
-                  .asMap()
-                  .map((index, wallet) => MapEntry(
-                        index,
-                        Container(
-                          child: WalletWidget(model: wallet),
-                        ),
-                      ))
-                  .values
-                  .toList()
+              if (model.wallets == null) LinearProgressIndicator(),
+              if (model.wallets != null)
+                ...model.wallets
+                    .asMap()
+                    .map((index, wallet) => MapEntry(
+                          index,
+                          Container(
+                            child: WalletWidget(
+                              model: wallet,
+                              walletViewModel: model,
+                            ),
+                          ),
+                        ))
+                    .values
+                    .toList()
             ],
           ),
         ),

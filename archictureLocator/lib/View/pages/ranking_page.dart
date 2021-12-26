@@ -14,26 +14,29 @@ class RankingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ViewModelBuilder<ClassementViewModel>.reactive(
-        viewModelBuilder: () => ClassementViewModel(),
-        onModelReady: (model) => model.getClassement(),
-        builder: (context, model, child) => SingleChildScrollView(
+    return ViewModelBuilder<ClassementViewModel>.reactive(
+      viewModelBuilder: () => ClassementViewModel(),
+      onModelReady: (model) => model.getClassement(),
+      builder: (context, model, child) => SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
           child: Wrap(
             spacing: 30,
             runSpacing: 30,
             children: <Widget>[
-              ...model.users
-                  .asMap()
-                  .map((index, user) => MapEntry(
-                        index,
-                        UserClassementWidget(
-                          model: user,
-                          pos: index + 1,
-                        ),
-                      ))
-                  .values
-                  .toList()
+              if (model.users == null) LinearProgressIndicator(),
+              if (model.users != null)
+                ...model.users
+                    .asMap()
+                    .map((index, user) => MapEntry(
+                          index,
+                          UserClassementWidget(
+                            model: user,
+                            pos: index + 1,
+                          ),
+                        ))
+                    .values
+                    .toList()
             ],
           ),
         ),

@@ -18,7 +18,7 @@ class _ScreenTemplateState extends State<ScreenTemplate> {
     var screenSize = MediaQuery.of(context).size;
     var screenwidht = screenSize.width;
     return Scaffold(
-        appBar: screenwidht >= 830
+        appBar: screenwidht >= 895
             ? null
             : AppBar(
                 backgroundColor: Colors.black26,
@@ -27,7 +27,7 @@ class _ScreenTemplateState extends State<ScreenTemplate> {
                   children: [Text("CryptoYH")],
                 ),
               ),
-        drawer: screenwidht >= 830
+        drawer: screenwidht >= 895
             ? null
             : Drawer(
                 child: ListView(
@@ -53,7 +53,7 @@ class _ScreenTemplateState extends State<ScreenTemplate> {
             ? Column(
                 children: <Widget>[
                   //if (kIsWeb) const NavigationBar(),
-                  if (screenwidht >= 830) NavigationBarTabletDesktop(),
+                  if (screenwidht >= 895) NavigationBarTabletDesktop(),
                   Expanded(
                     child: widget.child,
                   )

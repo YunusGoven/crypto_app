@@ -22,6 +22,6 @@ class WalletViewModel extends ChangeNotifier {
   }
 
   Future<bool> disableNotification(String cryptoId) async {
-    return await _api.disableNotification(cryptoId);
+    return (await _api.disableNotification(cryptoId)).code == 200;
   }
 }

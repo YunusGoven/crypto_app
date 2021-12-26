@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:mvvm/Model/models/user.dart';
 import 'package:mvvm/Routing/route_names.dart';
 import 'package:mvvm/Services/navigation_service.dart';
 import 'package:mvvm/Services/userinfo_service.dart';
@@ -12,6 +13,8 @@ import 'package:mvvm/View/widgets/welcome_message_widget.dart';
 import 'package:mvvm/ViewModel/crypto_viewmodel.dart';
 import 'package:mvvm/ViewModel/wallet_viewmodel.dart';
 import 'package:mvvm/locator.dart';
+
+import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
 
 class HomePage extends StatefulWidget {
@@ -22,25 +25,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final auth = locator<Auth>();
-  bool isAuth = false;
-  @override
-  void initState() {
-    super.initState();
-    getAuth();
-  }
-
-  getAuth() {
-    auth.isAuthenticate().then((value) {
-      if (value) {
-        isAuth = value;
-        setState(() {});
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+    var isAuth = user != null;
+
+    print(isAuth);
+
     return ViewModelBuilder<CryptoViewModel>.reactive(
       viewModelBuilder: () => CryptoViewModel(),
       onModelReady: (model) => model.getAllCryptos(4),

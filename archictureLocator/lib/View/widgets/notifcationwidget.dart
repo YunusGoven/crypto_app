@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mvvm/Model/models/notification.dart';
 import 'package:mvvm/ViewModel/notification_viewmodel.dart';
 
 class NotificationWidget extends StatefulWidget {
-  final NotificationViewModel notification;
+  final NotificationModel notification;
 
   const NotificationWidget({Key key, @required this.notification})
       : super(key: key);
