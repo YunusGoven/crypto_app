@@ -31,7 +31,13 @@ class _NotificationPageState extends State<NotificationPage> {
                           onPressed: () async {
                             var isDeleted = await _nvm
                                 .deleteNotification(value.notificationId);
-
+                            if (isDeleted.code == 200) {
+                              setState(() {
+                                model.notification.removeWhere((element) =>
+                                    element.notificationId ==
+                                    value.notificationId);
+                              });
+                            }
                             final snackBar = SnackBar(
                               content: Text(
                                 isDeleted.value,

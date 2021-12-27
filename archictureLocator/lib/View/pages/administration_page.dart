@@ -59,18 +59,16 @@ class _AdministrationPageState extends State<AdministrationPage> {
                     const Tooltip(
                       textStyle: TextStyle(fontSize: 16, color: Colors.white),
                       height: 60,
-                      message: "Drere va sur Nomics.com",
+                      message: "Veuillez vous referer  sur Nomics.com",
                       child: Icon(Icons.help),
                     ),
                     const SizedBox(
                       width: 20,
                     ),
-                    SizedBox(
-                        width: mWidth * 0.3,
-                        child: Expanded(
-                            child: TextField(
-                          controller: textController,
-                        ))),
+                    Expanded(
+                        child: TextField(
+                      controller: textController,
+                    )),
                     const SizedBox(
                       width: 20,
                     ),

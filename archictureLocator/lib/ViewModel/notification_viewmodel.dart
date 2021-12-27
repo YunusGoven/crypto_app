@@ -21,7 +21,6 @@ class NotificationViewModel extends ChangeNotifier {
 
   Future<ApiResponse> deleteNotification(String notificationId) async {
     var send = await _api.deleteNotification(notificationId);
-    getNotifications();
     return send;
   }
 }
