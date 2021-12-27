@@ -8,6 +8,8 @@ class HistoryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color colors1 = model.type == "VENTE" ? Colors.red : Colors.green;
+    Color colors2 = model.type == "VENTE" ? Colors.green : Colors.red;
     var screenSize = MediaQuery.of(context).size;
     var screenwidht = screenSize.width;
     DateTime ui = DateTime.tryParse(model.dateTransaction);
@@ -19,6 +21,7 @@ class HistoryWidget extends StatelessWidget {
           color: Colors.black,
           width: 5,
         ),
+        borderRadius: BorderRadius.circular(15),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -40,8 +43,10 @@ class HistoryWidget extends StatelessWidget {
                 ? model.number.toString() + "   " + model.cryptoId
                 : model.value.toString() + "   " + model.cryptoId,
             style: screenwidht >= 895
-                ? const TextStyle(fontWeight: FontWeight.bold, fontSize: 30)
-                : const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ? TextStyle(
+                    fontWeight: FontWeight.bold, fontSize: 30, color: colors1)
+                : TextStyle(
+                    fontWeight: FontWeight.bold, fontSize: 20, color: colors1),
           ),
           Column(
             children: [
@@ -50,9 +55,14 @@ class HistoryWidget extends StatelessWidget {
                     ? model.value.toString() + "\$"
                     : model.number.toString() + "\$",
                 style: screenwidht >= 895
-                    ? const TextStyle(fontWeight: FontWeight.bold, fontSize: 25)
-                    : const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 15),
+                    ? TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25,
+                        color: colors2)
+                    : TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: colors2),
               ),
               const SizedBox(
                 height: 5,

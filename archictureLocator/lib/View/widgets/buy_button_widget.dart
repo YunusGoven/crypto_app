@@ -153,7 +153,7 @@ class BuyButtonWidgetState extends State<BuyButtonWidget> {
                         if (_formKey.currentState.validate()) {
                           var number = _numberController.value.text;
                           var send = await _api.buy(widget.crypto.Id,
-                              num.parse(number), widget.crypto.Price);
+                              num.parse(number), widget.crypto.Price, _total);
 
                           final snackBar = SnackBar(
                             content: Text(

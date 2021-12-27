@@ -122,13 +122,22 @@ class ApiService {
   Future<ApiResponse> connectiongoogle() async {
     try {
       var googleToken = await _firebaseAuthentification.signInWithGoogle();
-      var identifier = await FirebaseMessaging.instance.getToken();
+      //var identifier = await FirebaseMessaging.instance.getToken();
+
+      var identifier = FirebaseMessaging.instance;
+      var notsett = await identifier.getNotificationSettings();
+      String body;
+      if (notsett.authorizationStatus == AuthorizationStatus.authorized) {
+        var token = await identifier.getToken();
+        print(token);
+        body = '{"deviceId": "${token}", "googleToken" :"${googleToken}" }';
+      } else {
+        body = '{"googleToken" :"${googleToken}" }';
+      }
+
       var c_url = url + '/Users/SignIn';
       var uri = Uri.parse(c_url);
-      var response = await http.post(uri,
-          headers: headers,
-          body:
-              '{"deviceId": "${identifier}", "googleToken" :"${googleToken}" }');
+      var response = await http.post(uri, headers: headers, body: body);
       if (response.statusCode == 200) {
         //await _firebaseAuthentification.signOut();
         //await _firebaseAuthentification.signInAnonymously();
@@ -264,7 +273,8 @@ class ApiService {
   }
 
   //Buy
-  Future<ApiResponse> buy(String cryptoId, num number, num currentValue) async {
+  Future<ApiResponse> buy(
+      String cryptoId, num number, num currentValue, num total) async {
     var body =
         '{"CryptoId":"${cryptoId}", "Number":${number}, "CurrentValue": ${currentValue}, "Type" : "B"}';
     var c_url = url + '/Transaction';
@@ -277,6 +287,7 @@ class ApiService {
     var response = await http.post(uri, headers: connectedHeaders, body: body);
     if (response.statusCode == 200) {
       locator<Auth>().setUserSolde(-number);
+      await locator<Auth>().updateWallet(cryptoId, total);
     }
     return ApiResponse(code: response.statusCode, value: response.body);
   }
@@ -296,7 +307,7 @@ class ApiService {
     var response = await http.post(uri, headers: connectedHeaders, body: body);
     if (response.statusCode == 200) {
       locator<Auth>().setUserSolde(dollarTotal);
-      locator<Auth>().updateWallet(cryptoId, number);
+      locator<Auth>().updateWallet(cryptoId, -number);
     }
     return ApiResponse(code: response.statusCode, value: response.body);
   }

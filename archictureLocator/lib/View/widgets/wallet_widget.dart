@@ -19,6 +19,13 @@ class _WalletWidgetState extends State<WalletWidget> {
     var model = widget.model;
     var walletViewModel = widget.walletViewModel;
     return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.black,
+          width: 5,
+        ),
+        borderRadius: BorderRadius.circular(15),
+      ),
       padding: const EdgeInsets.only(bottom: 10, top: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

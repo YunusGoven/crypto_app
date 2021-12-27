@@ -28,7 +28,7 @@ class _AdministrationPageState extends State<AdministrationPage> {
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Container(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -40,7 +40,7 @@ class _AdministrationPageState extends State<AdministrationPage> {
                 height: 20,
               ),
               Container(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 height: 120,
                 decoration: BoxDecoration(
                   border: Border.all(
@@ -90,7 +90,7 @@ class _AdministrationPageState extends State<AdministrationPage> {
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         textController.clear();
                       },
-                      child: Text("Ajout"),
+                      child: const Text("Ajout"),
                     )
                   ],
                 ),
@@ -117,7 +117,7 @@ class _AdministrationPageState extends State<AdministrationPage> {
                 height: 10,
               ),
               Container(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 width: mWidth,
                 decoration: BoxDecoration(
                   border: Border.all(
@@ -134,8 +134,9 @@ class _AdministrationPageState extends State<AdministrationPage> {
                     columnWidths: const {
                       0: FlexColumnWidth(.75),
                       1: FlexColumnWidth(1),
-                      2: FlexColumnWidth(.45),
-                      3: FlexColumnWidth(.45)
+                      2: FlexColumnWidth(.3),
+                      3: FlexColumnWidth(.45),
+                      4: FlexColumnWidth(.45)
                     },
                     children: [
                       const TableRow(children: [
@@ -152,6 +153,13 @@ class _AdministrationPageState extends State<AdministrationPage> {
                         Center(
                           child: Text(
                             "Email",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18),
+                          ),
+                        ),
+                        Center(
+                          child: Text(
+                            "Email Confirmed",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18),
                           ),
@@ -185,6 +193,19 @@ class _AdministrationPageState extends State<AdministrationPage> {
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(user.mail),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Icon(
+                                          user.EmailIsValidate
+                                              ? Icons
+                                                  .check_circle_outline_outlined
+                                              : Icons
+                                                  .remove_circle_outline_outlined,
+                                          color: user.EmailIsValidate
+                                              ? Colors.green
+                                              : Colors.red,
+                                        ),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
@@ -236,7 +257,8 @@ class _AdministrationPageState extends State<AdministrationPage> {
                                                   context: context,
                                                   builder: (context) {
                                                     return AlertDialog(
-                                                      title: Text("Supprimer"),
+                                                      title: const Text(
+                                                          "Supprimer"),
                                                       content: Text(
                                                           "Etes-vous sur de vouloir supprimer ${user.pseudo} ?"),
                                                       actions: [

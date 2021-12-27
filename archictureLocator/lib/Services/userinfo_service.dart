@@ -46,10 +46,17 @@ class Auth {
 
   Future updateWallet(String cryptoId, num number) async {
     var wallets = await wallet();
-    var currentNumber =
-        wallets.firstWhere((element) => element.cryptoId == cryptoId).number;
-    wallets.removeWhere((element) => element.cryptoId == cryptoId);
-    num now = currentNumber - number;
+    var currentNumber = 0.0;
+    if (wallets.isNotEmpty) {
+      currentNumber = wallets
+          .firstWhere(
+            (element) => element.cryptoId == cryptoId,
+            orElse: () => ConnectedWallet(number: 0, cryptoId: cryptoId),
+          )
+          .number;
+      wallets.removeWhere((element) => element.cryptoId == cryptoId);
+    }
+    num now = currentNumber + number;
     now = num.tryParse(now.toStringAsFixed(8));
 
     if (now > 0) {

@@ -81,10 +81,12 @@ class User {
   String _password;
   bool _isBlocked;
   bool _isAdmin;
+  bool _isValidate;
   User(this._id, this._firstname, this._surname, this._mail, this._pseudo,
       this._solde, this._isAdmin);
 
   bool get isBlocked => _isBlocked;
+  bool get EmailIsValidate => _isValidate;
   String get id => _id;
   String get firstname => _firstname;
   String get surname => _surname;
@@ -106,5 +108,6 @@ class User {
     _pseudo = json['userName'];
     _solde = json['solde'];
     _isBlocked = json['isBlocked'];
+    _isValidate = json['emailConfirmed'];
   }
 }

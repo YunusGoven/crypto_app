@@ -24,8 +24,9 @@ class UserClassementWidget extends StatelessWidget {
           decoration: BoxDecoration(
             border: Border.all(
               color: Colors.black,
+              width: 5,
             ),
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(15),
           ),
           child: Padding(
             padding:

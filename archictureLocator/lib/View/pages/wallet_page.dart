@@ -22,6 +22,14 @@ class _WalletPageState extends State<WalletPage> {
             spacing: 30,
             runSpacing: 30,
             children: <Widget>[
+              const Text(
+                "Vos cryptos",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
               if (model.wallets == null) const LinearProgressIndicator(),
               if (model.wallets != null)
                 ...model.wallets
