@@ -1,12 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:mvvm/Routing/route_names.dart';
-import 'package:mvvm/Services/navigation_service.dart';
-import 'package:mvvm/Services/userinfo_service.dart';
 import 'package:mvvm/View/widgets/classement_widget.dart';
 import 'package:mvvm/ViewModel/ranking_viewmodel.dart';
-import 'package:mvvm/locator.dart';
 import 'package:stacked/stacked.dart';
 
 class RankingPage extends StatelessWidget {
@@ -24,7 +18,7 @@ class RankingPage extends StatelessWidget {
             spacing: 30,
             runSpacing: 30,
             children: <Widget>[
-              if (model.users == null) LinearProgressIndicator(),
+              if (model.users == null) const LinearProgressIndicator(),
               if (model.users != null)
                 ...model.users
                     .asMap()

@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:intl/intl.dart';
 import 'package:mvvm/Model/models/notification.dart';
 import 'package:mvvm/Services/api_response.dart';
 import 'package:mvvm/Services/api_service.dart';

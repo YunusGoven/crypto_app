@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mvvm/Model/models/user.dart';
-import 'package:mvvm/ViewModel/ranking_viewmodel.dart';
 
 class UserClassementWidget extends StatelessWidget {
   final ClassementUser model;
@@ -15,9 +14,9 @@ class UserClassementWidget extends StatelessWidget {
     return Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
       Text(
         pos.toString(),
-        style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+        style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
       ),
-      SizedBox(
+      const SizedBox(
         width: 10,
       ),
       Expanded(
@@ -29,17 +28,20 @@ class UserClassementWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: Padding(
-            padding: EdgeInsets.only(left: 10, right: 30, top: 10, bottom: 10),
+            padding:
+                const EdgeInsets.only(left: 10, right: 30, top: 10, bottom: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   model.pseudo,
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 22, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   "${model.solde} \$",
-                  style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 19, fontWeight: FontWeight.bold),
                 ),
               ],
             ),

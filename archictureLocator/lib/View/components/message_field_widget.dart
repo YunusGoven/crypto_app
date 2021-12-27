@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mvvm/Model/models/user.dart';
 import 'package:mvvm/ViewModel/message_viewmodel.dart';
-import 'package:provider/provider.dart';
 
 class MessageField extends StatefulWidget {
   final String cryptoId;
@@ -15,7 +14,7 @@ class MessageField extends StatefulWidget {
 
 class _MessageFieldState extends State<MessageField> {
   final MessageViewModel _mvm = MessageViewModel();
-  var _controller = TextEditingController();
+  final _controller = TextEditingController();
   String message = "";
 
   @override
@@ -25,7 +24,7 @@ class _MessageFieldState extends State<MessageField> {
         Expanded(
           child: TextField(
               controller: _controller,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "Message",
               ),
               onChanged: (value) => {
@@ -35,7 +34,7 @@ class _MessageFieldState extends State<MessageField> {
                   }),
         ),
         GestureDetector(
-          child: Icon(Icons.send),
+          child: const Icon(Icons.send),
           onTap: () => message.trim().isEmpty ? null : sendMessage(widget.user),
         )
       ],

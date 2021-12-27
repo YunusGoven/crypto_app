@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mvvm/Model/models/wallet.dart';
-import 'package:mvvm/View/components/image_widget.dart';
-import 'package:mvvm/View/pages/detail_page.dart';
 import 'package:mvvm/View/widgets/wallet_widget_home.dart';
 import 'package:mvvm/ViewModel/wallet_viewmodel.dart';
 import 'package:stacked/stacked.dart';
@@ -19,7 +16,7 @@ class HomeWalletWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          Text(
+          const Text(
             "Vos cryptos",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),

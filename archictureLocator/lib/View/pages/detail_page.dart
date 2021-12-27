@@ -1,14 +1,10 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:mvvm/Model/models/user.dart';
 import 'package:mvvm/Routing/route_names.dart';
 import 'package:mvvm/Services/navigation_service.dart';
 import 'package:mvvm/Services/userinfo_service.dart';
 import 'package:mvvm/View/components/detail_graph_widget.dart';
 import 'package:mvvm/View/components/detail_midde_lwidget.dart';
 import 'package:mvvm/View/components/detail_up_widget.dart';
-import 'package:mvvm/View/pages/discussion_page.dart';
 import 'package:mvvm/View/widgets/buy_button_widget.dart';
 import 'package:mvvm/View/widgets/sell_button_widget.dart';
 import 'package:mvvm/ViewModel/crypto_viewmodel.dart';
@@ -36,22 +32,22 @@ class _DetailPageState extends State<DetailPage> {
         onModelReady: (model) => model.getCrypto(widget.cryptoId),
         builder: (context, model, child) => SingleChildScrollView(
                 child: Padding(
-              padding:
-                  EdgeInsets.only(top: 25, left: 20, right: 20, bottom: 25),
+              padding: const EdgeInsets.only(
+                  top: 25, left: 20, right: 20, bottom: 25),
               child: model.crypto == null
-                  ? LinearProgressIndicator()
+                  ? const LinearProgressIndicator()
                   : Column(
                       children: [
                         DetailUp(crypto: model.crypto),
-                        SizedBox(
+                        const SizedBox(
                           height: 50,
                         ),
                         DetailMiddle(crypto: model.crypto),
-                        SizedBox(
+                        const SizedBox(
                           height: 50,
                         ),
                         Graph(crypto: model.crypto),
-                        SizedBox(
+                        const SizedBox(
                           height: 50,
                         ),
                         FutureBuilder<bool>(
@@ -74,8 +70,9 @@ class _DetailPageState extends State<DetailPage> {
                                                       crypto: model.crypto,
                                                     ));
                                           },
-                                          label: Text("Acheter"),
-                                          icon: Icon(Icons.add_shopping_cart),
+                                          label: const Text("Acheter"),
+                                          icon: const Icon(
+                                              Icons.add_shopping_cart),
                                         ),
                                         FloatingActionButton.extended(
                                           onPressed: () {
@@ -86,8 +83,8 @@ class _DetailPageState extends State<DetailPage> {
                                                       crypto: model.crypto,
                                                     ));
                                           },
-                                          label: Text("Vendre"),
-                                          icon: Icon(Icons.sell),
+                                          label: const Text("Vendre"),
+                                          icon: const Icon(Icons.sell),
                                         ),
                                       ],
                                     ),
@@ -99,8 +96,8 @@ class _DetailPageState extends State<DetailPage> {
                                               'cryptoId': widget.cryptoId
                                             });
                                       },
-                                      label: Text("Discussion"),
-                                      icon: Icon(Icons.message),
+                                      label: const Text("Discussion"),
+                                      icon: const Icon(Icons.message),
                                     ),
                                   ],
                                 );

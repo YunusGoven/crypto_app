@@ -1,6 +1,3 @@
-//connection
-//register
-//ranking
 import 'package:flutter/material.dart';
 import 'package:mvvm/Model/models/user.dart';
 import 'package:mvvm/Services/api_service.dart';

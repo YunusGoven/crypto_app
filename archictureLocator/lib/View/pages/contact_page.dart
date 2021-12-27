@@ -27,21 +27,21 @@ class _ContactPageState extends State<ContactPage> {
         padding: const EdgeInsets.only(top: 25),
         child: Column(
           children: [
-            Text(
+            const Text(
               'Contact',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            SizedBox(
+            const SizedBox(
               height: 25,
             ),
             Form(
               key: formKey,
               child: Column(
                 children: [
-                  Container(
+                  SizedBox(
                     width: taille,
                     child: TextFormField(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Nom',
                         border: OutlineInputBorder(),
                       ),
@@ -56,15 +56,15 @@ class _ContactPageState extends State<ContactPage> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  Container(
+                  SizedBox(
                     width: taille,
                     child: TextFormField(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Email',
                         border: OutlineInputBorder(),
                       ),
                       validator: (value) {
-                        final pattern =
+                        const pattern =
                             r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)';
                         final regExp = RegExp(pattern);
 
@@ -81,10 +81,10 @@ class _ContactPageState extends State<ContactPage> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  Container(
+                  SizedBox(
                     width: taille,
                     child: TextFormField(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Objet',
                         border: OutlineInputBorder(),
                       ),
@@ -100,11 +100,11 @@ class _ContactPageState extends State<ContactPage> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  Container(
+                  SizedBox(
                     width: taille,
                     child: TextFormField(
                       maxLines: 10,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         alignLabelWithHint: true,
                         labelText: 'Message',
                         border: OutlineInputBorder(),
@@ -132,21 +132,21 @@ class _ContactPageState extends State<ContactPage> {
                           });
                         },
                       ),
-                      Text('Recevoir une copie ?')
+                      const Text('Recevoir une copie ?')
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   !waiting
                       ? TextButton(
                           style: TextButton.styleFrom(
-                            padding: EdgeInsets.all(4),
+                            padding: const EdgeInsets.all(4),
                             primary: Colors.white,
                             backgroundColor: Colors.teal,
                             onSurface: Colors.grey,
                           ),
-                          child: Text(
+                          child: const Text(
                             "Envoyer",
                             style: TextStyle(fontSize: 22),
                           ),
@@ -167,7 +167,7 @@ class _ContactPageState extends State<ContactPage> {
                               final snackBar = SnackBar(
                                 content: Text(
                                   message,
-                                  style: TextStyle(fontSize: 20),
+                                  style: const TextStyle(fontSize: 20),
                                 ),
                                 backgroundColor: send.code == 200
                                     ? Colors.green
@@ -178,7 +178,7 @@ class _ContactPageState extends State<ContactPage> {
                             }
                           },
                         )
-                      : CircularProgressIndicator()
+                      : const CircularProgressIndicator()
                 ],
               ),
             ),

@@ -70,7 +70,7 @@ class ConnectedWallet {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['Number'] = this._number;
     data['CryptoId'] = this._cryptoId;
     return data;

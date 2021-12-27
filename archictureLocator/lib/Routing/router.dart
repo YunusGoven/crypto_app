@@ -26,17 +26,18 @@ class Rooter {
     var routingData = settings.name.getRoutingData;
     switch (routingData.route) {
       case AdminPanelRoute:
-        if (user == null || !user.admin)
-          return _getPageRoute(HomePage(), settings);
+        if (user == null || !user.admin) {
+          return _getPageRoute(const HomePage(), settings);
+        }
         return _getPageRoute(const AdministrationPage(), settings);
       case LoginRoute:
-        if (user != null) return _getPageRoute(HomePage(), settings);
+        if (user != null) return _getPageRoute(const HomePage(), settings);
         return _getPageRoute(const LoginPage(), settings);
       case HomeRoute:
         return _getPageRoute(const HomePage(), settings);
       case RegisterRoute:
         if (user != null) {
-          if (!user.admin) return _getPageRoute(HomePage(), settings);
+          if (!user.admin) return _getPageRoute(const HomePage(), settings);
         }
 
         return _getPageRoute(const RegisterPage(), settings);
@@ -45,19 +46,17 @@ class Rooter {
       case CryptosRoute:
         return _getPageRoute(const AllCryptoPage(), settings);
       case HistoryRoute:
-        if (user == null) return _getPageRoute(HomePage(), settings);
+        if (user == null) return _getPageRoute(const HomePage(), settings);
         return _getPageRoute(const HistoryPage(), settings);
       case RankingRoute:
-        if (user == null) return _getPageRoute(HomePage(), settings);
+        if (user == null) return _getPageRoute(const HomePage(), settings);
         return _getPageRoute(const RankingPage(), settings);
       case NotificationRoute:
-        if (user == null) return _getPageRoute(HomePage(), settings);
+        if (user == null) return _getPageRoute(const HomePage(), settings);
         return _getPageRoute(const NotificationPage(), settings);
       case WalletRoute:
-        if (user == null) return _getPageRoute(HomePage(), settings);
+        if (user == null) return _getPageRoute(const HomePage(), settings);
         return _getPageRoute(const WalletPage(), settings);
-      case WalletDetailRoute:
-        return _getPageRoute(const DetailPage(), settings);
       case CryptoDetailsRoute:
         var id = (routingData['cryptoId']);
         return _getPageRoute(
@@ -66,7 +65,7 @@ class Rooter {
             ),
             settings);
       case MessagingRoute:
-        if (user == null) return _getPageRoute(HomePage(), settings);
+        if (user == null) return _getPageRoute(const HomePage(), settings);
         var id = (routingData['cryptoId']);
         return _getPageRoute(
             DiscussionPage(

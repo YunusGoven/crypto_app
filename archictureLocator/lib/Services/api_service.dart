@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_brace_in_string_interps
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -7,7 +9,6 @@ import 'package:http/http.dart' as http;
 import 'package:mvvm/Model/models/crypto.dart';
 import 'package:mvvm/Model/models/history.dart';
 import 'package:mvvm/Model/models/notification.dart';
-import 'package:mvvm/Model/models/transaction.dart';
 import 'package:mvvm/Model/models/user.dart';
 import 'package:mvvm/Model/models/wallet.dart';
 import 'package:mvvm/Services/api_response.dart';
@@ -19,9 +20,9 @@ class ApiService {
   final _auth = locator<Auth>();
   final FirebaseAuthentification _firebaseAuthentification =
       FirebaseAuthentification();
-  //final url = "http://127.0.0.1:44336/api";
+  final url = "http://127.0.0.1:44336/api";
   //final url = "http://10.0.2.2:44336/api";
-  final url = "https://porthos-intra.cg.helmo.be/grGU/api";
+  // final url = "https://porthos-intra.cg.helmo.be/grGU/api";
   final Map<String, String> headers = {
     'Content-type': 'application/json',
     'Accept': 'text/plain',
@@ -73,7 +74,7 @@ class ApiService {
         return List.empty();
       }
     } on SocketException {
-      throw SocketException('No Internet connection');
+      throw const SocketException('No Internet connection');
     } on TimeoutException {
       throw TimeoutException('Delai dépassé');
     } on Exception {
@@ -105,8 +106,8 @@ class ApiService {
 
   //Detail crypto
   Future<Crypto> getCrypto(String cryptoId) async {
-    var c_url = url + '/Crypto/${cryptoId}';
-    Crypto cryptoM = null;
+    var c_url = url + '/Crypto/$cryptoId';
+    Crypto cryptoM;
     var uri = Uri.parse(c_url);
     var response = await http.get(uri);
     if (response.statusCode == 200) {
@@ -151,7 +152,7 @@ class ApiService {
     try {
       var identifier = FirebaseMessaging.instance;
       var notsett = await identifier.getNotificationSettings();
-      var body;
+      String body;
       if (notsett.authorizationStatus == AuthorizationStatus.authorized) {
         var token = await identifier.getToken();
         print(token);
@@ -182,7 +183,7 @@ class ApiService {
       return ApiResponse(code: response.statusCode, value: response.body);
     } catch (exception) {
       print(exception.toString());
-      return ApiResponse(
+      return const ApiResponse(
           code: 404, value: "Une erreur est survenu lors de la connection");
     }
   }

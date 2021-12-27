@@ -17,14 +17,14 @@ class CryptoWidget extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
               children: [
                 LogoImage(image: model.LogoUrl),
-                SizedBox(
+                const SizedBox(
                   width: 60,
                 ),
                 if (size < 380) Text(model.Name),
@@ -42,11 +42,11 @@ class CryptoWidget extends StatelessWidget {
             Column(
               children: [
                 Text("${model.Price.toStringAsFixed(4)} \$",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     )),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Row(
@@ -57,7 +57,7 @@ class CryptoWidget extends StatelessWidget {
                         color: model.Percent < 0 ? Colors.red : Colors.green,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Icon(
@@ -80,16 +80,16 @@ class CryptoWidget extends StatelessWidget {
     value = cryptoModel.Price + value;
     return Row(
       children: [
-        SizedBox(
+        const SizedBox(
           width: 40,
         ),
         Column(
           children: [
             Text(
               time,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Text(

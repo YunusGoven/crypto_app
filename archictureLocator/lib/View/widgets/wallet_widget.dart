@@ -19,7 +19,7 @@ class _WalletWidgetState extends State<WalletWidget> {
     var model = widget.model;
     var walletViewModel = widget.walletViewModel;
     return Container(
-      padding: EdgeInsets.only(bottom: 10, top: 10),
+      padding: const EdgeInsets.only(bottom: 10, top: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -32,15 +32,16 @@ class _WalletWidgetState extends State<WalletWidget> {
                 children: [
                   Text(
                     model.name,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 20),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 50,
                   ),
                   Text("${model.number} ${model.cryptoId}"),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
@@ -53,14 +54,14 @@ class _WalletWidgetState extends State<WalletWidget> {
                       color: model.percent < 0 ? Colors.red : Colors.green,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 30,
                   ),
                   Text('${model.gainsPertes} \$',
                       style: TextStyle(
                         color: model.percent < 0 ? Colors.red : Colors.green,
                       )),
-                  SizedBox(
+                  const SizedBox(
                     width: 30,
                   ),
                   Text('${model.gainsPertesTotal} \$')
@@ -77,8 +78,8 @@ class _WalletWidgetState extends State<WalletWidget> {
                 }
               },
               icon: model.notificationActivated
-                  ? Icon(Icons.notifications)
-                  : Icon(Icons.notifications_off))
+                  ? const Icon(Icons.notifications)
+                  : const Icon(Icons.notifications_off))
         ],
       ),
     );

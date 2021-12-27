@@ -34,7 +34,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    /*if (kIsWeb) */ NotificationService().listen(_messangerKey);
+    NotificationService().listen(_messangerKey);
   }
 
   @override
@@ -44,13 +44,12 @@ class _MyAppState extends State<MyApp> {
       initialData: null,
       child: Builder(builder: (context1) {
         final user = Provider.of<User>(context1, listen: false);
-        //print(user == null);
         return MaterialApp(
           scrollBehavior: MyCustomScrollBehavior(),
           title: 'crypto app',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-            primarySwatch: Colors.blueGrey,
+            primarySwatch: Colors.blue,
           ),
           builder: (context, child) {
             return SafeArea(
@@ -73,7 +72,6 @@ class _MyAppState extends State<MyApp> {
 }
 
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
-  // Override behavior methods and getters like dragDevices
   @override
   Set<PointerDeviceKind> get dragDevices => {
         PointerDeviceKind.touch,

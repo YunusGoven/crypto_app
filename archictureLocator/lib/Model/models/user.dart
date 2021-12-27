@@ -12,15 +12,15 @@ class ConnectedUser {
   ConnectedUser.fromJson(Map<String, dynamic> json) {
     _token = json['token'];
     if (json['wallets'] != null) {
-      _wallets = new List<ConnectedWallet>();
+      _wallets = <ConnectedWallet>[];
       json['wallets'].forEach((v) {
-        _wallets.add(new ConnectedWallet.fromJson(v));
+        _wallets.add(ConnectedWallet.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['token'] = token;
     if (wallets != null) {
       data['wallets'] = wallets.map((v) => v.toJson()).toList();
@@ -84,8 +84,6 @@ class User {
   User(this._id, this._firstname, this._surname, this._mail, this._pseudo,
       this._solde, this._isAdmin);
 
-  // User(this._id, this._firstname, this._surname, this._mail, this._pseudo,
-  //     this._solde, this._password, this._isBlocked);
   bool get isBlocked => _isBlocked;
   String get id => _id;
   String get firstname => _firstname;

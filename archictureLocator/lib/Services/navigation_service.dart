@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:mvvm/Routing/route_names.dart';
 import 'package:mvvm/Services/firebase_authentification.dart';
 import 'package:mvvm/Services/userinfo_service.dart';
-import 'package:mvvm/View/pages/home_page.dart';
 import 'package:mvvm/locator.dart';
 
 class NavigationService {

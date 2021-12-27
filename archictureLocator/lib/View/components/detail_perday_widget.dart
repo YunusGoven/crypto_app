@@ -11,13 +11,13 @@ class DetailPerDay extends StatelessWidget {
       children: [
         Text(
           day,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Text(
-          "${price.toStringAsFixed(3)}",
+          price.toStringAsFixed(3),
           style: TextStyle(
             color: price < 0 ? Colors.red : Colors.green,
           ),

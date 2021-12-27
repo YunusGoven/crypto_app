@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mvvm/View/widgets/history_list_widget.dart';
-import 'package:mvvm/View/widgets/history_widget.dart';
 import 'package:mvvm/ViewModel/history_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 

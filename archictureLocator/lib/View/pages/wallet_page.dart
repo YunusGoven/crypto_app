@@ -1,12 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:mvvm/Routing/route_names.dart';
-import 'package:mvvm/Services/navigation_service.dart';
-import 'package:mvvm/Services/userinfo_service.dart';
 import 'package:mvvm/View/widgets/wallet_widget.dart';
 import 'package:mvvm/ViewModel/wallet_viewmodel.dart';
-import 'package:mvvm/locator.dart';
 import 'package:stacked/stacked.dart';
 
 class WalletPage extends StatefulWidget {
@@ -28,17 +22,15 @@ class _WalletPageState extends State<WalletPage> {
             spacing: 30,
             runSpacing: 30,
             children: <Widget>[
-              if (model.wallets == null) LinearProgressIndicator(),
+              if (model.wallets == null) const LinearProgressIndicator(),
               if (model.wallets != null)
                 ...model.wallets
                     .asMap()
                     .map((index, wallet) => MapEntry(
                           index,
-                          Container(
-                            child: WalletWidget(
-                              model: wallet,
-                              walletViewModel: model,
-                            ),
+                          WalletWidget(
+                            model: wallet,
+                            walletViewModel: model,
                           ),
                         ))
                     .values

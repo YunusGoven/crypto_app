@@ -1,5 +1,3 @@
-import 'dart:io';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -13,7 +11,8 @@ class NotificationService {
       importance: Importance.high,
       playSound: true);
 
-  Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) {
+  Future<void> _firebaseMessagingBackgroundHandler(
+      RemoteMessage message) async {
     print('A bg message just showed up :  ${message.notification.body}');
   }
 
@@ -81,7 +80,7 @@ class NotificationService {
             final title = notification.title;
             final body = notification.body;
             print('$title | $body');
-            key.currentState.showSnackBar(SnackBar(content: Text("$body")));
+            key.currentState.showSnackBar(SnackBar(content: Text(body)));
           }
         });
       }

@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 const String LoginRoute = '/connexion';
 const String HomeRoute = '/';
 const String CryptosRoute = '/cryptos';
@@ -9,5 +11,4 @@ const String CryptoDetailsRoute = '/crypto';
 const String MessagingRoute = '/messaging';
 const String RegisterRoute = '/register';
 const String ContactRoute = '/contact';
-const String WalletDetailRoute = '/detail';
 const String AdminPanelRoute = '/adminpanel';

@@ -12,7 +12,7 @@ class WelcomeMessage extends StatelessWidget {
       height: 325,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
             stops: [
@@ -35,7 +35,7 @@ class WelcomeMessage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Center(
+            const Center(
               child: Text(
                 "Bienvenue dans la plateforme où vous pouvez vendre ou acheter de la cryptomonnaie en toute sécurité",
                 style: TextStyle(color: Colors.white, fontSize: 26),
@@ -49,15 +49,15 @@ class WelcomeMessage extends StatelessWidget {
                       locator<NavigationService>().navigateTo(RegisterRoute);
                     },
                     style: TextButton.styleFrom(primary: Colors.white),
-                    label: Text("S'Inscrire"),
-                    icon: Icon(Icons.add)),
+                    label: const Text("S'Inscrire"),
+                    icon: const Icon(Icons.add)),
                 TextButton.icon(
                     onPressed: () {
                       locator<NavigationService>().navigateTo(LoginRoute);
                     },
                     style: TextButton.styleFrom(primary: Colors.white),
-                    label: Text("Se Connecter"),
-                    icon: Icon(Icons.login))
+                    label: const Text("Se Connecter"),
+                    icon: const Icon(Icons.login))
               ],
             )
           ],

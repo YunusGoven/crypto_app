@@ -1,10 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:mvvm/Model/models/user.dart';
 import 'package:mvvm/Routing/route_names.dart';
-import 'package:mvvm/Services/userinfo_service.dart';
-import 'package:mvvm/locator.dart';
 
 import 'package:provider/provider.dart';
 import 'navbar_item.dart';
@@ -30,53 +26,53 @@ class _NavigationBarTabletDesktopState
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              SizedBox(
+              const SizedBox(
                 width: 20,
               ),
-              NavBarItem('Accueil', HomeRoute),
-              SizedBox(
+              const NavBarItem('Accueil', HomeRoute),
+              const SizedBox(
                 width: 20,
               ),
-              NavBarItem('Cryptos', CryptosRoute),
-              SizedBox(
+              const NavBarItem('Cryptos', CryptosRoute),
+              const SizedBox(
                 width: 20,
               ),
-              NavBarItem('Contact', ContactRoute),
-              SizedBox(
+              const NavBarItem('Contact', ContactRoute),
+              const SizedBox(
                 width: 20,
               ),
               if (user != null)
                 Row(
                   children: [
-                    NavBarItem('Historique', HistoryRoute),
-                    SizedBox(
+                    const NavBarItem('Historique', HistoryRoute),
+                    const SizedBox(
                       width: 20,
                     ),
-                    NavBarItem('Classement', RankingRoute),
-                    SizedBox(
+                    const NavBarItem('Classement', RankingRoute),
+                    const SizedBox(
                       width: 20,
                     ),
-                    NavBarItem('Notification', NotificationRoute),
-                    SizedBox(
+                    const NavBarItem('Notification', NotificationRoute),
+                    const SizedBox(
                       width: 20,
                     ),
-                    NavBarItem('Portfeuille', WalletRoute),
-                    SizedBox(
+                    const NavBarItem('Portfeuille', WalletRoute),
+                    const SizedBox(
                       width: 20,
                     ),
-                    if (user.admin) NavBarItem('Admin', AdminPanelRoute),
-                    SizedBox(
+                    if (user.admin) const NavBarItem('Admin', AdminPanelRoute),
+                    const SizedBox(
                       width: 20,
                     ),
-                    NavBarItem('Deconnexion', ""),
-                    SizedBox(
+                    const NavBarItem('Deconnexion', ""),
+                    const SizedBox(
                       width: 20,
                     ),
                   ],
                 ),
               if (user == null)
                 Row(
-                  children: [
+                  children: const [
                     NavBarItem('Connexion', LoginRoute),
                     SizedBox(
                       width: 20,

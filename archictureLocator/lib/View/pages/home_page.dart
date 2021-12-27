@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -11,7 +9,6 @@ import 'package:mvvm/View/widgets/crypto_list_widget.dart';
 import 'package:mvvm/View/widgets/home_wallet_widget.dart';
 import 'package:mvvm/View/widgets/welcome_message_widget.dart';
 import 'package:mvvm/ViewModel/crypto_viewmodel.dart';
-import 'package:mvvm/ViewModel/wallet_viewmodel.dart';
 import 'package:mvvm/locator.dart';
 
 import 'package:provider/provider.dart';
@@ -43,8 +40,6 @@ class _HomePageState extends State<HomePage> {
     final user = Provider.of<User>(context);
     var isAuth = user != null;
 
-    // print(isAuth);
-
     return ViewModelBuilder<CryptoViewModel>.reactive(
       viewModelBuilder: () => CryptoViewModel(),
       onModelReady: (model) => model.getAllCryptos(4),
@@ -54,12 +49,12 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (isAuth) HomeWalletWidget(),
-              if (kIsWeb && !isAuth) WelcomeMessage(),
+              if (isAuth) const HomeWalletWidget(),
+              if (kIsWeb && !isAuth) const WelcomeMessage(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     "Top Cryptomonnaie",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                   ),
@@ -67,11 +62,11 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () {
                         locator<NavigationService>().navigateTo(CryptosRoute);
                       },
-                      label: Text("Plus"),
-                      icon: Icon(Icons.add_circle_rounded))
+                      label: const Text("Plus"),
+                      icon: const Icon(Icons.add_circle_rounded))
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               model.cryptos == null

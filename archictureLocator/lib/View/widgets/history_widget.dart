@@ -8,10 +8,12 @@ class HistoryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
+    var screenwidht = screenSize.width;
     DateTime ui = DateTime.tryParse(model.dateTransaction);
     String formated = DateFormat('dd-MM-yyyy').format(ui);
     return Container(
-      padding: EdgeInsets.only(bottom: 10, left: 40, top: 10, right: 40),
+      padding: const EdgeInsets.only(bottom: 10, left: 40, top: 10, right: 40),
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.black,
@@ -25,14 +27,21 @@ class HistoryWidget extends StatelessWidget {
             children: [
               Text(
                 model.type,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
+                style: screenwidht >= 895
+                    ? const TextStyle(fontWeight: FontWeight.bold, fontSize: 25)
+                    : const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 15),
               ),
               Text(formated),
             ],
           ),
           Text(
-            model.value.toString() + "   " + model.cryptoId,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 35),
+            model.type == "VENTE"
+                ? model.number.toString() + "   " + model.cryptoId
+                : model.value.toString() + "   " + model.cryptoId,
+            style: screenwidht >= 895
+                ? const TextStyle(fontWeight: FontWeight.bold, fontSize: 30)
+                : const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
           Column(
             children: [
@@ -40,9 +49,12 @@ class HistoryWidget extends StatelessWidget {
                 model.type == "VENTE"
                     ? model.value.toString() + "\$"
                     : model.number.toString() + "\$",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                style: screenwidht >= 895
+                    ? const TextStyle(fontWeight: FontWeight.bold, fontSize: 25)
+                    : const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 15),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               Text(model.onTransactionValue.toString() +

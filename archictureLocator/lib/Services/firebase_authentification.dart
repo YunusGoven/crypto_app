@@ -36,7 +36,6 @@ class FirebaseAuthentification {
     try {
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      //UserCredential result = await _auth.signInAnonymously();
       User user = result.user;
       return _connectionStatus(user);
     } catch (exception) {

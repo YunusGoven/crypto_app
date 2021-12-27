@@ -16,9 +16,6 @@ class AllCryptoPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          // const SizedBox(
-          //   height: 100,
-          // ),
           model.cryptos == null
               ? const LinearProgressIndicator()
               : CryptoListWidget(cryptos: model.cryptos),

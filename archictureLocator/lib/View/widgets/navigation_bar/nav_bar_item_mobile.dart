@@ -8,6 +8,7 @@ class NavBarMobile extends StatelessWidget {
   final int id;
   final IconData icon;
 
+  // ignore: use_key_in_widget_constructors
   const NavBarMobile(this.id, this.text, this.navigationPath, this.icon);
 
   @override
@@ -17,11 +18,10 @@ class NavBarMobile extends StatelessWidget {
 
   Widget menuItem(int id, String text, IconData icon) {
     return ListTile(
-      //tileColor: id == currentPage ? Colors.grey : Colors.transparent,
       title: Row(
         children: [
           Icon(icon),
-          SizedBox(
+          const SizedBox(
             width: 60,
           ),
           Text(text),

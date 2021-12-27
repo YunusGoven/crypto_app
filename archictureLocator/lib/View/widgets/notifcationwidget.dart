@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mvvm/Model/models/notification.dart';
-import 'package:mvvm/ViewModel/notification_viewmodel.dart';
 
 class NotificationWidget extends StatefulWidget {
   final NotificationModel notification;
@@ -21,14 +20,14 @@ class _NotificationWidgetState extends State<NotificationWidget> {
       children: [
         Text(
           widget.notification.message,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Text(
           widget.notification.dateNotif,
-          style: TextStyle(color: Colors.grey),
+          style: const TextStyle(color: Colors.grey),
         ),
       ],
     );

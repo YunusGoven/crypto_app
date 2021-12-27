@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mvvm/Model/models/crypto.dart';
-import 'package:mvvm/Services/api_response.dart';
 import 'package:mvvm/Services/api_service.dart';
 import 'package:mvvm/Services/userinfo_service.dart';
 import 'package:mvvm/locator.dart';
@@ -42,10 +41,6 @@ class BuyButtonWidgetState extends State<BuyButtonWidget> {
                 onTap: () {
                   Navigator.of(context).pop();
                 },
-                child: CircleAvatar(
-                  child: Icon(Icons.close),
-                  backgroundColor: Colors.red,
-                ),
               ),
             ),
             Form(
@@ -80,19 +75,19 @@ class BuyButtonWidgetState extends State<BuyButtonWidget> {
                           controller: _numberController,
                           cursorColor: Colors.black,
                           decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(0.0),
+                            contentPadding: const EdgeInsets.all(0.0),
                             labelText: 'Nombre',
                             hintText: '50000',
-                            labelStyle: TextStyle(
+                            labelStyle: const TextStyle(
                               color: Colors.black,
                               fontSize: 14.0,
                               fontWeight: FontWeight.w400,
                             ),
-                            hintStyle: TextStyle(
+                            hintStyle: const TextStyle(
                               color: Colors.grey,
                               fontSize: 14.0,
                             ),
-                            prefixIcon: Icon(
+                            prefixIcon: const Icon(
                               Icons.supervised_user_circle,
                               color: Colors.black,
                               size: 18,
@@ -102,13 +97,13 @@ class BuyButtonWidgetState extends State<BuyButtonWidget> {
                                   color: Colors.grey.shade200, width: 2),
                               borderRadius: BorderRadius.circular(10.0),
                             ),
-                            floatingLabelStyle: TextStyle(
+                            floatingLabelStyle: const TextStyle(
                               color: Colors.black,
                               fontSize: 18.0,
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.black, width: 1.5),
+                              borderSide: const BorderSide(
+                                  color: Colors.black, width: 1.5),
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                           ),
@@ -122,7 +117,6 @@ class BuyButtonWidgetState extends State<BuyButtonWidget> {
                                 try {
                                   var number =
                                       num.parse(_numberController.text);
-                                  //if (widget.type == "ACHAT") {
                                   _total = number / widget.crypto.Price;
                                   _total = num.parse(_total.toStringAsFixed(8));
                                   if (number > _userSolde) {
@@ -130,11 +124,7 @@ class BuyButtonWidgetState extends State<BuyButtonWidget> {
                                   } else {
                                     _error = '';
                                   }
-                                  // } else {
-                                  //   _total = num.parse(_numberController.text) *
-                                  //       widget.crypto.currentvalue;
-                                  // }
-                                } catch (Exception) {
+                                } on Exception {
                                   _error =
                                       'Veuillez ne pas encoder des lettres !';
                                   _total = 0;
@@ -144,7 +134,7 @@ class BuyButtonWidgetState extends State<BuyButtonWidget> {
                           },
                         ),
                       ),
-                      Text("\$")
+                      const Text("\$")
                     ],
                   ),
                   Text(
@@ -155,8 +145,8 @@ class BuyButtonWidgetState extends State<BuyButtonWidget> {
                       "Valeur Actuelle : ${widget.crypto.Price.toStringAsFixed(3)} \$"),
                   Text("Total: ${_total} ${widget.crypto.Id}"),
                   Text(
-                    '$_error',
-                    style: TextStyle(color: Colors.red),
+                    _error,
+                    style: const TextStyle(color: Colors.red),
                   ),
                   ElevatedButton(
                       onPressed: () async {
@@ -168,7 +158,7 @@ class BuyButtonWidgetState extends State<BuyButtonWidget> {
                           final snackBar = SnackBar(
                             content: Text(
                               send.value,
-                              style: TextStyle(fontSize: 20),
+                              style: const TextStyle(fontSize: 20),
                             ),
                             backgroundColor:
                                 send.code == 200 ? Colors.green : Colors.red,
@@ -182,7 +172,7 @@ class BuyButtonWidgetState extends State<BuyButtonWidget> {
                           }
                         }
                       },
-                      child: Text(
+                      child: const Text(
                         "Acheter",
                         style: TextStyle(color: Colors.white),
                       )),

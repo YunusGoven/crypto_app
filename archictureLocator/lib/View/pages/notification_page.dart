@@ -1,12 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:mvvm/Routing/route_names.dart';
-import 'package:mvvm/Services/navigation_service.dart';
-import 'package:mvvm/Services/userinfo_service.dart';
 import 'package:mvvm/View/widgets/notifcationwidget.dart';
 import 'package:mvvm/ViewModel/notification_viewmodel.dart';
-import 'package:mvvm/locator.dart';
 import 'package:stacked/stacked.dart';
 
 class NotificationPage extends StatefulWidget {
@@ -41,7 +35,7 @@ class _NotificationPageState extends State<NotificationPage> {
                             final snackBar = SnackBar(
                               content: Text(
                                 isDeleted.value,
-                                style: TextStyle(fontSize: 20),
+                                style: const TextStyle(fontSize: 20),
                               ),
                               backgroundColor: isDeleted.code == 200
                                   ? Colors.green
@@ -50,7 +44,7 @@ class _NotificationPageState extends State<NotificationPage> {
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(snackBar);
                           },
-                          icon: Icon(Icons.delete)),
+                          icon: const Icon(Icons.delete)),
                     ],
                   ),
                 )))

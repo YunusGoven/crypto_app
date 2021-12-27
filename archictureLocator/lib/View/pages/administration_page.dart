@@ -17,7 +17,6 @@ class _AdministrationPageState extends State<AdministrationPage> {
   final textController = TextEditingController();
   @override
   void dispose() {
-    // TODO: implement dispose
     textController.dispose();
     super.dispose();
   }
@@ -33,11 +32,11 @@ class _AdministrationPageState extends State<AdministrationPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 "Administration",
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Container(
@@ -52,27 +51,27 @@ class _AdministrationPageState extends State<AdministrationPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Flexible(
+                    const Flexible(
                         child: Text(
                       "Ajouter nouvelle crypto",
                       overflow: TextOverflow.clip,
                     )),
-                    Tooltip(
+                    const Tooltip(
                       textStyle: TextStyle(fontSize: 16, color: Colors.white),
                       height: 60,
                       message: "Drere va sur Nomics.com",
                       child: Icon(Icons.help),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
-                    Container(
+                    SizedBox(
                         width: mWidth * 0.3,
                         child: Expanded(
                             child: TextField(
                           controller: textController,
                         ))),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
                     ElevatedButton(
@@ -83,7 +82,7 @@ class _AdministrationPageState extends State<AdministrationPage> {
                         final snackBar = SnackBar(
                           content: Text(
                             block.value,
-                            style: TextStyle(fontSize: 20),
+                            style: const TextStyle(fontSize: 20),
                           ),
                           backgroundColor:
                               block.code == 200 ? Colors.green : Colors.red,
@@ -96,13 +95,13 @@ class _AdministrationPageState extends State<AdministrationPage> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     "Utilisateurs",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
@@ -110,11 +109,11 @@ class _AdministrationPageState extends State<AdministrationPage> {
                       onPressed: () {
                         locator<NavigationService>().navigateTo(RegisterRoute);
                       },
-                      icon: Icon(Icons.add),
-                      label: Text("Ajouter utilisateur")),
+                      icon: const Icon(Icons.add),
+                      label: const Text("Ajouter utilisateur")),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Container(
@@ -132,17 +131,17 @@ class _AdministrationPageState extends State<AdministrationPage> {
                   builder: (context, model, child) => Table(
                     border: TableBorder.all(),
                     defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                    columnWidths: {
+                    columnWidths: const {
                       0: FlexColumnWidth(.75),
                       1: FlexColumnWidth(1),
                       2: FlexColumnWidth(.45),
                       3: FlexColumnWidth(.45)
                     },
                     children: [
-                      TableRow(children: [
+                      const TableRow(children: [
                         Center(
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 8, bottom: 8),
+                            padding: EdgeInsets.only(top: 8, bottom: 8),
                             child: Text(
                               "UserName",
                               style: TextStyle(
@@ -202,8 +201,8 @@ class _AdministrationPageState extends State<AdministrationPage> {
                                                 final snackBar = SnackBar(
                                                   content: Text(
                                                     block.value,
-                                                    style:
-                                                        TextStyle(fontSize: 20),
+                                                    style: const TextStyle(
+                                                        fontSize: 20),
                                                   ),
                                                   backgroundColor:
                                                       block.code == 200
@@ -214,10 +213,10 @@ class _AdministrationPageState extends State<AdministrationPage> {
                                                     .showSnackBar(snackBar);
                                               },
                                               child: user.isBlocked
-                                                  ? Text(
+                                                  ? const Text(
                                                       "Debloquer",
                                                     )
-                                                  : Text(
+                                                  : const Text(
                                                       "Bloquer",
                                                     ),
                                               style: user.isBlocked
@@ -228,7 +227,7 @@ class _AdministrationPageState extends State<AdministrationPage> {
                                                       primary:
                                                           Colors.orangeAccent),
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               height: 10,
                                             ),
                                             ElevatedButton(
@@ -254,7 +253,7 @@ class _AdministrationPageState extends State<AdministrationPage> {
                                                                   SnackBar(
                                                                 content: Text(
                                                                   block.value,
-                                                                  style: TextStyle(
+                                                                  style: const TextStyle(
                                                                       fontSize:
                                                                           20),
                                                                 ),
@@ -271,20 +270,22 @@ class _AdministrationPageState extends State<AdministrationPage> {
                                                                   .showSnackBar(
                                                                       snackBar);
                                                             },
-                                                            child: Text("Oui")),
+                                                            child: const Text(
+                                                                "Oui")),
                                                         TextButton(
                                                             onPressed: () {
                                                               Navigator.of(
                                                                       context)
                                                                   .pop();
                                                             },
-                                                            child: Text("Non"))
+                                                            child: const Text(
+                                                                "Non"))
                                                       ],
                                                     );
                                                   },
                                                 );
                                               },
-                                              child: Text(
+                                              child: const Text(
                                                 "Supprimer",
                                               ),
                                               style: ElevatedButton.styleFrom(

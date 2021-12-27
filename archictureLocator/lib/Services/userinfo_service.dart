@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:localstore/localstore.dart';
 import 'package:mvvm/Model/models/user.dart';
@@ -17,12 +15,8 @@ class Auth {
 
   num get getUserSolde => _user.solde;
 
-  User _userInfo(User info) {
-    return info;
-  }
-
   Stream<User> get userInfo {
-    return Stream<User>.periodic(Duration(seconds: 1), (_) {
+    return Stream<User>.periodic(const Duration(seconds: 1), (_) {
       getUser();
       return _user;
     }).map((event) => event);

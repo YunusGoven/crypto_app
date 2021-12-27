@@ -5,6 +5,7 @@ import 'package:mvvm/locator.dart';
 class NavBarItem extends StatelessWidget {
   final String title;
   final String navigationPath;
+  // ignore: use_key_in_widget_constructors
   const NavBarItem(this.title, this.navigationPath);
 
   @override
@@ -15,7 +16,7 @@ class NavBarItem extends StatelessWidget {
       },
       child: Text(
         title,
-        style: TextStyle(fontSize: 18, color: Colors.white),
+        style: const TextStyle(fontSize: 18, color: Colors.white),
       ),
     );
   }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mvvm/Model/models/user.dart';
-import 'package:mvvm/Model/models/wallet.dart';
 import 'package:mvvm/Services/api_response.dart';
 import 'package:mvvm/Services/api_service.dart';
 import 'package:mvvm/locator.dart';
@@ -35,10 +34,4 @@ class UserViewModel extends ChangeNotifier {
     if (isBlock.code == 200) getUsers();
     return isBlock;
   }
-
-  // //new crypto
-  // Future<ApiResponse> addNewCrypto(String cryptoId) async {
-  //   var added = await _api.addNewCrypto(cryptoId);
-  //   return added;
-  // }
 }

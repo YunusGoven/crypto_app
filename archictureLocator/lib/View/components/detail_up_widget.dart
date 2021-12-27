@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mvvm/Model/models/crypto.dart';
 import 'package:mvvm/View/components/image_widget.dart';
-import 'package:mvvm/ViewModel/crypto_viewmodel.dart';
 
 class DetailUp extends StatefulWidget {
   final Crypto crypto;
@@ -16,7 +14,7 @@ class _DetailUpState extends State<DetailUp> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 20),
+      padding: const EdgeInsets.only(top: 20),
       child: Column(
         children: [
           Row(
@@ -26,16 +24,18 @@ class _DetailUpState extends State<DetailUp> {
               LogoImage(image: widget.crypto.LogoUrl),
               Text(
                 widget.crypto.Name,
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     "${widget.crypto.Price.toStringAsFixed(3)} \$",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -48,7 +48,7 @@ class _DetailUpState extends State<DetailUp> {
                               : Colors.green,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Icon(

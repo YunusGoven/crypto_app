@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mvvm/Model/models/crypto.dart';
 import 'package:mvvm/Model/models/wallet.dart';
-import 'package:mvvm/Services/api_response.dart';
 import 'package:mvvm/Services/api_service.dart';
 import 'package:mvvm/Services/userinfo_service.dart';
 import 'package:mvvm/locator.dart';
@@ -27,7 +26,6 @@ class SellButtonWidgetState extends State<SellButtonWidget> {
   Future<ConnectedWallet> _wallet;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _wallet = _auth.getThisWallet(widget.crypto.Id);
   }
@@ -43,15 +41,16 @@ class SellButtonWidgetState extends State<SellButtonWidget> {
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 default:
-                  if (snapshot.hasError)
+                  if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
-                  else if (snapshot.data == null) {
+                  } else if (snapshot.data == null) {
                     return Text(
                         'Vous ne possedez pas de ${widget.crypto.Name}');
-                  } else
+                  } else {
                     _userSolde = snapshot.data.number;
+                  }
                   return Stack(
                     clipBehavior: Clip.none,
                     children: [
@@ -62,10 +61,6 @@ class SellButtonWidgetState extends State<SellButtonWidget> {
                           onTap: () {
                             Navigator.of(context).pop();
                           },
-                          child: CircleAvatar(
-                            child: Icon(Icons.close),
-                            backgroundColor: Colors.red,
-                          ),
                         ),
                       ),
                       Form(
@@ -101,19 +96,19 @@ class SellButtonWidgetState extends State<SellButtonWidget> {
                                     controller: _numberController,
                                     cursorColor: Colors.black,
                                     decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.all(0.0),
+                                      contentPadding: const EdgeInsets.all(0.0),
                                       labelText: 'Nombre',
                                       hintText: '0.513544',
-                                      labelStyle: TextStyle(
+                                      labelStyle: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 14.0,
                                         fontWeight: FontWeight.w400,
                                       ),
-                                      hintStyle: TextStyle(
+                                      hintStyle: const TextStyle(
                                         color: Colors.grey,
                                         fontSize: 14.0,
                                       ),
-                                      prefixIcon: Icon(
+                                      prefixIcon: const Icon(
                                         Icons.supervised_user_circle,
                                         color: Colors.black,
                                         size: 18,
@@ -125,12 +120,12 @@ class SellButtonWidgetState extends State<SellButtonWidget> {
                                         borderRadius:
                                             BorderRadius.circular(10.0),
                                       ),
-                                      floatingLabelStyle: TextStyle(
+                                      floatingLabelStyle: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 18.0,
                                       ),
                                       focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                             color: Colors.black, width: 1.5),
                                         borderRadius:
                                             BorderRadius.circular(10.0),
@@ -146,21 +141,15 @@ class SellButtonWidgetState extends State<SellButtonWidget> {
                                           try {
                                             var number = num.parse(
                                                 _numberController.text);
-                                            //if (widget.type == "ACHAT") {
                                             _total =
                                                 number * widget.crypto.Price;
                                             _total = num.parse(
                                                 _total.toStringAsFixed(3));
                                             if (number > _userSolde) {
-                                              _error = 'Max: ${_userSolde}';
+                                              _error = 'Max: $_userSolde';
                                             } else {
                                               _error = '';
                                             }
-
-                                            // } else {
-                                            //   _total = num.parse(_numberController.text) *
-                                            //       widget.crypto.currentvalue;
-                                            // }
                                           } catch (Exception) {
                                             _error =
                                                 'Veuillez ne pas encoder des lettres !';
@@ -174,27 +163,27 @@ class SellButtonWidgetState extends State<SellButtonWidget> {
                                 Text(widget.crypto.Id)
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 40,
                             ),
                             Text(
                               "max: $_userSolde ${widget.crypto.Id}",
                               textAlign: TextAlign.end,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 40,
                             ),
                             Text(
                                 "Valeur Actuelle : ${widget.crypto.Price.toStringAsFixed(3)} \$"),
-                            Text("Total: ${_total} \$"),
-                            SizedBox(
+                            Text("Total: $_total \$"),
+                            const SizedBox(
                               height: 40,
                             ),
                             Text(
-                              '$_error',
-                              style: TextStyle(color: Colors.red),
+                              _error,
+                              style: const TextStyle(color: Colors.red),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 40,
                             ),
                             ElevatedButton(
@@ -210,7 +199,7 @@ class SellButtonWidgetState extends State<SellButtonWidget> {
                                     final snackBar = SnackBar(
                                       content: Text(
                                         send.value,
-                                        style: TextStyle(fontSize: 20),
+                                        style: const TextStyle(fontSize: 20),
                                       ),
                                       backgroundColor: send.code == 200
                                           ? Colors.green
@@ -226,7 +215,7 @@ class SellButtonWidgetState extends State<SellButtonWidget> {
                                     }
                                   }
                                 },
-                                child: Text(
+                                child: const Text(
                                   "Vendre",
                                   style: TextStyle(color: Colors.white),
                                 )),
