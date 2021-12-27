@@ -35,4 +35,10 @@ class UserViewModel extends ChangeNotifier {
     if (isBlock.code == 200) getUsers();
     return isBlock;
   }
+
+  // //new crypto
+  // Future<ApiResponse> addNewCrypto(String cryptoId) async {
+  //   var added = await _api.addNewCrypto(cryptoId);
+  //   return added;
+  // }
 }

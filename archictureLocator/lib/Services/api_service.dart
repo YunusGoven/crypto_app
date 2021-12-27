@@ -379,4 +379,16 @@ class ApiService {
     var response = await http.delete(uri, headers: connectedHeaders);
     return ApiResponse(code: response.statusCode, value: response.body);
   }
+
+  Future<ApiResponse> addNewCrypto(String cryptoId) async {
+    var c_url = url + '/Crypto/$cryptoId';
+    connectedHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'text/plain',
+      'Authorization': 'Bearer ${await _auth.token()}'
+    };
+    var uri = Uri.parse(c_url);
+    var response = await http.post(uri, headers: connectedHeaders);
+    return ApiResponse(code: response.statusCode, value: response.body);
+  }
 }

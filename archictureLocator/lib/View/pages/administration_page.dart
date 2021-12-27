@@ -14,6 +14,14 @@ class AdministrationPage extends StatefulWidget {
 }
 
 class _AdministrationPageState extends State<AdministrationPage> {
+  final textController = TextEditingController();
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    textController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var mWidth = MediaQuery.of(context).size.width;
@@ -60,12 +68,29 @@ class _AdministrationPageState extends State<AdministrationPage> {
                     ),
                     Container(
                         width: mWidth * 0.3,
-                        child: Expanded(child: TextField())),
+                        child: Expanded(
+                            child: TextField(
+                          controller: textController,
+                        ))),
                     SizedBox(
                       width: 20,
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        var text = textController.text.toUpperCase();
+                        var block =
+                            await locator<ApiService>().addNewCrypto(text);
+                        final snackBar = SnackBar(
+                          content: Text(
+                            block.value,
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          backgroundColor:
+                              block.code == 200 ? Colors.green : Colors.red,
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        textController.clear();
+                      },
                       child: Text("Ajout"),
                     )
                   ],
