@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mvvm/Model/models/wallet.dart';
+import 'package:mvvm/Routing/route_names.dart';
+import 'package:mvvm/Services/navigation_service.dart';
 import 'package:mvvm/View/components/image_widget.dart';
 import 'package:mvvm/ViewModel/wallet_viewmodel.dart';
+import 'package:mvvm/locator.dart';
 
 class WalletWidget extends StatefulWidget {
   final Wallet model;
@@ -30,7 +33,12 @@ class _WalletWidgetState extends State<WalletWidget> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          LogoImage(image: model.imageUrl),
+          GestureDetector(
+              child: LogoImage(image: model.imageUrl),
+              onTap: () {
+                locator<NavigationService>().navigateTo(CryptoDetailsRoute,
+                    queryParams: {'cryptoId': model.cryptoId});
+              }),
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [

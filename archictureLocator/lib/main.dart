@@ -51,17 +51,22 @@ class _MyAppState extends State<MyApp> {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          builder: (context, child) {
-            return SafeArea(
-              child: Overlay(
-                initialEntries: [
-                  OverlayEntry(
-                    builder: (context) => ScreenTemplate(child: child),
-                  ),
-                ],
-              ),
-            );
-          },
+          builder: (context, child) => Navigator(
+            key: locator<NavigationService>().screenNavigationKey,
+            onGenerateRoute: (settings) => MaterialPageRoute(
+                builder: (context) => ScreenTemplate(child: child)),
+          ),
+          //{
+          //   return SafeArea(
+          //     child: Overlay(
+          //       initialEntries: [
+          //         OverlayEntry(
+          //           builder: (context) => ScreenTemplate(child: child),
+          //         ),
+          //       ],
+          //     ),
+          //   );
+          // },
           navigatorKey: locator<NavigationService>().navigatorKey,
           onGenerateRoute: Rooter(context1).generateRoute,
           initialRoute: kIsWeb || user != null ? HomeRoute : LoginRoute,

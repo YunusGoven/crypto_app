@@ -20,40 +20,48 @@ class _NotificationPageState extends State<NotificationPage> {
             .asMap()
             .map((index, value) => MapEntry(
                 index,
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      NotificationWidget(notification: value),
-                      IconButton(
-                          onPressed: () async {
-                            var isDeleted = await _nvm
-                                .deleteNotification(value.notificationId);
-                            if (isDeleted.code == 200) {
-                              setState(() {
-                                model.notification.removeWhere((element) =>
-                                    element.notificationId ==
-                                    value.notificationId);
-                              });
-                            }
-                            final snackBar = SnackBar(
-                              content: Text(
-                                isDeleted.value,
-                                style: const TextStyle(fontSize: 20),
-                              ),
-                              backgroundColor: isDeleted.code == 200
-                                  ? Colors.green
-                                  : Colors.red,
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-                          },
-                          icon: const Icon(Icons.delete)),
-                    ],
-                  ),
-                )))
+                Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black,
+                        width: 5,
+                      ),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          NotificationWidget(notification: value),
+                          IconButton(
+                              onPressed: () async {
+                                var isDeleted = await _nvm
+                                    .deleteNotification(value.notificationId);
+                                if (isDeleted.code == 200) {
+                                  setState(() {
+                                    model.notification.removeWhere((element) =>
+                                        element.notificationId ==
+                                        value.notificationId);
+                                  });
+                                }
+                                final snackBar = SnackBar(
+                                  content: Text(
+                                    isDeleted.value,
+                                    style: const TextStyle(fontSize: 20),
+                                  ),
+                                  backgroundColor: isDeleted.code == 200
+                                      ? Colors.green
+                                      : Colors.red,
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              },
+                              icon: const Icon(Icons.delete)),
+                        ],
+                      ),
+                    ))))
             .values
             .toList()
       ],

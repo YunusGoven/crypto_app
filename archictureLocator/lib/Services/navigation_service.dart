@@ -7,8 +7,12 @@ import 'package:mvvm/locator.dart';
 
 class NavigationService {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> _screenNavigationKey =
+      GlobalKey<NavigatorState>();
   final FirebaseAuthentification _firebaseAuthentification =
       FirebaseAuthentification();
+
+  GlobalKey<NavigatorState> get screenNavigationKey => _screenNavigationKey;
 
   Future<dynamic> navigateTo(String routeName,
       {Map<String, String> queryParams}) async {
