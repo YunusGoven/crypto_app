@@ -4,6 +4,12 @@
     // Pour plus d'informations, visitez : https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+    {
+        "name": "50000",
+        "type": "dart",
+        "request": "launch",
+        "args" : ["--web-renderer", "html", "--web-port", "5000"]
+    },
         {
             "name": "mvvm",
             "request": "launch",

@@ -6,6 +6,7 @@ import 'package:mvvm/View/components/detail_graph_widget.dart';
 import 'package:mvvm/View/components/detail_midde_lwidget.dart';
 import 'package:mvvm/View/components/detail_up_widget.dart';
 import 'package:mvvm/View/widgets/buy_button_widget.dart';
+import 'package:mvvm/View/widgets/calculator_widget.dart';
 import 'package:mvvm/View/widgets/sell_button_widget.dart';
 import 'package:mvvm/ViewModel/crypto_viewmodel.dart';
 import 'package:mvvm/locator.dart';
@@ -45,6 +46,21 @@ class _DetailPageState extends State<DetailPage> {
                         DetailMiddle(crypto: model.crypto),
                         const SizedBox(
                           height: 50,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Converter",
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            CalculatorWidget(cryptoValue: model.crypto),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
                         ),
                         Graph(crypto: model.crypto),
                         const SizedBox(
