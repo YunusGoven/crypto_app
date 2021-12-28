@@ -32,6 +32,7 @@ class _NavigationBarMobileState extends State<NavigationBarMobile> {
                     2, 'Cryptos', CryptosRoute, Icons.shopping_cart_outlined),
                 NavBarMobile(10, 'Contact', ContactRoute,
                     Icons.contact_support_outlined),
+                NavBarMobile(20, 'Option', OptionRoute, Icons.settings)
               ],
             ),
           if (user != null)

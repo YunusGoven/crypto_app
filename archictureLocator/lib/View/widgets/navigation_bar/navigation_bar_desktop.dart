@@ -41,6 +41,10 @@ class _NavigationBarTabletDesktopState
               const SizedBox(
                 width: 20,
               ),
+              const NavBarItem('Option', OptionRoute),
+              const SizedBox(
+                width: 20,
+              ),
               if (user != null)
                 Row(
                   children: [
@@ -82,7 +86,7 @@ class _NavigationBarTabletDesktopState
                       width: 20,
                     ),
                   ],
-                )
+                ),
             ],
           )
         ],
