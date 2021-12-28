@@ -40,10 +40,10 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
                           string,
                         ) /
                         value)
-                    .toStringAsFixed(8);
+                    ?.toStringAsFixed(8);
 
                 _controllerCrypto.value = TextEditingValue(
-                  text: val,
+                  text: val ?? "",
                 );
               }
             },
@@ -61,9 +61,9 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
                 _controllerMonet.text = '';
                 _controllerMonet.clear();
               } else {
-                var val = (double.tryParse(string) * value).toStringAsFixed(4);
+                var val = (double.tryParse(string) * value)?.toStringAsFixed(4);
                 _controllerMonet.value = TextEditingValue(
-                  text: val,
+                  text: val ?? "",
                 );
               }
             },
