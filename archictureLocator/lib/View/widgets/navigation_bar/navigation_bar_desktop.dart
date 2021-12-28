@@ -1,4 +1,6 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:mvvm/Model/models/user.dart';
 import 'package:mvvm/Routing/route_names.dart';
 
@@ -15,11 +17,35 @@ class NavigationBarTabletDesktop extends StatefulWidget {
 
 class _NavigationBarTabletDesktopState
     extends State<NavigationBarTabletDesktop> {
+  bool darkmode = false;
+  dynamic savedThemeMode;
+
+  Color _selectedNavbarColor;
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentTheme();
+  }
+
+  Future getCurrentTheme() async {
+    savedThemeMode = await AdaptiveTheme.getThemeMode();
+    if (savedThemeMode.toString() == 'AdaptiveThemeMode.dark') {
+      setState(() {
+        darkmode = true;
+      });
+    } else {
+      setState(() {
+        darkmode = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
     return Container(
-      color: Colors.grey,
+      color: _selectedNavbarColor ?? Colors.grey,
       height: 50,
       child: Row(
         children: <Widget>[
@@ -38,10 +64,6 @@ class _NavigationBarTabletDesktopState
                 width: 20,
               ),
               const NavBarItem('Contact', ContactRoute),
-              const SizedBox(
-                width: 20,
-              ),
-              const NavBarItem('Option', OptionRoute),
               const SizedBox(
                 width: 20,
               ),
@@ -88,7 +110,81 @@ class _NavigationBarTabletDesktopState
                   ],
                 ),
             ],
-          )
+          ),
+          TextButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    actions: <Widget>[
+                      IconButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(true);
+                        },
+                        icon: const Icon(Icons.check),
+                      ),
+                    ],
+                    content: SingleChildScrollView(
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.35,
+                        child: MaterialColorPicker(
+                          circleSize: 50,
+                          onColorChange: (Color color) {
+                            setState(() {
+                              _selectedNavbarColor = color;
+                            });
+                          },
+                          selectedColor: _selectedNavbarColor,
+                          colors: const [
+                            Colors.red,
+                            Colors.blue,
+                            Colors.green,
+                            Colors.orange,
+                            Colors.yellow,
+                            Colors.brown,
+                            Colors.cyan,
+                            Colors.grey
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+            child: CircleAvatar(
+              child: Icon(
+                Icons.color_lens,
+                color: darkmode ? Colors.white : Colors.black,
+              ),
+              backgroundColor: _selectedNavbarColor ?? Colors.grey,
+            ),
+          ),
+          Switch(
+            // title: const Text('Mode sombre'),
+            value: darkmode,
+            activeColor: Colors.blue,
+            onChanged: (bool value) {
+              if (value == true) {
+                AdaptiveTheme.of(context).setDark();
+                Icon(
+                  Icons.dark_mode,
+                  color: darkmode ? Colors.white : Colors.black,
+                );
+              } else {
+                AdaptiveTheme.of(context).setLight();
+                Icon(
+                  Icons.light_mode,
+                  color: darkmode ? Colors.white : Colors.black,
+                );
+              }
+              setState(() {
+                darkmode = value;
+              });
+            },
+            // secondary: const Icon(Icons.nightlight_round),
+          ),
         ],
       ),
     );

@@ -5,7 +5,7 @@ import 'package:mvvm/Model/models/user.dart';
 import 'package:mvvm/Routing/route_names.dart';
 import 'package:mvvm/Services/navigation_service.dart';
 import 'package:mvvm/Services/userinfo_service.dart';
-import 'package:mvvm/View/widgets/crypto_list_widget.dart';
+import 'package:mvvm/View/widgets/crypto_list_home_widget.dart';
 import 'package:mvvm/View/widgets/home_wallet_widget.dart';
 import 'package:mvvm/View/widgets/welcome_message_widget.dart';
 import 'package:mvvm/ViewModel/crypto_viewmodel.dart';
@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
               ),
               model.cryptos == null
                   ? const CircularProgressIndicator()
-                  : CryptoListWidget(cryptos: model.cryptos)
+                  : CryptoListHomeWidget(cryptos: model.cryptos)
             ],
           ),
         ),
