@@ -12,6 +12,7 @@ import 'package:mvvm/Services/userinfo_service.dart';
 import 'package:mvvm/View/pages/screen_template.dart';
 import 'locator.dart';
 import 'package:provider/provider.dart';
+import 'package:adaptive_theme/adaptive_theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,35 +43,49 @@ class _MyAppState extends State<MyApp> {
     return StreamProvider<User>.value(
       value: _auth.userInfo,
       initialData: null,
+      //provider
       child: Builder(builder: (context1) {
         final user = Provider.of<User>(context1, listen: false);
-        return MaterialApp(
-          scrollBehavior: MyCustomScrollBehavior(),
-          title: 'crypto app',
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-          builder: (context, child) => Navigator(
-            key: locator<NavigationService>().screenNavigationKey,
-            onGenerateRoute: (settings) => MaterialPageRoute(
-                builder: (context) => ScreenTemplate(child: child)),
-          ),
-          //{
-          //   return SafeArea(
-          //     child: Overlay(
-          //       initialEntries: [
-          //         OverlayEntry(
-          //           builder: (context) => ScreenTemplate(child: child),
-          //         ),
-          //       ],
-          //     ),
-          //   );
-          // },
-          navigatorKey: locator<NavigationService>().navigatorKey,
-          onGenerateRoute: Rooter(context1).generateRoute,
-          initialRoute: kIsWeb || user != null ? HomeRoute : LoginRoute,
-        );
+        //theme
+        return AdaptiveTheme(
+            light: ThemeData(
+              brightness: Brightness.light,
+              primarySwatch: Colors.blue,
+            ),
+            dark: ThemeData(
+              brightness: Brightness.dark,
+              primarySwatch: Colors.red,
+            ),
+            initial: AdaptiveThemeMode.light,
+            builder: (theme, darkTheme) =>
+                //materialApp
+                MaterialApp(
+                  scrollBehavior: MyCustomScrollBehavior(),
+                  title: 'crypto app',
+                  debugShowCheckedModeBanner: false,
+                  theme: theme,
+                  darkTheme: darkTheme,
+                  //routing
+                  builder: (context, child) => Navigator(
+                    key: locator<NavigationService>().screenNavigationKey,
+                    onGenerateRoute: (settings) => MaterialPageRoute(
+                        builder: (context) => ScreenTemplate(child: child)),
+                  ),
+                  //{
+                  //   return SafeArea(
+                  //     child: Overlay(
+                  //       initialEntries: [
+                  //         OverlayEntry(
+                  //           builder: (context) => ScreenTemplate(child: child),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   );
+                  // },
+                  navigatorKey: locator<NavigationService>().navigatorKey,
+                  onGenerateRoute: Rooter(context1).generateRoute,
+                  initialRoute: kIsWeb || user != null ? HomeRoute : LoginRoute,
+                ));
       }),
     );
   }

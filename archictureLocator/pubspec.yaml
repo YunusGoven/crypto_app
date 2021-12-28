@@ -49,6 +49,8 @@ dependencies:
   jwt_decoder: ^2.0.1
   google_sign_in: ^5.0.3
   flutter_signin_button: ^2.0.0
+  flutter_material_color_picker: ^1.1.0+2
+  adaptive_theme: ^2.3.0
 
 dev_dependencies:
   flutter_test:

@@ -14,6 +14,7 @@ import 'package:mvvm/View/pages/home_page.dart';
 import 'package:mvvm/View/pages/notification_page.dart';
 import 'package:mvvm/View/pages/ranking_page.dart';
 import 'package:mvvm/View/pages/register_page.dart';
+import 'package:mvvm/View/pages/setting_page.dart';
 import 'package:mvvm/View/pages/wallet_page.dart';
 
 import 'package:provider/provider.dart';
@@ -45,6 +46,8 @@ class Rooter {
         return _getPageRoute(const ContactPage(), settings);
       case CryptosRoute:
         return _getPageRoute(const AllCryptoPage(), settings);
+      case OptionRoute:
+        return _getPageRoute(SettingPage(), settings);
       case HistoryRoute:
         if (user == null) return _getPageRoute(const HomePage(), settings);
         return _getPageRoute(const HistoryPage(), settings);
