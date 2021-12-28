@@ -18,7 +18,7 @@ class _ScreenTemplateState extends State<ScreenTemplate> {
     var screenSize = MediaQuery.of(context).size;
     var screenwidht = screenSize.width;
     return Scaffold(
-        appBar: screenwidht >= 895
+        appBar: screenwidht >= 1004
             ? null
             : AppBar(
                 backgroundColor: Colors.black26,
@@ -27,32 +27,27 @@ class _ScreenTemplateState extends State<ScreenTemplate> {
                   children: const [Text("CryptoYH")],
                 ),
               ),
-        drawer: screenwidht >= 895
+        drawer: screenwidht >= 1004
             ? null
             : Drawer(
                 child: ListView(
                   children: const [
                     DrawerHeader(
-                      decoration: BoxDecoration(
-                        color: Colors.black26,
-                      ),
+                      decoration: BoxDecoration(),
                       child: Text(
                         'HYCrypto',
                         style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
+                            fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
                     NavigationBarMobile()
                   ],
                 ),
               ),
-        backgroundColor: Colors.white,
         body: kIsWeb
             ? Column(
                 children: <Widget>[
-                  if (screenwidht >= 895) const NavigationBarTabletDesktop(),
+                  if (screenwidht >= 1004) const NavigationBarTabletDesktop(),
                   Expanded(
                     child: CenteredPage(child: widget.child),
                   ),

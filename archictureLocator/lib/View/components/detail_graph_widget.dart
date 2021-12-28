@@ -20,7 +20,6 @@ class _GraphState extends State<Graph> {
     _tooltipBehavior = TooltipBehavior(enable: true);
     _crosshairBehavior = CrosshairBehavior(
         enable: true,
-        lineColor: Colors.red,
         lineDashArray: <double>[5, 5],
         lineWidth: 2,
         activationMode: ActivationMode.singleTap);
@@ -33,7 +32,7 @@ class _GraphState extends State<Graph> {
 
     return SfCartesianChart(
       plotAreaBorderWidth: 1,
-      plotAreaBorderColor: Colors.black,
+      plotAreaBorderColor: Colors.grey[700],
       tooltipBehavior: _tooltipBehavior,
       crosshairBehavior: _crosshairBehavior,
       primaryXAxis: DateTimeAxis(
@@ -48,13 +47,12 @@ class _GraphState extends State<Graph> {
           rangePadding: ChartRangePadding.additional),
       series: <ChartSeries>[
         SplineSeries<HistoryData, DateTime>(
-            color: Colors.grey[850],
             enableTooltip: true,
             dataSource: data,
             xValueMapper: (HistoryData datas, _) =>
                 DateTime.tryParse(datas.date),
             yValueMapper: (HistoryData datas, _) => datas.value,
-            dataLabelSettings: DataLabelSettings(isVisible: true)),
+            dataLabelSettings: const DataLabelSettings(isVisible: true)),
       ],
     );
   }

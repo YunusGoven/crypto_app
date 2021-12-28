@@ -4,7 +4,7 @@ import 'package:mvvm/Model/models/crypto.dart';
 
 class CalculatorWidget extends StatefulWidget {
   final Crypto cryptoValue;
-  CalculatorWidget({Key key, this.cryptoValue}) : super(key: key);
+  const CalculatorWidget({Key key, this.cryptoValue}) : super(key: key);
 
   @override
   _CalculatorWidgetState createState() => _CalculatorWidgetState();
@@ -24,7 +24,7 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
     var value = widget.cryptoValue.Price;
     return Row(
       children: [
-        Text("Money"),
+        const Text("Money"),
         Expanded(
           child: TextField(
             controller: _controllerMonet,
@@ -49,8 +49,8 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
             },
           ),
         ),
-        Icon(Icons.swap_horiz),
-        Text("Crypto"),
+        const Icon(Icons.swap_horiz),
+        const Text("Crypto"),
         Expanded(
           child: TextField(
             controller: _controllerCrypto,

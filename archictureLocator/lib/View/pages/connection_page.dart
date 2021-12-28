@@ -36,37 +36,30 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               TextFormField(
                 controller: pseudoController,
-                cursorColor: Colors.black,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.all(0.0),
+                  contentPadding: const EdgeInsets.all(0.0),
                   labelText: 'Pseudo',
                   hintText: 'UserName',
                   labelStyle: const TextStyle(
-                    color: Colors.black,
                     fontSize: 14.0,
                     fontWeight: FontWeight.w400,
                   ),
                   hintStyle: const TextStyle(
-                    color: Colors.grey,
                     fontSize: 14.0,
                   ),
                   prefixIcon: const Icon(
                     Icons.supervised_user_circle,
-                    color: Colors.black,
                     size: 18,
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Colors.grey.shade200, width: 2),
+                    borderSide: BorderSide(color: Colors.grey[700], width: 2),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   floatingLabelStyle: const TextStyle(
-                    color: Colors.black,
                     fontSize: 18.0,
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide:
-                        const BorderSide(color: Colors.black, width: 1.5),
+                    borderSide: BorderSide(color: Colors.grey[700], width: 1.5),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
@@ -81,29 +74,24 @@ class _LoginPageState extends State<LoginPage> {
               TextFormField(
                 controller: passwordController,
                 obscureText: _obscure,
-                cursorColor: Colors.black,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.all(0.0),
+                  contentPadding: const EdgeInsets.all(0.0),
                   labelText: 'Password',
                   hintText: 'Password',
                   hintStyle: const TextStyle(
-                    color: Colors.grey,
                     fontSize: 14.0,
                   ),
                   labelStyle: const TextStyle(
-                    color: Colors.black,
                     fontSize: 14.0,
                     fontWeight: FontWeight.w400,
                   ),
                   prefixIcon: const Icon(
                     Icons.password,
-                    color: Colors.black,
                     size: 18,
                   ),
                   suffixIcon: IconButton(
                     icon: const Icon(
                       Icons.visibility,
-                      color: Colors.black,
                     ),
                     onPressed: () {
                       setState(() {
@@ -112,17 +100,14 @@ class _LoginPageState extends State<LoginPage> {
                     },
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Colors.grey.shade200, width: 2),
+                    borderSide: BorderSide(color: Colors.grey[700], width: 2),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   floatingLabelStyle: const TextStyle(
-                    color: Colors.black,
                     fontSize: 18.0,
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide:
-                        const BorderSide(color: Colors.black, width: 1.5),
+                    borderSide: BorderSide(color: Colors.grey[700], width: 1.5),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
@@ -156,8 +141,10 @@ class _LoginPageState extends State<LoginPage> {
                   },
                   child: const Text(
                     "Connection",
-                    style: TextStyle(color: Colors.white),
                   )),
+              const SizedBox(
+                height: 10,
+              ),
               SignInButton(
                 Buttons.Google,
                 text: "Sign up with Google",

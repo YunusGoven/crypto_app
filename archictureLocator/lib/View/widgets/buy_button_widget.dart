@@ -73,37 +73,30 @@ class BuyButtonWidgetState extends State<BuyButtonWidget> {
                             }
                           },
                           controller: _numberController,
-                          cursorColor: Colors.black,
                           decoration: InputDecoration(
                             contentPadding: const EdgeInsets.all(0.0),
                             labelText: 'Nombre',
                             hintText: '50000',
                             labelStyle: const TextStyle(
-                              color: Colors.black,
                               fontSize: 14.0,
                               fontWeight: FontWeight.w400,
                             ),
                             hintStyle: const TextStyle(
-                              color: Colors.grey,
                               fontSize: 14.0,
                             ),
                             prefixIcon: const Icon(
                               Icons.supervised_user_circle,
-                              color: Colors.black,
                               size: 18,
                             ),
                             enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colors.grey.shade200, width: 2),
+                              borderSide: const BorderSide(width: 2),
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             floatingLabelStyle: const TextStyle(
-                              color: Colors.black,
                               fontSize: 18.0,
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Colors.black, width: 1.5),
+                              borderSide: const BorderSide(width: 1.5),
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                           ),
@@ -120,7 +113,7 @@ class BuyButtonWidgetState extends State<BuyButtonWidget> {
                                   _total = number / widget.crypto.Price;
                                   _total = num.parse(_total.toStringAsFixed(8));
                                   if (number > _userSolde) {
-                                    _error = 'Max: ${_userSolde}';
+                                    _error = 'Max: $_userSolde';
                                   } else {
                                     _error = '';
                                   }
@@ -143,7 +136,7 @@ class BuyButtonWidgetState extends State<BuyButtonWidget> {
                   ),
                   Text(
                       "Valeur Actuelle : ${widget.crypto.Price.toStringAsFixed(3)} \$"),
-                  Text("Total: ${_total} ${widget.crypto.Id}"),
+                  Text("Total: $_total ${widget.crypto.Id}"),
                   Text(
                     _error,
                     style: const TextStyle(color: Colors.red),
@@ -174,7 +167,6 @@ class BuyButtonWidgetState extends State<BuyButtonWidget> {
                       },
                       child: const Text(
                         "Acheter",
-                        style: TextStyle(color: Colors.white),
                       )),
                 ],
               ),

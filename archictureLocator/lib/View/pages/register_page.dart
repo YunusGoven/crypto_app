@@ -35,7 +35,7 @@ class _RegisterPageState extends State<RegisterPage> {
         children: [
           SingleChildScrollView(
             child: Padding(
-                padding: EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
                     const SizedBox(
@@ -50,37 +50,32 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     TextField(
                       controller: _pseudoController,
-                      cursorColor: Colors.black,
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.all(0.0),
                         labelText: 'Pseudo',
                         hintText: 'UserName',
                         labelStyle: const TextStyle(
-                          color: Colors.black,
                           fontSize: 14.0,
                           fontWeight: FontWeight.w400,
                         ),
                         hintStyle: const TextStyle(
-                          color: Colors.grey,
                           fontSize: 14.0,
                         ),
                         prefixIcon: const Icon(
                           Icons.supervised_user_circle,
-                          color: Colors.black,
                           size: 18,
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.grey.shade200, width: 2),
+                              BorderSide(color: Colors.grey[700], width: 2),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         floatingLabelStyle: const TextStyle(
-                          color: Colors.black,
                           fontSize: 18.0,
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.black, width: 1.5),
+                              BorderSide(color: Colors.grey[700], width: 1.5),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                       ),
@@ -90,37 +85,32 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     TextField(
                       controller: _firstanemContro,
-                      cursorColor: Colors.black,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(0.0),
+                        contentPadding: const EdgeInsets.all(0.0),
                         labelText: 'Prenom',
                         hintText: 'Prenom',
                         labelStyle: const TextStyle(
-                          color: Colors.black,
                           fontSize: 14.0,
                           fontWeight: FontWeight.w400,
                         ),
                         hintStyle: const TextStyle(
-                          color: Colors.grey,
                           fontSize: 14.0,
                         ),
                         prefixIcon: const Icon(
                           Icons.perm_identity,
-                          color: Colors.black,
                           size: 18,
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.grey.shade200, width: 2),
+                              BorderSide(color: Colors.grey[700], width: 2),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         floatingLabelStyle: const TextStyle(
-                          color: Colors.black,
                           fontSize: 18.0,
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.black, width: 1.5),
+                              BorderSide(color: Colors.grey[700], width: 1.5),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                       ),
@@ -130,37 +120,32 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     TextField(
                       controller: _surnameContro,
-                      cursorColor: Colors.black,
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.all(0.0),
                         labelText: 'Nom',
                         hintText: 'Nom',
                         labelStyle: const TextStyle(
-                          color: Colors.black,
                           fontSize: 14.0,
                           fontWeight: FontWeight.w400,
                         ),
                         hintStyle: const TextStyle(
-                          color: Colors.grey,
                           fontSize: 14.0,
                         ),
                         prefixIcon: const Icon(
                           Icons.perm_identity_rounded,
-                          color: Colors.black,
                           size: 18,
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.grey.shade200, width: 2),
+                              BorderSide(color: Colors.grey[700], width: 2),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         floatingLabelStyle: const TextStyle(
-                          color: Colors.black,
                           fontSize: 18.0,
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.black, width: 1.5),
+                              BorderSide(color: Colors.grey[700], width: 1.5),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                       ),
@@ -173,37 +158,32 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     TextField(
                       controller: _mailController,
-                      cursorColor: Colors.black,
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.all(0.0),
                         labelText: 'Mail',
                         hintText: 'Mail',
                         labelStyle: const TextStyle(
-                          color: Colors.black,
                           fontSize: 14.0,
                           fontWeight: FontWeight.w400,
                         ),
                         hintStyle: const TextStyle(
-                          color: Colors.grey,
                           fontSize: 14.0,
                         ),
                         prefixIcon: const Icon(
                           Icons.mail,
-                          color: Colors.black,
                           size: 18,
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.grey.shade200, width: 2),
+                              BorderSide(color: Colors.grey[700], width: 2),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         floatingLabelStyle: const TextStyle(
-                          color: Colors.black,
                           fontSize: 18.0,
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.black, width: 1.5),
+                              BorderSide(color: Colors.grey[700], width: 1.5),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                       ),
@@ -214,29 +194,24 @@ class _RegisterPageState extends State<RegisterPage> {
                     TextField(
                       controller: _passwordController,
                       obscureText: _obscure1,
-                      cursorColor: Colors.black,
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.all(0.0),
                         labelText: 'Password',
                         hintText: 'Password',
                         hintStyle: const TextStyle(
-                          color: Colors.grey,
                           fontSize: 14.0,
                         ),
                         labelStyle: const TextStyle(
-                          color: Colors.black,
                           fontSize: 14.0,
                           fontWeight: FontWeight.w400,
                         ),
                         prefixIcon: const Icon(
                           Icons.password,
-                          color: Colors.black,
                           size: 18,
                         ),
                         suffixIcon: IconButton(
                           icon: const Icon(
                             Icons.visibility,
-                            color: Colors.black,
                           ),
                           onPressed: () {
                             setState(() {
@@ -246,16 +221,15 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.grey.shade200, width: 2),
+                              BorderSide(color: Colors.grey[700], width: 2),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         floatingLabelStyle: const TextStyle(
-                          color: Colors.black,
                           fontSize: 18.0,
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.black, width: 1.5),
+                              BorderSide(color: Colors.grey[700], width: 1.5),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                       ),
@@ -265,29 +239,24 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     TextField(
                       obscureText: _obscure2,
-                      cursorColor: Colors.black,
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.all(0.0),
                         labelText: 'Validate Password',
                         hintText: 'Validate Password',
                         hintStyle: const TextStyle(
-                          color: Colors.grey,
                           fontSize: 14.0,
                         ),
                         labelStyle: const TextStyle(
-                          color: Colors.black,
                           fontSize: 14.0,
                           fontWeight: FontWeight.w400,
                         ),
                         prefixIcon: const Icon(
                           Icons.password,
-                          color: Colors.black,
                           size: 18,
                         ),
                         suffixIcon: IconButton(
                           icon: const Icon(
                             Icons.visibility,
-                            color: Colors.black,
                           ),
                           onPressed: () {
                             setState(() {
@@ -297,16 +266,15 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.grey.shade200, width: 2),
+                              BorderSide(color: Colors.grey[700], width: 2),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         floatingLabelStyle: const TextStyle(
-                          color: Colors.black,
                           fontSize: 18.0,
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.black, width: 1.5),
+                              BorderSide(color: Colors.grey[700], width: 1.5),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                       ),
@@ -335,7 +303,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       },
                       child: const Text(
                         'Inscription',
-                        style: TextStyle(color: Colors.white, fontSize: 16.0),
+                        style: TextStyle(fontSize: 16.0),
                       ),
                     ),
                   ],

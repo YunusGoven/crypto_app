@@ -29,7 +29,6 @@ class _NotificationWidgetState extends State<NotificationWidget> {
             ),
             Text(
               widget.notification.dateNotif,
-              style: const TextStyle(color: Colors.grey),
             ),
           ],
         ));

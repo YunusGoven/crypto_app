@@ -7,19 +7,10 @@ class CenteredPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("images/background.jpg"), fit: BoxFit.cover)),
       padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 60),
       alignment: Alignment.topCenter,
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 1600),
-        child: Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-            ),
-            child: child),
-      ),
+          constraints: const BoxConstraints(maxWidth: 1600), child: child),
     );
   }
 }

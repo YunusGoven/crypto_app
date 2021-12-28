@@ -12,7 +12,7 @@ class CryptoWidget extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-          color: Colors.black,
+          color: Colors.grey[700],
           width: 5,
         ),
         borderRadius: BorderRadius.circular(15),

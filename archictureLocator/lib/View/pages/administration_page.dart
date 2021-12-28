@@ -44,7 +44,7 @@ class _AdministrationPageState extends State<AdministrationPage> {
                 height: 120,
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: Colors.black,
+                    color: Colors.grey[700],
                     width: 5,
                   ),
                 ),
@@ -119,7 +119,7 @@ class _AdministrationPageState extends State<AdministrationPage> {
                 width: mWidth,
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: Colors.black,
+                    color: Colors.grey[700],
                     width: 5,
                   ),
                 ),

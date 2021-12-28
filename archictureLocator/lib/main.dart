@@ -71,17 +71,6 @@ class _MyAppState extends State<MyApp> {
                     onGenerateRoute: (settings) => MaterialPageRoute(
                         builder: (context) => ScreenTemplate(child: child)),
                   ),
-                  //{
-                  //   return SafeArea(
-                  //     child: Overlay(
-                  //       initialEntries: [
-                  //         OverlayEntry(
-                  //           builder: (context) => ScreenTemplate(child: child),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   );
-                  // },
                   navigatorKey: locator<NavigationService>().navigatorKey,
                   onGenerateRoute: Rooter(context1).generateRoute,
                   initialRoute: kIsWeb || user != null ? HomeRoute : LoginRoute,

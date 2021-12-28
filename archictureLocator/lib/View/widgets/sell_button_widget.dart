@@ -94,39 +94,32 @@ class SellButtonWidgetState extends State<SellButtonWidget> {
                                       }
                                     },
                                     controller: _numberController,
-                                    cursorColor: Colors.black,
                                     decoration: InputDecoration(
                                       contentPadding: const EdgeInsets.all(0.0),
                                       labelText: 'Nombre',
                                       hintText: '0.513544',
                                       labelStyle: const TextStyle(
-                                        color: Colors.black,
                                         fontSize: 14.0,
                                         fontWeight: FontWeight.w400,
                                       ),
                                       hintStyle: const TextStyle(
-                                        color: Colors.grey,
                                         fontSize: 14.0,
                                       ),
                                       prefixIcon: const Icon(
                                         Icons.supervised_user_circle,
-                                        color: Colors.black,
                                         size: 18,
                                       ),
                                       enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.grey.shade200,
-                                            width: 2),
+                                        borderSide: const BorderSide(width: 2),
                                         borderRadius:
                                             BorderRadius.circular(10.0),
                                       ),
                                       floatingLabelStyle: const TextStyle(
-                                        color: Colors.black,
                                         fontSize: 18.0,
                                       ),
                                       focusedBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            color: Colors.black, width: 1.5),
+                                        borderSide:
+                                            const BorderSide(width: 1.5),
                                         borderRadius:
                                             BorderRadius.circular(10.0),
                                       ),
@@ -217,7 +210,6 @@ class SellButtonWidgetState extends State<SellButtonWidget> {
                                 },
                                 child: const Text(
                                   "Vendre",
-                                  style: TextStyle(color: Colors.white),
                                 )),
                           ],
                         ),

@@ -51,7 +51,7 @@ class _DetailPageState extends State<DetailPage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                               "Converter",
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
@@ -59,7 +59,7 @@ class _DetailPageState extends State<DetailPage> {
                             CalculatorWidget(cryptoValue: model.crypto),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Graph(crypto: model.crypto),

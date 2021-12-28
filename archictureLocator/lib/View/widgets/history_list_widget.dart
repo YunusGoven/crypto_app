@@ -4,6 +4,7 @@ import 'package:mvvm/View/widgets/history_widget.dart';
 import 'package:mvvm/ViewModel/history_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
+// ignore: must_be_immutable
 class HistoryListWidget extends StatefulWidget {
   List<History> historys;
   HistoryListWidget({Key key, this.historys}) : super(key: key);

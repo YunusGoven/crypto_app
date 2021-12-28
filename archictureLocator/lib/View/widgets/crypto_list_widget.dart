@@ -4,6 +4,7 @@ import 'package:mvvm/View/widgets/crypto_widget.dart';
 import 'package:mvvm/ViewModel/crypto_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
+// ignore: must_be_immutable
 class CryptoListWidget extends StatefulWidget {
   List<Crypto> cryptos;
   CryptoListWidget({Key key, this.cryptos}) : super(key: key);
@@ -41,12 +42,10 @@ class _CryptoListState extends State<CryptoListWidget> {
               hintText: 'Recherche',
               labelText: 'Recherche',
               hintStyle: TextStyle(
-                color: Colors.white,
                 fontSize: 18,
                 fontStyle: FontStyle.italic,
               ),
-              border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black54)),
+              border: OutlineInputBorder(borderSide: BorderSide()),
             ),
             onChanged: (value) {
               setState(() {

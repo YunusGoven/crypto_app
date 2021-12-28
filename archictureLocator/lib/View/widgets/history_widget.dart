@@ -15,10 +15,9 @@ class HistoryWidget extends StatelessWidget {
     DateTime ui = DateTime.tryParse(model.dateTransaction);
     String formated = DateFormat('dd-MM-yyyy').format(ui);
     return Container(
-      padding: const EdgeInsets.only(bottom: 10, left: 40, top: 10, right: 40),
       decoration: BoxDecoration(
         border: Border.all(
-          color: Colors.black,
+          color: Colors.grey[700],
           width: 5,
         ),
         borderRadius: BorderRadius.circular(15),
@@ -32,8 +31,7 @@ class HistoryWidget extends StatelessWidget {
                 model.type,
                 style: screenwidht >= 895
                     ? const TextStyle(fontWeight: FontWeight.bold, fontSize: 25)
-                    : const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 15),
+                    : const TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(formated),
             ],
@@ -46,7 +44,7 @@ class HistoryWidget extends StatelessWidget {
                 ? TextStyle(
                     fontWeight: FontWeight.bold, fontSize: 30, color: colors1)
                 : TextStyle(
-                    fontWeight: FontWeight.bold, fontSize: 20, color: colors1),
+                    fontWeight: FontWeight.bold, fontSize: 15, color: colors1),
           ),
           Column(
             children: [
@@ -59,10 +57,7 @@ class HistoryWidget extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         fontSize: 25,
                         color: colors2)
-                    : TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                        color: colors2),
+                    : TextStyle(fontWeight: FontWeight.bold, color: colors2),
               ),
               const SizedBox(
                 height: 5,

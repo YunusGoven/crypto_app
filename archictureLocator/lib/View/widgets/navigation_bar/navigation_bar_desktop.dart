@@ -127,7 +127,7 @@ class _NavigationBarTabletDesktopState
                     ],
                     content: SingleChildScrollView(
                       child: SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.35,
+                        height: 75,
                         child: MaterialColorPicker(
                           circleSize: 50,
                           onColorChange: (Color color) {
@@ -144,7 +144,17 @@ class _NavigationBarTabletDesktopState
                             Colors.yellow,
                             Colors.brown,
                             Colors.cyan,
-                            Colors.grey
+                            Colors.grey,
+                            Colors.amber,
+                            Colors.blueGrey,
+                            Colors.indigo,
+                            Colors.pink,
+                            Colors.purple,
+                            Colors.lime,
+                            Colors.teal,
+                            Colors.lightBlue,
+                            Colors.lightGreen,
+                            Colors.redAccent
                           ],
                         ),
                       ),
@@ -162,29 +172,30 @@ class _NavigationBarTabletDesktopState
             ),
           ),
           Switch(
-            // title: const Text('Mode sombre'),
             value: darkmode,
             activeColor: Colors.blue,
             onChanged: (bool value) {
               if (value == true) {
                 AdaptiveTheme.of(context).setDark();
-                Icon(
-                  Icons.dark_mode,
-                  color: darkmode ? Colors.white : Colors.black,
-                );
+                _selectedNavbarColor = Colors.grey[700];
               } else {
                 AdaptiveTheme.of(context).setLight();
-                Icon(
-                  Icons.light_mode,
-                  color: darkmode ? Colors.white : Colors.black,
-                );
+                _selectedNavbarColor = Colors.grey[300];
               }
               setState(() {
                 darkmode = value;
               });
             },
-            // secondary: const Icon(Icons.nightlight_round),
           ),
+          darkmode
+              ? const Icon(
+                  Icons.dark_mode,
+                  color: Colors.white,
+                )
+              : const Icon(
+                  Icons.light_mode,
+                  color: Colors.black,
+                )
         ],
       ),
     );
