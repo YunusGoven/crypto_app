@@ -23,6 +23,7 @@ class History {
   String get transactionId => _transactionId;
   String get type => _type;
   String get dateTransaction => _dateTransaction;
+  DateTime get getDateTime => DateTime.tryParse(_dateTransaction);
   num get number => _number;
   num get value => _value;
   String get imageUrl => _imageUrl;

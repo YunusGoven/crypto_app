@@ -15,9 +15,10 @@ class NotificationModel {
   String get dateNotif {
     var datetime = DateTime.parse(_dateNotif);
     var formated = DateFormat("dd-MM-yyyy HH:mm").format(datetime);
-
     return formated;
   }
+
+  DateTime get getDateTime => DateTime.parse(_dateNotif);
 
   String get message => _message;
 

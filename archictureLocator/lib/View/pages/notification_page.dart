@@ -14,6 +14,7 @@ class _NotificationPageState extends State<NotificationPage> {
   final NotificationViewModel _nvm = NotificationViewModel();
 
   Widget createWildget(NotificationViewModel model) {
+    model.notification.sort((a, b) => b.getDateTime.compareTo(a.getDateTime));
     return Wrap(
       children: [
         ...model.notification

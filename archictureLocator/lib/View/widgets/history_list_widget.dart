@@ -20,6 +20,7 @@ class _HistoryListState extends State<HistoryListWidget> {
   @override
   initState() {
     super.initState();
+    widget.historys.sort((a, b) => b.getDateTime.compareTo(a.getDateTime));
     copy = widget.historys.toList();
   }
 
@@ -50,14 +51,12 @@ class _HistoryListState extends State<HistoryListWidget> {
                     widget.historys = copy;
                     break;
                   case "Récent -> Ancienne":
-                    widget.historys.sort((b, a) =>
-                        DateTime.tryParse(a.dateTransaction)
-                            .compareTo(DateTime.tryParse(b.dateTransaction)));
+                    widget.historys
+                        .sort((b, a) => a.getDateTime.compareTo(b.getDateTime));
                     break;
                   case "Ancienne -> Récente":
-                    widget.historys.sort((a, b) =>
-                        DateTime.tryParse(a.dateTransaction)
-                            .compareTo(DateTime.tryParse(b.dateTransaction)));
+                    widget.historys
+                        .sort((a, b) => a.getDateTime.compareTo(b.getDateTime));
                     break;
                   case "Achat -> Vente":
                     widget.historys.sort((a, b) => a.type.compareTo(b.type));
