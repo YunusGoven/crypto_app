@@ -31,8 +31,8 @@ class _ScreenTemplateState extends State<ScreenTemplate> {
             ? null
             : Drawer(
                 child: ListView(
-                  children: const [
-                    DrawerHeader(
+                  children: [
+                    const DrawerHeader(
                       decoration: BoxDecoration(),
                       child: Text(
                         'HYCrypto',
@@ -40,7 +40,7 @@ class _ScreenTemplateState extends State<ScreenTemplate> {
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
-                    NavigationBarMobile()
+                    NavigationBarMobile(drawerContext: context),
                   ],
                 ),
               ),

@@ -7,9 +7,8 @@ import 'package:mvvm/View/widgets/navigation_bar/nav_bar_item_mobile.dart';
 import 'package:provider/provider.dart';
 
 class NavigationBarMobile extends StatefulWidget {
-  const NavigationBarMobile({
-    Key key,
-  }) : super(key: key);
+  final BuildContext drawerContext;
+  const NavigationBarMobile({Key key, this.drawerContext}) : super(key: key);
   @override
   _NavigationBarMobileState createState() => _NavigationBarMobileState();
 }
@@ -40,39 +39,38 @@ class _NavigationBarMobileState extends State<NavigationBarMobile> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
+    BuildContext drawerContext = widget.drawerContext;
     return Column(
       children: <Widget>[
         if (kIsWeb || user != null)
           Column(
-            children: const [
-              NavBarMobile(1, 'Accueil', HomeRoute, Icons.home),
-              NavBarMobile(
-                  2, 'Cryptos', CryptosRoute, Icons.shopping_cart_outlined),
-              NavBarMobile(
-                  10, 'Contact', ContactRoute, Icons.contact_support_outlined),
+            children: [
+              NavBarMobile(drawerContext, 'Accueil', HomeRoute, Icons.home),
+              NavBarMobile(drawerContext, 'Cryptos', CryptosRoute,
+                  Icons.shopping_cart_outlined),
+              NavBarMobile(drawerContext, 'Contact', ContactRoute,
+                  Icons.contact_support_outlined),
             ],
           ),
         if (user != null)
           Column(
             children: [
-              const NavBarMobile(3, 'Historique', HistoryRoute, Icons.history),
-              const NavBarMobile(
-                  4, 'Classement', RankingRoute, Icons.bar_chart_rounded),
-              const NavBarMobile(5, 'Notification', NotificationRoute,
+              NavBarMobile(
+                  drawerContext, 'Historique', HistoryRoute, Icons.history),
+              NavBarMobile(drawerContext, 'Classement', RankingRoute,
+                  Icons.bar_chart_rounded),
+              NavBarMobile(drawerContext, 'Notification', NotificationRoute,
                   Icons.notifications_active),
-              const NavBarMobile(
-                  6, 'Portfeuille', WalletRoute, Icons.account_balance_wallet),
-              if (kIsWeb && user.admin)
-                const NavBarMobile(
-                    13, 'Admin', AdminPanelRoute, Icons.admin_panel_settings),
-              const NavBarMobile(7, 'Deconnexion', "", Icons.logout),
+              NavBarMobile(drawerContext, 'Portfeuille', WalletRoute,
+                  Icons.account_balance_wallet),
+              NavBarMobile(drawerContext, 'Deconnexion', "", Icons.logout),
             ],
           ),
         if (user == null)
           Column(
-            children: const [
-              NavBarMobile(8, 'Connexion', LoginRoute, Icons.login),
-              NavBarMobile(9, 'Register', RegisterRoute, Icons.add),
+            children: [
+              NavBarMobile(drawerContext, 'Connexion', LoginRoute, Icons.login),
+              NavBarMobile(drawerContext, 'Register', RegisterRoute, Icons.add),
             ],
           ),
         Switch(

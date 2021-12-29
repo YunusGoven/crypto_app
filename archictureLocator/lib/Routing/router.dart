@@ -88,6 +88,7 @@ class _FadeRoute extends PageRouteBuilder {
   _FadeRoute({this.child, this.routeName})
       : super(
           settings: RouteSettings(name: routeName),
+          transitionDuration: Duration.zero,
           pageBuilder: (
             BuildContext context,
             Animation<double> animation,

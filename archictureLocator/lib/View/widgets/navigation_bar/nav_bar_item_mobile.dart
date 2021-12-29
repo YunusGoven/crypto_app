@@ -5,18 +5,19 @@ import 'package:mvvm/locator.dart';
 class NavBarMobile extends StatelessWidget {
   final String text;
   final String navigationPath;
-  final int id;
+  final BuildContext drawerContext;
   final IconData icon;
 
   // ignore: use_key_in_widget_constructors
-  const NavBarMobile(this.id, this.text, this.navigationPath, this.icon);
+  const NavBarMobile(
+      this.drawerContext, this.text, this.navigationPath, this.icon);
 
   @override
   Widget build(BuildContext context) {
-    return menuItem(id, text, icon);
+    return menuItem(drawerContext, text, icon);
   }
 
-  Widget menuItem(int id, String text, IconData icon) {
+  Widget menuItem(BuildContext drawerContext, String text, IconData icon) {
     return ListTile(
       title: Row(
         children: [
@@ -29,6 +30,7 @@ class NavBarMobile extends StatelessWidget {
       ),
       onTap: () {
         locator<NavigationService>().navigateTo(navigationPath);
+        Navigator.of(drawerContext).pop();
       },
     );
   }

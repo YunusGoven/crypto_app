@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mvvm/Model/models/history.dart';
 import 'package:mvvm/View/widgets/history_widget.dart';
@@ -14,8 +15,8 @@ class HistoryListWidget extends StatefulWidget {
 }
 
 class _HistoryListState extends State<HistoryListWidget> {
-  String dropdownValue = 'Aucun';
-  String filter = "Aucun";
+  String dropdownValue = 'Tout';
+  String filter = "Tout";
   List<History> copy;
   @override
   initState() {
@@ -47,7 +48,7 @@ class _HistoryListState extends State<HistoryListWidget> {
               setState(() {
                 dropdownValue = newValue;
                 switch (dropdownValue) {
-                  case "Aucun":
+                  case "Tout":
                     widget.historys = copy;
                     break;
                   case "Récent -> Ancienne":
@@ -69,7 +70,7 @@ class _HistoryListState extends State<HistoryListWidget> {
               });
             },
             items: <String>[
-              'Aucun',
+              'Tout',
               'Récent -> Ancienne',
               'Ancienne -> Récente',
               'Achat -> Vente',
@@ -95,7 +96,7 @@ class _HistoryListState extends State<HistoryListWidget> {
               setState(() {
                 filter = newValue;
                 switch (filter) {
-                  case "Aucun":
+                  case "Tout":
                     widget.historys = copy;
                     break;
                   case "Achat":
@@ -123,7 +124,7 @@ class _HistoryListState extends State<HistoryListWidget> {
                 }
               });
             },
-            items: <String>['Aucun', 'Achat', 'Vente', 'BITCOIN', 'ETHERUM']
+            items: <String>['Tout', 'Achat', 'Vente', 'BITCOIN', 'ETHERUM']
                 .map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
@@ -131,13 +132,15 @@ class _HistoryListState extends State<HistoryListWidget> {
               );
             }).toList(),
           ),
-          const Tooltip(
-            textStyle: TextStyle(fontSize: 16, color: Colors.white),
-            height: 60,
-            message:
-                "Si vous voulez plus de choix de filtre, par ex: avoir plus de crypto dedans. Contactez depuis notre page de contact",
-            child: Icon(Icons.help),
-          ),
+          (kIsWeb)
+              ? const Tooltip(
+                  textStyle: TextStyle(fontSize: 16),
+                  height: 60,
+                  message:
+                      "Si vous voulez plus de choix de filtre, par ex: avoir plus de crypto dedans. Contactez depuis notre page de contact",
+                  child: Icon(Icons.help),
+                )
+              : Container(),
           if (widget.historys == null) const LinearProgressIndicator(),
           if (widget.historys != null && widget.historys.isEmpty)
             const Center(
