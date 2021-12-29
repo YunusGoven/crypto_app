@@ -19,6 +19,7 @@ class WalletWidget extends StatefulWidget {
 class _WalletWidgetState extends State<WalletWidget> {
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
     var model = widget.model;
     var walletViewModel = widget.walletViewModel;
     return Container(
@@ -29,7 +30,7 @@ class _WalletWidgetState extends State<WalletWidget> {
         ),
         borderRadius: BorderRadius.circular(15),
       ),
-      padding: const EdgeInsets.only(bottom: 10, top: 10),
+      padding: const EdgeInsets.only(top: 10, left: 10, bottom: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -39,51 +40,136 @@ class _WalletWidgetState extends State<WalletWidget> {
                 locator<NavigationService>().navigateTo(CryptoDetailsRoute,
                     queryParams: {'cryptoId': model.cryptoId});
               }),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    model.name,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 20),
-                  ),
-                  const SizedBox(
-                    width: 50,
-                  ),
-                  Text("${model.number} ${model.cryptoId}"),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '${model.percent} %',
-                    style: TextStyle(
-                      color: model.percent < 0 ? Colors.red : Colors.green,
+          if (width <= 990)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      model.name.length <= 7 ? model.name : model.cryptoId,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 18),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  Text('${model.gainsPertes} \$',
+                    const SizedBox(
+                      width: 50,
+                    ),
+                    Text("${model.number} ${model.cryptoId}"),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      '${model.percent} %',
                       style: TextStyle(
                         color: model.percent < 0 ? Colors.red : Colors.green,
-                      )),
-                  const SizedBox(
-                    width: 30,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 30,
+                    ),
+                    Text('${model.gainsPertes} \$',
+                        style: TextStyle(
+                          color: model.percent < 0 ? Colors.red : Colors.green,
+                        )),
+                    const SizedBox(
+                      width: 30,
+                    ),
+                    Text('${model.gainsPertesTotal} \$')
+                  ],
+                ),
+              ],
+            ),
+          if (width > 990)
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Column(
+                    children: [
+                      Text(
+                        'Nom',
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        model.name,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
-                  Text('${model.gainsPertesTotal} \$')
+                  Column(
+                    children: [
+                      Text(
+                        'Nombre',
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text("${model.number} ${model.cryptoId}"),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        'G/P %',
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        '${model.percent} %',
+                        style: TextStyle(
+                          color: model.percent < 0 ? Colors.red : Colors.green,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        'G/P \$',
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text('${model.gainsPertes} \$',
+                          style: TextStyle(
+                            color:
+                                model.percent < 0 ? Colors.red : Colors.green,
+                          )),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        'Total',
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text('${model.gainsPertesTotal} \$')
+                    ],
+                  ),
                 ],
               ),
-            ],
-          ),
+            ),
           IconButton(
               onPressed: () async {
                 if (await walletViewModel.disableNotification(model.cryptoId)) {

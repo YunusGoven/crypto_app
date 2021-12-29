@@ -7,7 +7,7 @@ import 'package:mvvm/Model/models/user.dart';
 import 'package:mvvm/Routing/route_names.dart';
 import 'package:mvvm/Routing/router.dart';
 import 'package:mvvm/Services/navigation_service.dart';
-import 'package:mvvm/Services/notification_service.dart';
+import 'package:mvvm/Services/new_notification.dart';
 import 'package:mvvm/Services/userinfo_service.dart';
 import 'package:mvvm/View/pages/screen_template.dart';
 import 'locator.dart';
@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    NotificationService().listen(_messangerKey);
+    if (!kIsWeb) listen(_messangerKey);
   }
 
   @override
@@ -60,6 +60,7 @@ class _MyAppState extends State<MyApp> {
             builder: (theme, darkTheme) =>
                 //materialApp
                 MaterialApp(
+                  scaffoldMessengerKey: _messangerKey,
                   scrollBehavior: MyCustomScrollBehavior(),
                   title: 'crypto app',
                   debugShowCheckedModeBanner: false,
@@ -69,7 +70,9 @@ class _MyAppState extends State<MyApp> {
                   builder: (context, child) => Navigator(
                     key: locator<Auth>().screenNavigationKey,
                     onGenerateRoute: (settings) => MaterialPageRoute(
-                        builder: (context) => ScreenTemplate(child: child)),
+                        builder: (context) => ScreenTemplate(
+                              child: child,
+                            )),
                   ),
                   navigatorKey: locator<NavigationService>().navigatorKey,
                   onGenerateRoute: Rooter(context1).generateRoute,

@@ -43,7 +43,6 @@ class _DiscussionPageState extends State<DiscussionPage> {
                   var mesg = message[index].get('message');
                   var sender = message[index].get('idUser');
                   String currentUser = user.pseudo;
-                  print("send : $sender");
                   var isCurrentUser = sender == currentUser;
 
                   return Column(

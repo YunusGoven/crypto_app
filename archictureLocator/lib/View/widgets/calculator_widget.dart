@@ -31,7 +31,6 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
             decoration: InputDecoration(prefixText: _currency),
             keyboardType: TextInputType.number,
             onChanged: (string) {
-              print(string);
               if (string.isEmpty) {
                 _controllerCrypto.text = '';
                 _controllerCrypto.clear();

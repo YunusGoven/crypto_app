@@ -73,29 +73,34 @@ class _NavigationBarMobileState extends State<NavigationBarMobile> {
               NavBarMobile(drawerContext, 'Register', RegisterRoute, Icons.add),
             ],
           ),
-        Switch(
-          value: darkmode,
-          activeColor: Colors.blue,
-          onChanged: (bool value) {
-            if (value == true) {
-              AdaptiveTheme.of(context).setDark();
-            } else {
-              AdaptiveTheme.of(context).setLight();
-            }
-            setState(() {
-              darkmode = value;
-            });
-          },
-        ),
-        darkmode
-            ? const Icon(
-                Icons.dark_mode,
-                color: Colors.white,
-              )
-            : const Icon(
-                Icons.light_mode,
-                color: Colors.black,
-              )
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Switch(
+              value: darkmode,
+              activeColor: Colors.blue,
+              onChanged: (bool value) {
+                if (value == true) {
+                  AdaptiveTheme.of(context).setDark();
+                } else {
+                  AdaptiveTheme.of(context).setLight();
+                }
+                setState(() {
+                  darkmode = value;
+                });
+              },
+            ),
+            darkmode
+                ? const Icon(
+                    Icons.dark_mode,
+                    color: Colors.white,
+                  )
+                : const Icon(
+                    Icons.light_mode,
+                    color: Colors.black,
+                  )
+          ],
+        )
       ],
     );
   }

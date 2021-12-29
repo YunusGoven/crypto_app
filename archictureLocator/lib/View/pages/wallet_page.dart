@@ -18,15 +18,16 @@ class _WalletPageState extends State<WalletPage> {
       onModelReady: (model) => model.getWallets(),
       disposeViewModel: false,
       builder: (context, model, child) => SingleChildScrollView(
-        child: Center(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
           child: Wrap(
-            spacing: 30,
-            runSpacing: 30,
+            spacing: 16,
+            runSpacing: 16,
             children: <Widget>[
               const Text(
                 "Vos cryptos",
                 textAlign: TextAlign.center,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
               ),
               const SizedBox(
                 height: 10,

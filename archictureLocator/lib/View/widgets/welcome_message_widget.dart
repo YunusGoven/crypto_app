@@ -50,9 +50,6 @@ class WelcomeMessage extends StatelessWidget {
                 : Column(
                     children: _buttonWidget(),
                   ),
-            Row(
-              children: [],
-            )
           ],
         ),
       ),

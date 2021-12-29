@@ -71,9 +71,8 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
-                    // ignore: missing_return
                     validator: (value) {
-                      value == null || value.isEmpty
+                      return value == null || value.isEmpty
                           ? "Veuillez entrez votre pseudo"
                           : null;
                     },

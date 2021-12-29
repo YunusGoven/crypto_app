@@ -1,7 +1,3 @@
-import 'dart:collection';
-
-import 'package:intl/intl.dart';
-
 // max 8 chiffre apres la virgule
 
 class Crypto {

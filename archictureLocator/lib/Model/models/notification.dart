@@ -6,9 +6,9 @@ class NotificationModel {
   String _message;
 
   NotificationModel({String notificationId, String dateNotif, String message}) {
-    this._notificationId = notificationId;
-    this._dateNotif = dateNotif;
-    this._message = message;
+    _notificationId = notificationId;
+    _dateNotif = dateNotif;
+    _message = message;
   }
 
   String get notificationId => _notificationId;
@@ -29,10 +29,10 @@ class NotificationModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['notificationId'] = this._notificationId;
-    data['dateNotif'] = this._dateNotif;
-    data['message'] = this._message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['notificationId'] = _notificationId;
+    data['dateNotif'] = _dateNotif;
+    data['message'] = _message;
     return data;
   }
 }

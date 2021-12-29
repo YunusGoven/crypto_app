@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mvvm/Model/models/notification.dart';
 
@@ -14,23 +15,23 @@ class NotificationWidget extends StatefulWidget {
 class _NotificationWidgetState extends State<NotificationWidget> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              widget.notification.message,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              widget.notification.dateNotif,
-            ),
-          ],
-        ));
+    double size = kIsWeb ? 16 : 14;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          widget.notification.message,
+          style: TextStyle(fontSize: size, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Text(
+          widget.notification.dateNotif,
+          style: TextStyle(fontSize: size - 2),
+        ),
+      ],
+    );
   }
 }

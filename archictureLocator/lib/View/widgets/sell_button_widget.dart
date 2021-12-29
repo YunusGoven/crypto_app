@@ -32,7 +32,6 @@ class SellButtonWidgetState extends State<SellButtonWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.crypto.Id);
     return AlertDialog(
         scrollable: true,
         title: Text('Vendre ${widget.crypto.Name}'),
@@ -143,7 +142,7 @@ class SellButtonWidgetState extends State<SellButtonWidget> {
                                             } else {
                                               _error = '';
                                             }
-                                          } catch (Exception) {
+                                          } catch (exception) {
                                             _error =
                                                 'Veuillez ne pas encoder des lettres !';
                                             _total = 0;

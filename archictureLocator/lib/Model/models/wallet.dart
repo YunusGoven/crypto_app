@@ -65,14 +65,14 @@ class ConnectedWallet {
   set cryptoId(String cryptoId) => _cryptoId = cryptoId;
 
   ConnectedWallet.fromJson(Map<String, dynamic> json) {
-    _number = json['Number'];
-    _cryptoId = json['CryptoId'];
+    _number = json['number'];
+    _cryptoId = json['cryptoId'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['Number'] = this._number;
-    data['CryptoId'] = this._cryptoId;
+    data['number'] = this._number;
+    data['cryptoId'] = this._cryptoId;
     return data;
   }
 }

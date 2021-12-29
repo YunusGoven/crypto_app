@@ -18,7 +18,7 @@ class _ScreenTemplateState extends State<ScreenTemplate> {
     var screenSize = MediaQuery.of(context).size;
     var screenwidht = screenSize.width;
     return Scaffold(
-        appBar: screenwidht >= 1004
+        appBar: screenwidht >= 1030
             ? null
             : AppBar(
                 backgroundColor: Colors.black26,
@@ -27,27 +27,51 @@ class _ScreenTemplateState extends State<ScreenTemplate> {
                   children: const [Text("CryptoYH")],
                 ),
               ),
-        drawer: screenwidht >= 1004
+        drawer: screenwidht >= 1030
             ? null
             : Drawer(
                 child: ListView(
                   children: [
-                    const DrawerHeader(
-                      decoration: BoxDecoration(),
-                      child: Text(
-                        'HYCrypto',
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
+                    SizedBox(
+                      height: 120,
+                      child: DrawerHeader(
+                        child: Column(
+                          children: const [
+                            Text(
+                              'HYCrypto',
+                              style: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'Echanger vos cryptomonnaies en toutes sécurité',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     NavigationBarMobile(drawerContext: context),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'Goven & Collignon © - all rights reserved ',
+                      style: TextStyle(
+                        fontSize: 14,
+                      ),
+                    )
                   ],
                 ),
               ),
         body: kIsWeb
             ? Column(
                 children: <Widget>[
-                  if (screenwidht >= 1004) const NavigationBarTabletDesktop(),
+                  if (screenwidht >= 1030) const NavigationBarTabletDesktop(),
                   Expanded(
                     child: CenteredPage(child: widget.child),
                   ),

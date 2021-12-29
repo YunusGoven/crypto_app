@@ -16,14 +16,15 @@ class _NotificationPageState extends State<NotificationPage> {
   Widget createWildget(NotificationViewModel model) {
     model.notification.sort((a, b) => b.getDateTime.compareTo(a.getDateTime));
     return Wrap(
-      spacing: 30,
-      runSpacing: 30,
+      spacing: 16,
+      runSpacing: 16,
       children: [
         ...model.notification
             .asMap()
             .map((index, value) => MapEntry(
                 index,
                 Container(
+                    padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: Colors.grey[700],
@@ -31,39 +32,36 @@ class _NotificationPageState extends State<NotificationPage> {
                       ),
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          NotificationWidget(notification: value),
-                          IconButton(
-                              onPressed: () async {
-                                var isDeleted = await _nvm
-                                    .deleteNotification(value.notificationId);
-                                if (isDeleted.code == 200) {
-                                  setState(() {
-                                    model.notification.removeWhere((element) =>
-                                        element.notificationId ==
-                                        value.notificationId);
-                                  });
-                                }
-                                final snackBar = SnackBar(
-                                  content: Text(
-                                    isDeleted.value,
-                                    style: const TextStyle(fontSize: 20),
-                                  ),
-                                  backgroundColor: isDeleted.code == 200
-                                      ? Colors.green
-                                      : Colors.red,
-                                );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                              },
-                              icon: const Icon(Icons.delete)),
-                        ],
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        NotificationWidget(notification: value),
+                        IconButton(
+                            onPressed: () async {
+                              var isDeleted = await _nvm
+                                  .deleteNotification(value.notificationId);
+                              if (isDeleted.code == 200) {
+                                setState(() {
+                                  model.notification.removeWhere((element) =>
+                                      element.notificationId ==
+                                      value.notificationId);
+                                });
+                              }
+                              final snackBar = SnackBar(
+                                content: Text(
+                                  isDeleted.value,
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                                backgroundColor: isDeleted.code == 200
+                                    ? Colors.green
+                                    : Colors.red,
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            },
+                            icon: const Icon(Icons.delete)),
+                      ],
                     ))))
             .values
             .toList()
@@ -78,21 +76,24 @@ class _NotificationPageState extends State<NotificationPage> {
       onModelReady: (model) => model.getNotifications(),
       disposeViewModel: false,
       builder: (context, model, child) => SingleChildScrollView(
-          child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          model.notification == null
-              ? const CircularProgressIndicator()
-              : model.notification.isEmpty
-                  ? const Center(
-                      child: Text(
-                        "Vous n'avez pas de notifications",
-                        style: TextStyle(fontSize: 24),
-                      ),
-                    )
-                  : createWildget(model),
-        ],
+          child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            model.notification == null
+                ? const CircularProgressIndicator()
+                : model.notification.isEmpty
+                    ? const Center(
+                        child: Text(
+                          "Vous n'avez pas de notifications",
+                          style: TextStyle(fontSize: 24),
+                        ),
+                      )
+                    : createWildget(model),
+          ],
+        ),
       )),
     );
   }
