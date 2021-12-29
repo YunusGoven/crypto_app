@@ -7,12 +7,9 @@ import 'package:mvvm/locator.dart';
 
 class NavigationService {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-  final GlobalKey<NavigatorState> _screenNavigationKey =
-      GlobalKey<NavigatorState>();
+
   final FirebaseAuthentification _firebaseAuthentification =
       FirebaseAuthentification();
-
-  GlobalKey<NavigatorState> get screenNavigationKey => _screenNavigationKey;
 
   Future<dynamic> navigateTo(String routeName,
       {Map<String, String> queryParams}) async {
@@ -25,7 +22,7 @@ class NavigationService {
     if (queryParams != null) {
       routeName = Uri(path: routeName, queryParameters: queryParams).toString();
     }
-    return navigatorKey.currentState.popAndPushNamed(routeName);
+    return navigatorKey.currentState.pushNamed(routeName);
   }
 
   void goBack() {

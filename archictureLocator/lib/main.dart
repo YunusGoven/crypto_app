@@ -67,7 +67,7 @@ class _MyAppState extends State<MyApp> {
                   darkTheme: darkTheme,
                   //routing
                   builder: (context, child) => Navigator(
-                    key: locator<NavigationService>().screenNavigationKey,
+                    key: locator<Auth>().screenNavigationKey,
                     onGenerateRoute: (settings) => MaterialPageRoute(
                         builder: (context) => ScreenTemplate(child: child)),
                   ),

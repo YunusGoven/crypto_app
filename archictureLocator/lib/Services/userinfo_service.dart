@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:localstore/localstore.dart';
 import 'package:mvvm/Model/models/user.dart';
@@ -5,9 +6,12 @@ import 'package:mvvm/Model/models/wallet.dart';
 import 'package:mvvm/Services/firebase_authentification.dart';
 
 class Auth {
+  final GlobalKey<NavigatorState> _screenNavigationKey =
+      GlobalKey<NavigatorState>();
   final _db = Localstore.instance;
   User _user;
   User get getUsers => _user;
+  GlobalKey<NavigatorState> get screenNavigationKey => _screenNavigationKey;
 
   void setUserSolde(num updating) {
     _user.setSolde = updating;
