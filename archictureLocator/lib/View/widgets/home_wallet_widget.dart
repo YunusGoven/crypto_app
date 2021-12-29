@@ -11,6 +11,7 @@ class HomeWalletWidget extends StatelessWidget {
     return ViewModelBuilder<WalletViewModel>.reactive(
       viewModelBuilder: () => WalletViewModel(),
       onModelReady: (model) => model.getWallets(),
+      disposeViewModel: false,
       builder: (context, model, child) => SingleChildScrollView(
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

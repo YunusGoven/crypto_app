@@ -37,12 +37,14 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size.width;
     final user = Provider.of<User>(context);
     var isAuth = user != null;
 
     return ViewModelBuilder<CryptoViewModel>.reactive(
       viewModelBuilder: () => CryptoViewModel(),
       onModelReady: (model) => model.getAllCryptos(4),
+      disposeViewModel: false,
       builder: (context, model, child) => SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -62,7 +64,7 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () {
                         locator<NavigationService>().navigateTo(CryptosRoute);
                       },
-                      label: const Text("Plus"),
+                      label: size > 460 ? const Text("Plus") : const Text(""),
                       icon: const Icon(Icons.add_circle_rounded))
                 ],
               ),

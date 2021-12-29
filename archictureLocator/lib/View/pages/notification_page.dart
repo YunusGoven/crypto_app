@@ -73,6 +73,7 @@ class _NotificationPageState extends State<NotificationPage> {
     return ViewModelBuilder<NotificationViewModel>.reactive(
       viewModelBuilder: () => NotificationViewModel(),
       onModelReady: (model) => model.getNotifications(),
+      disposeViewModel: false,
       builder: (context, model, child) => SingleChildScrollView(
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,7 +81,14 @@ class _NotificationPageState extends State<NotificationPage> {
         children: <Widget>[
           model.notification == null
               ? const CircularProgressIndicator()
-              : createWildget(model),
+              : model.notification.isEmpty
+                  ? const Center(
+                      child: Text(
+                        "Vous n'avez pas de notifications",
+                        style: TextStyle(fontSize: 24),
+                      ),
+                    )
+                  : createWildget(model),
         ],
       )),
     );

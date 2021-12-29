@@ -20,9 +20,9 @@ class ApiService {
   final _auth = locator<Auth>();
   final FirebaseAuthentification _firebaseAuthentification =
       FirebaseAuthentification();
-  final url = "http://127.0.0.1:44336/api";
+  // final url = "http://127.0.0.1:44336/api";
   // final url = "http://10.0.2.2:44336/api";
-  // final url = "https://porthos-intra.cg.helmo.be/grGU/api";
+  final url = "https://porthos-intra.cg.helmo.be/grGU/api";
   final Map<String, String> headers = {
     'Content-type': 'application/json',
     'Accept': 'text/plain',
@@ -207,6 +207,24 @@ class ApiService {
     var response =
         await http.post(uri, headers: headers, body: jsonEncode(um.toJson()));
     return ApiResponse(code: response.statusCode, value: response.body);
+  }
+
+  Future<ApiResponse> creationGoogle() async {
+    try {
+      var googleToken = await _firebaseAuthentification.signInWithGoogle();
+      _firebaseAuthentification.signOut();
+
+      String body = '{"googleToken" :"${googleToken}" }';
+      var c_url = url + '/Users/Register';
+      var uri = Uri.parse(c_url);
+      var response = await http.post(uri, headers: headers, body: body);
+
+      return ApiResponse(code: response.statusCode, value: response.body);
+    } catch (exception) {
+      return const ApiResponse(
+          code: 404,
+          value: "Une erreur est survenu lors de la creation de votre compte");
+    }
   }
 
   //Ranking

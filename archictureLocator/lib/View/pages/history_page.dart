@@ -11,6 +11,7 @@ class HistoryPage extends StatelessWidget {
     return ViewModelBuilder<HistoryViewModel>.reactive(
       viewModelBuilder: () => HistoryViewModel(),
       onModelReady: (model) => model.getHistory(),
+      disposeViewModel: false,
       builder: (context, model, child) => SingleChildScrollView(
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

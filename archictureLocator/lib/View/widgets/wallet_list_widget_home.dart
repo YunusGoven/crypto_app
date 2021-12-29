@@ -14,6 +14,7 @@ class WalletListWidgetHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<WalletViewModel>.reactive(
+        disposeViewModel: false,
         viewModelBuilder: () => WalletViewModel(),
         builder: (context, model, child) => SingleChildScrollView(
               scrollDirection: Axis.horizontal,

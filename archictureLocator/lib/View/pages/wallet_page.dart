@@ -16,6 +16,7 @@ class _WalletPageState extends State<WalletPage> {
     return ViewModelBuilder<WalletViewModel>.reactive(
       viewModelBuilder: () => WalletViewModel(),
       onModelReady: (model) => model.getWallets(),
+      disposeViewModel: false,
       builder: (context, model, child) => SingleChildScrollView(
         child: Center(
           child: Wrap(
@@ -31,6 +32,11 @@ class _WalletPageState extends State<WalletPage> {
                 height: 10,
               ),
               if (model.wallets == null) const LinearProgressIndicator(),
+              if (model.wallets != null && model.wallets.isEmpty)
+                const Center(
+                  child: Text("Vous n'avez pas de portefeuille actif",
+                      style: TextStyle(fontSize: 24)),
+                ),
               if (model.wallets != null)
                 ...model.wallets
                     .asMap()

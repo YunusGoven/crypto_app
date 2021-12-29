@@ -11,6 +11,7 @@ class CryptoListHomeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<CryptoViewModel>.reactive(
       viewModelBuilder: () => CryptoViewModel(),
+      disposeViewModel: false,
       builder: (context, model, child) => Wrap(
         spacing: 30,
         runSpacing: 30,

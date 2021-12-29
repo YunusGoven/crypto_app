@@ -22,22 +22,30 @@ class CryptoWidget extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              children: [
-                LogoImage(image: model.LogoUrl),
-                const SizedBox(
-                  width: 60,
-                ),
-                if (size < 380) Text(model.Name),
-              ],
-            ),
-            if (size >= 380) Text(model.Name),
             Row(
               children: [
-                if (size >= 800) showHistory("30 Jours", model.D30Price, model),
-                if (size >= 750) showHistory("7 Jours", model.D7Price, model),
-                if (size >= 700) showHistory("1 Jours", model.D1Price, model),
-                if (size >= 650) showHistory("1 Heure", model.H1Price, model),
+                Column(
+                  children: [
+                    LogoImage(image: model.LogoUrl),
+                    const SizedBox(
+                      width: 60,
+                    ),
+                    if (size < 550) Text(model.Name),
+                  ],
+                ),
+                if (size >= 550)
+                  SizedBox(
+                    width: 30,
+                  ),
+                if (size >= 550) Text(model.Name),
+              ],
+            ),
+            Row(
+              children: [
+                if (size >= 980) showHistory("30 Jours", model.D30Price, model),
+                if (size >= 910) showHistory("7 Jours", model.D7Price, model),
+                if (size >= 860) showHistory("1 Jours", model.D1Price, model),
+                if (size >= 810) showHistory("1 Heure", model.H1Price, model),
               ],
             ),
             Column(

@@ -26,6 +26,7 @@ class _HistoryListState extends State<HistoryListWidget> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<HistoryViewModel>.reactive(
+      disposeViewModel: false,
       viewModelBuilder: () => HistoryViewModel(),
       builder: (context, model, child) => Wrap(
         spacing: 30,
@@ -131,14 +132,28 @@ class _HistoryListState extends State<HistoryListWidget> {
               );
             }).toList(),
           ),
-          ...widget.historys
-              .asMap()
-              .map((index, h) => MapEntry(
-                    index,
-                    HistoryWidget(model: h),
-                  ))
-              .values
-              .toList()
+          const Tooltip(
+            textStyle: TextStyle(fontSize: 16, color: Colors.white),
+            height: 60,
+            message:
+                "Si vous voulez plus de choix de filtre, par ex: avoir plus de crypto dedans. Contactez depuis notre page de contact",
+            child: Icon(Icons.help),
+          ),
+          if (widget.historys == null) const LinearProgressIndicator(),
+          if (widget.historys != null && widget.historys.isEmpty)
+            const Center(
+              child: Text("Vous n'avez effectué aucune transaction",
+                  style: TextStyle(fontSize: 24)),
+            ),
+          if (widget.historys != null && widget.historys.isNotEmpty)
+            ...widget.historys
+                .asMap()
+                .map((index, h) => MapEntry(
+                      index,
+                      HistoryWidget(model: h),
+                    ))
+                .values
+                .toList()
         ],
       ),
     );

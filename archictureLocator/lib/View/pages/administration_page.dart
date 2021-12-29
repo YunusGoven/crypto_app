@@ -126,6 +126,7 @@ class _AdministrationPageState extends State<AdministrationPage> {
                 child: ViewModelBuilder<UserViewModel>.reactive(
                   viewModelBuilder: () => UserViewModel(),
                   onModelReady: (model) => model.getUsers(),
+                  disposeViewModel: false,
                   builder: (context, model, child) => Table(
                     border: TableBorder.all(),
                     defaultVerticalAlignment: TableCellVerticalAlignment.middle,

@@ -11,6 +11,7 @@ class RankingPage extends StatelessWidget {
     return ViewModelBuilder<ClassementViewModel>.reactive(
       viewModelBuilder: () => ClassementViewModel(),
       onModelReady: (model) => model.getClassement(),
+      disposeViewModel: false,
       builder: (context, model, child) => SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

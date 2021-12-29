@@ -8,8 +8,9 @@ class WelcomeMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size.width;
     return Container(
-      height: 325,
+      height: size > 500 ? 325 : 325 + (size / 10) + 25,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           gradient: const LinearGradient(
@@ -41,28 +42,39 @@ class WelcomeMessage extends StatelessWidget {
                 style: TextStyle(color: Colors.white, fontSize: 26),
               ),
             ),
+            size > 500
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: _buttonWidget(),
+                  )
+                : Column(
+                    children: _buttonWidget(),
+                  ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                TextButton.icon(
-                    onPressed: () {
-                      locator<NavigationService>().navigateTo(RegisterRoute);
-                    },
-                    style: TextButton.styleFrom(primary: Colors.white),
-                    label: const Text("S'Inscrire"),
-                    icon: const Icon(Icons.add)),
-                TextButton.icon(
-                    onPressed: () {
-                      locator<NavigationService>().navigateTo(LoginRoute);
-                    },
-                    style: TextButton.styleFrom(primary: Colors.white),
-                    label: const Text("Se Connecter"),
-                    icon: const Icon(Icons.login))
-              ],
+              children: [],
             )
           ],
         ),
       ),
     );
+  }
+
+  List<Widget> _buttonWidget() {
+    return <Widget>[
+      TextButton.icon(
+          onPressed: () {
+            locator<NavigationService>().navigateTo(RegisterRoute);
+          },
+          style: TextButton.styleFrom(primary: Colors.white),
+          label: const Text("S'Inscrire"),
+          icon: const Icon(Icons.add)),
+      TextButton.icon(
+          onPressed: () {
+            locator<NavigationService>().navigateTo(LoginRoute);
+          },
+          style: TextButton.styleFrom(primary: Colors.white),
+          label: const Text("Se Connecter"),
+          icon: const Icon(Icons.login))
+    ];
   }
 }
