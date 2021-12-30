@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:mvvm/Model/models/user.dart';
+import 'package:mvvm/Model/user.dart';
 import 'package:mvvm/Routing/extensions.dart';
 import 'package:mvvm/Routing/route_names.dart';
-import 'package:mvvm/View/pages/administration_page.dart';
-import 'package:mvvm/View/pages/all_page.dart';
-import 'package:mvvm/View/pages/connection_page.dart';
-import 'package:mvvm/View/pages/contact_page.dart';
-import 'package:mvvm/View/pages/detail_page.dart';
-import 'package:mvvm/View/pages/discussion_page.dart';
-import 'package:mvvm/View/pages/history_page.dart';
-import 'package:mvvm/View/pages/home_page.dart';
-import 'package:mvvm/View/pages/notification_page.dart';
-import 'package:mvvm/View/pages/ranking_page.dart';
-import 'package:mvvm/View/pages/register_page.dart';
-import 'package:mvvm/View/pages/wallet_page.dart';
+import 'package:mvvm/View/pages/administration/administration_page.dart';
+import 'package:mvvm/View/pages/all_page/all_page.dart';
+import 'package:mvvm/View/pages/connection/connection_page.dart';
+import 'package:mvvm/View/pages/contact/contact_page.dart';
+import 'package:mvvm/View/pages/detail/detail_page.dart';
+import 'package:mvvm/View/pages/discussion/discussion_page.dart';
+import 'package:mvvm/View/pages/historique/history_page.dart';
+import 'package:mvvm/View/pages/accueil/home_page.dart';
+import 'package:mvvm/View/pages/notification/notification_page.dart';
+import 'package:mvvm/View/pages/classement/ranking_page.dart';
+import 'package:mvvm/View/pages/register/register_page.dart';
+import 'package:mvvm/View/pages/portefeuille/wallet_page.dart';
+import 'package:mvvm/View/pages/registration_page.dart';
 
 import 'package:provider/provider.dart';
 
@@ -25,6 +26,8 @@ class Rooter {
     final user = Provider.of<User>(context, listen: false);
     var routingData = settings.name.getRoutingData;
     switch (routingData.route) {
+      case RegistrationCompletedRoute:
+        return _getPageRoute(RegistrationCompletedPage(), settings);
       case AdminPanelRoute:
         if (user == null || !user.admin) {
           return _getPageRoute(const HomePage(), settings);

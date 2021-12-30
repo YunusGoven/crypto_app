@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mvvm/Model/models/crypto.dart';
-import 'package:mvvm/View/components/image_widget.dart';
+import 'package:mvvm/Model/crypto.dart';
+import 'package:mvvm/View/widgets/image_widget.dart';
 
 class CryptoWidget extends StatelessWidget {
   final Crypto model;

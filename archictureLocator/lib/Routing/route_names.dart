@@ -12,3 +12,4 @@ const String MessagingRoute = '/messaging';
 const String RegisterRoute = '/register';
 const String ContactRoute = '/contact';
 const String AdminPanelRoute = '/adminpanel';
+const String RegistrationCompletedRoute = '/registrationCompleted';

@@ -6,11 +6,11 @@ import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
-import 'package:mvvm/Model/models/crypto.dart';
-import 'package:mvvm/Model/models/history.dart';
-import 'package:mvvm/Model/models/notification.dart';
-import 'package:mvvm/Model/models/user.dart';
-import 'package:mvvm/Model/models/wallet.dart';
+import 'package:mvvm/Model/crypto.dart';
+import 'package:mvvm/Model/history.dart';
+import 'package:mvvm/Model/notification.dart';
+import 'package:mvvm/Model/user.dart';
+import 'package:mvvm/Model/wallet.dart';
 import 'package:mvvm/Services/api_response.dart';
 import 'package:mvvm/Services/firebase_authentification.dart';
 import 'package:mvvm/Services/userinfo_service.dart';
@@ -35,101 +35,101 @@ class ApiService {
   //Wallet
   Future<List<Wallet>> getWallet() async {
     try {
-      var c_url = url + '/Wallets';
-      var uri = Uri.parse(c_url);
-      var token = await _auth.token();
-      connectedHeaders.putIfAbsent('Authorization', () => 'Bearer $token');
+      var uri = Uri.parse('$url/Wallets');
+      _verifyTokenHeaders();
       var response = await http.get(uri, headers: connectedHeaders);
       if (response.statusCode == 200) {
         var wallets = (json.decode(response.body) as List);
-        var walletsList = wallets.map((res) => Wallet.fromJson(res)).toList();
-        return walletsList;
-      } else {
-        return List.empty();
+        return wallets.map((wallet) => Wallet.fromJson(wallet)).toList();
       }
-    } on Exception {
-      return null;
+      return <Wallet>[];
+    } catch (ex) {
+      return <Wallet>[];
     }
   }
 
   //All crypto
   Future<List<Crypto>> getAllCryptos(int number) async {
     try {
-      var c_url = url + "/Crypto";
-      List<Crypto> cryptos = List.empty();
-      var uri = Uri.parse(c_url);
+      var uri = Uri.parse('$url/Crypto');
       var response = await http.get(uri, headers: headers);
       if (response.statusCode == 200) {
-        var crypto = (json.decode(response.body) as List);
-        cryptos = crypto.map((apod) {
-          return Crypto.fromJson(apod);
+        var cryptoResponse = (json.decode(response.body) as List);
+        var cryptos = cryptoResponse.map((crypto) {
+          return Crypto.fromJson(crypto);
         }).toList();
         return number == -1 ? cryptos : cryptos.take(number).toList();
-      } else {
-        return List.empty();
       }
-    } on SocketException {
-      throw const SocketException('No Internet connection');
-    } on TimeoutException {
-      throw TimeoutException('Delai dépassé');
-    } on Exception {
-      return null;
+      return <Crypto>[];
+    } catch (ex) {
+      return <Crypto>[];
     }
   }
 
   Future<List<User>> getAllUsers() async {
     try {
-      var c_url = url + '/Users';
-      var uri = Uri.parse(c_url);
-      var token = await _auth.token();
-      connectedHeaders.putIfAbsent('Authorization', () => 'Bearer $token');
+      var uri = Uri.parse('$url/Users');
+      _verifyTokenHeaders();
       var response = await http.get(uri, headers: connectedHeaders);
       if (response.statusCode == 200) {
         var users = (json.decode(response.body) as List);
-        var usersList = users.map((res) => User.fromJson(res)).toList();
-        return usersList;
-      } else {
-        return List.empty();
+        return users.map((res) => User.fromJson(res)).toList();
       }
-    } on Exception {
-      return List.empty();
+      return <User>[];
+    } catch (ex) {
+      return <User>[];
     }
   }
 
   //Detail crypto
   Future<Crypto> getCrypto(String cryptoId) async {
-    var c_url = url + '/Crypto/$cryptoId';
-    Crypto cryptoM;
-    var uri = Uri.parse(c_url);
-    var response = await http.get(uri);
-    if (response.statusCode == 200) {
-      var crypto = json.decode(response.body);
-      cryptoM = Crypto.fromJson(crypto);
-      return cryptoM;
-    } else {
+    try {
+      var uri = Uri.parse('$url/Crypto/$cryptoId');
+      var response = await http.get(uri);
+      if (response.statusCode == 200) {
+        var crypto = json.decode(response.body);
+        return Crypto.fromJson(crypto);
+      }
+      return null;
+    } catch (ex) {
       return null;
     }
   }
 
+  //connection google
   Future<ApiResponse> connectiongoogle() async {
     try {
       var googleToken = await _firebaseAuthentification.signInWithGoogle();
+      var bodymap = <String, dynamic>{"googleToken": googleToken};
       var identifier = FirebaseMessaging.instance;
       var notsett = await identifier.getNotificationSettings();
-      String body;
       if (notsett.authorizationStatus == AuthorizationStatus.authorized) {
         var token = await identifier.getToken();
-        body = '{"deviceId": "${token}", "googleToken" :"${googleToken}" }';
-      } else {
-        body = '{"googleToken" :"${googleToken}" }';
+        bodymap.putIfAbsent("deviceId", () => token);
       }
 
-      var c_url = url + '/Users/SignIn';
-      var uri = Uri.parse(c_url);
-      var response = await http.post(uri, headers: headers, body: body);
+      return await _connect(bodymap);
+    } catch (exception) {
+      return const ApiResponse(
+          code: 404, value: "Une erreur est survenu lors de l'identification");
+    }
+  }
+
+  Future<ApiResponse> _connect(Map<String, dynamic> bodymap) async {
+    var isAlreadyConnected = await _auth.isAuthenticate();
+    if (isAlreadyConnected) {
+      return const ApiResponse(
+          code: 409, value: "Veuillez vous déconnecter avant");
+    }
+    try {
+      var uri = Uri.parse('$url/Users/SignIn');
+      var response =
+          await http.post(uri, headers: headers, body: jsonEncode(bodymap));
       if (response.statusCode == 200) {
         ConnectedUser user = ConnectedUser.fromJson(jsonDecode(response.body));
         _auth.addToLocal(jsonDecode(response.body));
+      } else {
+        _firebaseAuthentification.signOut();
       }
       return ApiResponse(code: response.statusCode, value: response.body);
     } catch (exception) {
@@ -141,28 +141,21 @@ class ApiService {
   //Connexion
   Future<ApiResponse> connection(String username, String password) async {
     try {
+      var bodymap = <String, dynamic>{"pseudo": username, "password": password};
       var identifier = FirebaseMessaging.instance;
       var notsett = await identifier.getNotificationSettings();
-      String body;
       if (notsett.authorizationStatus == AuthorizationStatus.authorized) {
         var token = await identifier.getToken();
-        body =
-            '{"pseudo" : "${username}", "password": "${password}" ,"deviceId": "$token" }';
-      } else {
-        body = '{"pseudo" : "${username}", "password": "${password}" }';
+        bodymap.putIfAbsent("deviceId", () => token);
       }
-      var c_url = url + '/Users/SignIn';
-      var uri = Uri.parse(c_url);
-      var response = await http.post(uri, headers: headers, body: body);
-      if (response.statusCode == 200) {
+      var connect = await _connect(bodymap);
+      if (connect.code == 200) {
         await _firebaseAuthentification.signOut();
-        ConnectedUser user = ConnectedUser.fromJson(jsonDecode(response.body));
-        _auth.addToLocal(jsonDecode(response.body));
         var userCo = await _auth.getUser();
         await _firebaseAuthentification.signInWithEmailAndPass(
             userCo.mail, password);
       }
-      return ApiResponse(code: response.statusCode, value: response.body);
+      return connect;
     } catch (exception) {
       return const ApiResponse(
           code: 404, value: "Une erreur est survenu lors de la connection");
@@ -172,24 +165,29 @@ class ApiService {
   //Register
   Future<ApiResponse> register(String username, String password, String mail,
       String firstname, String surname) async {
-    var hashmdp = password;
-    RegisterUser um = RegisterUser(firstname, surname, mail, username, hashmdp);
-    var c_url = url + '/Users/Register';
-    var uri = Uri.parse(c_url);
-    var response =
-        await http.post(uri, headers: headers, body: jsonEncode(um.toJson()));
-    return ApiResponse(code: response.statusCode, value: response.body);
+    try {
+      RegisterUser um =
+          RegisterUser(firstname, surname, mail, username, password);
+      var uri = Uri.parse('$url/Users/Register');
+      var response =
+          await http.post(uri, headers: headers, body: jsonEncode(um.toJson()));
+      return ApiResponse(code: response.statusCode, value: response.body);
+    } catch (ex) {
+      return const ApiResponse(
+          code: 404,
+          value: "Une erreur est survenu lors de la création de votre compte");
+    }
   }
 
+  //register google
   Future<ApiResponse> creationGoogle() async {
     try {
       var googleToken = await _firebaseAuthentification.signInWithGoogle();
       _firebaseAuthentification.signOut();
-
-      String body = '{"googleToken" :"${googleToken}" }';
-      var c_url = url + '/Users/Register';
-      var uri = Uri.parse(c_url);
-      var response = await http.post(uri, headers: headers, body: body);
+      var bodymap = <String, dynamic>{"googleToken": googleToken};
+      var uri = Uri.parse('$url/Users/Register');
+      var response =
+          await http.post(uri, headers: headers, body: jsonEncode(bodymap));
 
       return ApiResponse(code: response.statusCode, value: response.body);
     } catch (exception) {
@@ -201,148 +199,196 @@ class ApiService {
 
   //Ranking
   Future<List<ClassementUser>> getRanking() async {
-    var c_url = url + '/Users/Ranking';
-    var uri = Uri.parse(c_url);
-    var token = await _auth.token();
-    connectedHeaders.putIfAbsent('Authorization', () => 'Bearer $token');
-    var response = await http.get(uri, headers: connectedHeaders);
-    if (response.statusCode == 200) {
-      var users = (json.decode(response.body) as List);
-      var usersList = users.map((res) => ClassementUser.fromJson(res)).toList();
-      return usersList;
-    } else {
-      return List.empty();
+    try {
+      var uri = Uri.parse('$url/Users/Ranking');
+      _verifyTokenHeaders();
+      var response = await http.get(uri, headers: connectedHeaders);
+      if (response.statusCode == 200) {
+        var users = (json.decode(response.body) as List);
+        return users.map((user) => ClassementUser.fromJson(user)).toList();
+      }
+      return <ClassementUser>[];
+    } catch (ex) {
+      return <ClassementUser>[];
     }
   }
 
   //History
   Future<List<History>> getHistory() async {
-    var c_url = url + '/Transaction';
-    var uri = Uri.parse(c_url);
+    try {
+      var uri = Uri.parse('$url/Transaction');
+      _verifyTokenHeaders();
+      var response = await http.get(uri, headers: connectedHeaders);
+      if (response.statusCode == 200) {
+        var historys = (json.decode(response.body) as List);
+        return historys.map((history) => History.fromJson(history)).toList();
+      }
+      return <History>[];
+    } catch (ex) {
+      return <History>[];
+    }
+  }
+
+  Future<void> _verifyTokenHeaders() async {
     var token = await _auth.token();
     connectedHeaders.putIfAbsent('Authorization', () => 'Bearer $token');
-    var response = await http.get(uri, headers: connectedHeaders);
-    if (response.statusCode == 200) {
-      var history = (json.decode(response.body) as List);
-      var historyList = history.map((res) => History.fromJson(res)).toList();
-      return historyList;
-    } else {
-      return List.empty();
-    }
   }
 
   //Notification
   Future<List<NotificationModel>> getNotification() async {
     try {
-      var c_url = url + '/Notifications';
-      var uri = Uri.parse(c_url);
-      var token = await _auth.token();
-      connectedHeaders.putIfAbsent('Authorization', () => 'Bearer $token');
+      var uri = Uri.parse('$url/Notifications');
+      _verifyTokenHeaders();
       var response = await http.get(uri, headers: connectedHeaders);
       if (response.statusCode == 200) {
         var notifications = (json.decode(response.body) as List);
-        var notificationsList = notifications
+        return notifications
             .map((res) => NotificationModel.fromJson(res))
             .toList();
-        return notificationsList;
-      } else {
-        return List.empty();
       }
-    } on Error {
-      return null;
+      return <NotificationModel>[];
+    } catch (ex) {
+      return <NotificationModel>[];
     }
   }
 
   //Buy
   Future<ApiResponse> buy(
       String cryptoId, num number, num currentValue, num total) async {
-    var body =
-        '{"CryptoId":"${cryptoId}", "Number":${number}, "CurrentValue": ${currentValue}, "Type" : "B"}';
-    var c_url = url + '/Transaction';
-    var token = await _auth.token();
-    connectedHeaders.putIfAbsent('Authorization', () => 'Bearer $token');
-    var uri = Uri.parse(c_url);
-    var response = await http.post(uri, headers: connectedHeaders, body: body);
-    if (response.statusCode == 200) {
-      locator<Auth>().setUserSolde(-number);
-      await locator<Auth>().updateWallet(cryptoId, total);
+    try {
+      var bodymap = <String, dynamic>{
+        "CryptoId": cryptoId,
+        "Number": number,
+        "CurrentValue": currentValue,
+        "Type": "B"
+      };
+      _verifyTokenHeaders();
+      var uri = Uri.parse('$url/Transaction');
+      var response = await http.post(uri,
+          headers: connectedHeaders, body: jsonEncode(bodymap));
+      if (response.statusCode == 200) {
+        locator<Auth>().setUserSolde(-number);
+        await locator<Auth>().updateWallet(cryptoId, total);
+      }
+      return ApiResponse(code: response.statusCode, value: response.body);
+    } catch (ex) {
+      return const ApiResponse(
+          code: 404, value: "Une erreur est survenu lors de votre transaction");
     }
-    return ApiResponse(code: response.statusCode, value: response.body);
   }
 
   //Sell
   Future<ApiResponse> sell(
       String cryptoId, num number, num currentValue, num dollarTotal) async {
-    var body =
-        '{"CryptoId":"${cryptoId}",  "Number":${number}, "CurrentValue": ${currentValue}, "Type" : "S"}';
-    var c_url = url + '/Transaction';
-    var token = await _auth.token();
-    connectedHeaders.putIfAbsent('Authorization', () => 'Bearer $token');
-    var uri = Uri.parse(c_url);
-    var response = await http.post(uri, headers: connectedHeaders, body: body);
-    if (response.statusCode == 200) {
-      locator<Auth>().setUserSolde(dollarTotal);
-      locator<Auth>().updateWallet(cryptoId, -number);
+    try {
+      var bodymap = <String, dynamic>{
+        "CryptoId": cryptoId,
+        "Number": number,
+        "CurrentValue": currentValue,
+        "Type": "S"
+      };
+      _verifyTokenHeaders();
+      var uri = Uri.parse('$url/Transaction');
+      var response = await http.post(uri,
+          headers: connectedHeaders, body: jsonEncode(bodymap));
+      if (response.statusCode == 200) {
+        locator<Auth>().setUserSolde(dollarTotal);
+        locator<Auth>().updateWallet(cryptoId, -number);
+      }
+      return ApiResponse(code: response.statusCode, value: response.body);
+    } catch (ex) {
+      return const ApiResponse(
+          code: 404, value: "Une erreur est survenu lors de votre transaction");
     }
-    return ApiResponse(code: response.statusCode, value: response.body);
   }
 
   //Supprimmer notifications
   Future<ApiResponse> deleteNotification(String notificationId) async {
-    var c_url = url + '/Notifications/${notificationId}';
-    var uri = Uri.parse(c_url);
-    var token = await _auth.token();
-    connectedHeaders.putIfAbsent('Authorization', () => 'Bearer $token');
-    var response = await http.delete(uri, headers: connectedHeaders);
-    return ApiResponse(code: response.statusCode, value: response.body);
+    try {
+      _verifyTokenHeaders();
+      var uri = Uri.parse('$url/Notifications/$notificationId');
+      var response = await http.delete(uri, headers: connectedHeaders);
+      return ApiResponse(code: response.statusCode, value: response.body);
+    } catch (ex) {
+      return const ApiResponse(
+          code: 404,
+          value: "Une erreur est survenu lors de la suppression de la notif");
+    }
   }
 
   Future<ApiResponse> sendMail(String name, String email, String subject,
       String text, bool isCopy) async {
-    var c_url = url + '/Mail';
-    var body =
-        '{"fromName": "$name","fromEmail": "$email","subject": "$subject", "text": "$text", "copy": $isCopy}';
-    var uri = Uri.parse(c_url);
-    var response = await http.post(uri, headers: headers, body: body);
+    try {
+      var bodymap = <String, dynamic>{
+        "fromName": name,
+        "fromEmail": email,
+        "subject": subject,
+        "text": text,
+        "copy": isCopy,
+      };
+      var uri = Uri.parse('$url/Mail');
+      var response =
+          await http.post(uri, headers: headers, body: jsonEncode(bodymap));
 
-    return ApiResponse(code: response.statusCode, value: response.body);
+      return ApiResponse(code: response.statusCode, value: response.body);
+    } catch (ex) {
+      return const ApiResponse(
+          code: 404, value: "Une erreur est survenu lors de l'envoi du mail");
+    }
   }
 
   //Disable Notification
   Future<ApiResponse> disableNotification(String crytpoId) async {
-    var body = '"${crytpoId}"';
-    var c_url = url + '/Wallets/DisableNotification';
-    var token = await _auth.token();
-    connectedHeaders.putIfAbsent('Authorization', () => 'Bearer $token');
-    var uri = Uri.parse(c_url);
-    var response = await http.post(uri, headers: connectedHeaders, body: body);
-    return ApiResponse(code: response.statusCode, value: response.body);
+    try {
+      var body = '"${crytpoId}"';
+      _verifyTokenHeaders();
+      var uri = Uri.parse('$url/Wallets/DisableNotification');
+      var response =
+          await http.post(uri, headers: connectedHeaders, body: body);
+      return ApiResponse(code: response.statusCode, value: response.body);
+    } catch (ex) {
+      return const ApiResponse(
+          code: 404,
+          value: "Une erreur est survenu lors du changement de notification");
+    }
   }
 
   Future<ApiResponse> blockUser(String userid) async {
-    var c_url = url + '/Users/$userid';
-    var token = await _auth.token();
-    connectedHeaders.putIfAbsent('Authorization', () => 'Bearer $token');
-    var uri = Uri.parse(c_url);
-    var response = await http.put(uri, headers: connectedHeaders);
-    return ApiResponse(code: response.statusCode, value: response.body);
+    try {
+      _verifyTokenHeaders();
+      var uri = Uri.parse('$url/Users/$userid');
+      var response = await http.put(uri, headers: connectedHeaders);
+      return ApiResponse(code: response.statusCode, value: response.body);
+    } catch (ex) {
+      return const ApiResponse(
+          code: 404, value: "Une erreur est survenu lors du blocage ");
+    }
   }
 
   Future<ApiResponse> deleteUser(String userid) async {
-    var c_url = url + '/Users/$userid';
-    var token = await _auth.token();
-    connectedHeaders.putIfAbsent('Authorization', () => 'Bearer $token');
-    var uri = Uri.parse(c_url);
-    var response = await http.delete(uri, headers: connectedHeaders);
-    return ApiResponse(code: response.statusCode, value: response.body);
+    try {
+      _verifyTokenHeaders();
+      var uri = Uri.parse('$url/Users/$userid');
+      var response = await http.delete(uri, headers: connectedHeaders);
+      return ApiResponse(code: response.statusCode, value: response.body);
+    } catch (ex) {
+      return const ApiResponse(
+          code: 404,
+          value:
+              "Une erreur est survenu lors de la suppression de l'utilisateur");
+    }
   }
 
   Future<ApiResponse> addNewCrypto(String cryptoId) async {
-    var c_url = url + '/Crypto/$cryptoId';
-    var token = await _auth.token();
-    connectedHeaders.putIfAbsent('Authorization', () => 'Bearer $token');
-    var uri = Uri.parse(c_url);
-    var response = await http.post(uri, headers: connectedHeaders);
-    return ApiResponse(code: response.statusCode, value: response.body);
+    try {
+      _verifyTokenHeaders();
+      var uri = Uri.parse('$url/Crypto/$cryptoId');
+      var response = await http.post(uri, headers: connectedHeaders);
+      return ApiResponse(code: response.statusCode, value: response.body);
+    } catch (ex) {
+      return const ApiResponse(
+          code: 404,
+          value: "Une erreur est survenu lors de l'ajout de la crypto");
+    }
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:localstore/localstore.dart';
-import 'package:mvvm/Model/models/user.dart';
-import 'package:mvvm/Model/models/wallet.dart';
+import 'package:mvvm/Model/user.dart';
+import 'package:mvvm/Model/wallet.dart';
 import 'package:mvvm/Services/firebase_authentification.dart';
 
 class Auth {

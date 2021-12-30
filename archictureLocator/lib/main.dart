@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:localstore/localstore.dart';
-import 'package:mvvm/Model/models/user.dart';
+import 'package:mvvm/Model/user.dart';
 import 'package:mvvm/Routing/route_names.dart';
 import 'package:mvvm/Routing/router.dart';
 import 'package:mvvm/Services/navigation_service.dart';

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:mvvm/Model/models/message.dart';
+import 'package:mvvm/Model/message.dart';
 
 class FirebaseApi {
   static Future sendMessage(

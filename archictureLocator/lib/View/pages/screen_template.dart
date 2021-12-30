@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mvvm/View/navigation_bar/navigation_bar_desktop.dart';
+import 'package:mvvm/View/navigation_bar/navigation_bar_mobile.dart';
 import 'package:mvvm/View/pages/centered_page.dart';
-import 'package:mvvm/View/widgets/navigation_bar/navigation_bar_desktop.dart';
-import 'package:mvvm/View/widgets/navigation_bar/navigation_bar_mobile.dart';
 
 class ScreenTemplate extends StatefulWidget {
   final Widget child;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mvvm/Model/models/crypto.dart';
+import 'package:mvvm/Model/crypto.dart';
 import 'package:mvvm/Routing/route_names.dart';
 import 'package:mvvm/Services/api_service.dart';
 import 'package:mvvm/Services/navigation_service.dart';

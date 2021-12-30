@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mvvm/Model/models/user.dart';
+import 'package:mvvm/Model/user.dart';
 import 'package:mvvm/Services/api_response.dart';
 import 'package:mvvm/Services/api_service.dart';
 import 'package:mvvm/locator.dart';

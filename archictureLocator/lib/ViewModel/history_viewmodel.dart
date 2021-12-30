@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mvvm/Model/models/history.dart';
+import 'package:mvvm/Model/history.dart';
 import 'package:mvvm/Services/api_service.dart';
 import 'package:mvvm/locator.dart';
 
