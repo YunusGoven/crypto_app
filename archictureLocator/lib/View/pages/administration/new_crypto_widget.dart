@@ -33,13 +33,13 @@ class _NewCryptoWidgetState extends State<NewCryptoWidget> {
         children: [
           const Flexible(
               child: Text(
-            "Ajouter nouvelle crypto",
+            "Ajouter une nouvelle crypto",
             overflow: TextOverflow.clip,
           )),
           const Tooltip(
             textStyle: TextStyle(fontSize: 16, color: Colors.white),
             height: 60,
-            message: "Veuillez vous referer  sur Nomics.com",
+            message: "Veuillez vous renseigner sur Nomics.com",
             child: Icon(Icons.help),
           ),
           const SizedBox(
@@ -66,7 +66,7 @@ class _NewCryptoWidgetState extends State<NewCryptoWidget> {
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
               textController.clear();
             },
-            child: const Text("Ajout"),
+            child: const Text("Ajouter"),
           )
         ],
       ),

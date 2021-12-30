@@ -18,7 +18,7 @@ class HomeWalletWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           const Text(
-            "Vos cryptos",
+            "Vos cryptomonnaies",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
           const SizedBox(

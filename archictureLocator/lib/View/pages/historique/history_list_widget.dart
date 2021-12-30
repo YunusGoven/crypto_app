@@ -45,11 +45,11 @@ class _HistoryListState extends State<HistoryListWidget> {
               case "Tout":
                 widget.historys = copy;
                 break;
-              case "Récent -> Ancienne":
+              case "Récent -> Ancien":
                 widget.historys
                     .sort((b, a) => a.getDateTime.compareTo(b.getDateTime));
                 break;
-              case "Ancienne -> Récente":
+              case "Ancien -> Récente":
                 widget.historys
                     .sort((a, b) => a.getDateTime.compareTo(b.getDateTime));
                 break;
@@ -65,8 +65,8 @@ class _HistoryListState extends State<HistoryListWidget> {
         },
         items: <String>[
           'Tout',
-          'Récent -> Ancienne',
-          'Ancienne -> Récente',
+          'Récent -> Ancien',
+          'Ancien -> Récente',
           'Achat -> Vente',
           'Vente -> Achat'
         ].map<DropdownMenuItem<String>>((String value) {
@@ -128,7 +128,7 @@ class _HistoryListState extends State<HistoryListWidget> {
           textStyle: TextStyle(fontSize: 16),
           height: 60,
           message:
-              "Si vous voulez plus de choix de filtre, par ex: avoir plus de crypto dedans. Contactez depuis notre page de contact",
+              "Si vous voulez plus de choix de filtre. (ex: avoir plus de crypto dedans.) Contactez nous depuis notre page de contact",
           child: Icon(Icons.help),
         )
     ];
@@ -158,7 +158,7 @@ class _HistoryListState extends State<HistoryListWidget> {
             if (widget.historys == null) const LinearProgressIndicator(),
             if (widget.historys != null && widget.historys.isEmpty)
               const Center(
-                child: Text("Vous n'avez effectué aucune transaction",
+                child: Text("Vous n'avez pas effectué de transaction",
                     style: TextStyle(fontSize: 24)),
               ),
             if (widget.historys != null && widget.historys.isNotEmpty)

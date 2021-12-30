@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mvvm/Routing/route_names.dart';
-import 'package:mvvm/Services/api_service.dart';
 import 'package:mvvm/Services/navigation_service.dart';
 import 'package:mvvm/View/pages/administration/new_crypto_widget.dart';
 import 'package:mvvm/View/pages/administration/user_list_widget.dart';
@@ -48,7 +47,7 @@ class _AdministrationPageState extends State<AdministrationPage> {
                         locator<NavigationService>().navigateTo(RegisterRoute);
                       },
                       icon: const Icon(Icons.add),
-                      label: const Text("Ajouter utilisateur")),
+                      label: const Text("Ajouter un nouvel utilisateur")),
                 ],
               ),
               const SizedBox(

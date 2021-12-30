@@ -22,7 +22,7 @@ class ConnectionButtonsWidget extends StatelessWidget {
       children: [
         SignInButton(
           Buttons.Google,
-          text: "Connection avec Google",
+          text: "Connexion avec Google",
           onPressed: () async {
             var resp = await _apiService.connectiongoogle();
             if (resp.code == 200) {
@@ -60,7 +60,7 @@ class ConnectionButtonsWidget extends StatelessWidget {
               }
             },
             child: const Text(
-              "Connection",
+              "Connexion",
             )),
       ],
     );

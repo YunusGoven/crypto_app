@@ -17,7 +17,7 @@ class _TextFieldRegisterState extends State<TextFieldRegister> {
   bool _obscure;
   @override
   void initState() {
-    _obscure = widget.text.contains("Password");
+    _obscure = widget.text.contains("Mot de passe");
     super.initState();
   }
 
@@ -44,7 +44,7 @@ class _TextFieldRegisterState extends State<TextFieldRegister> {
           widget.icon,
           size: 18,
         ),
-        suffixIcon: widget.text.contains("Password")
+        suffixIcon: widget.text.contains("Mot de passe")
             ? IconButton(
                 icon: const Icon(
                   Icons.visibility,

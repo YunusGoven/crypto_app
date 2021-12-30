@@ -68,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: TextFielConnection(
                     controller: passwordController,
                     icon: Icons.password,
-                    text: "Password",
+                    text: "Mot de passe",
                     validator: (value) => value == null || value.isEmpty
                         ? "Veuillez entrez votre mot de passe"
                         : null,
@@ -88,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Vous n'avez pas encore de compte? "),
+                    const Text("Vous n'avez pas encore de compte ? "),
                     TextButton(
                         onPressed: () async {
                           navigationService.navigateTo(RegisterRoute);

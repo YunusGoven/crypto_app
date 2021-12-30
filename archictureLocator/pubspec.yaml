@@ -42,7 +42,6 @@ dependencies:
   syncfusion_flutter_charts: ^19.4.40
   get_it: ^7.2.0
   stacked: ^2.2.7
-  responsive_builder: ^0.4.1
   cached_network_image: ^3.1.0+1
   localstore: ^1.2.1
   jwt_decoder: ^2.0.1

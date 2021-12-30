@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mvvm/Services/api_service.dart';
 import 'package:mvvm/View/pages/contact/sending_button.dart';
 import 'package:mvvm/View/pages/contact/text_field.dart';
-import 'package:mvvm/locator.dart';
 
 class ContactPage extends StatefulWidget {
   const ContactPage({Key key}) : super(key: key);

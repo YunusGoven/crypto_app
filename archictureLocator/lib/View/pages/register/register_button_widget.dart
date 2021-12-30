@@ -71,12 +71,12 @@ class _RegisterButtonWidgetState extends State<RegisterButtonWidget> {
         ),
         SignInButton(
           Buttons.Google,
-          text: "Création avec Google",
+          text: "Inscription avec Google",
           onPressed: () async {
             var resp = await _apiService.creationGoogle();
             var msg = "";
             if (resp.code == 200) {
-              msg = "votre compte a été créer";
+              msg = "votre compte a été créé";
             } else {
               msg = resp.value;
             }

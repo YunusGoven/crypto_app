@@ -14,6 +14,7 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
   final _controllerMonet = TextEditingController();
   final _controllerCrypto = TextEditingController();
   static const _locale = 'en';
+  // ignore: unused_element
   String _formatNumber(String s) =>
       NumberFormat.decimalPattern(_locale).format(int.parse(s));
   String get _currency =>

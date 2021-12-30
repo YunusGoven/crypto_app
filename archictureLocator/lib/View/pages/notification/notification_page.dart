@@ -95,7 +95,7 @@ class _NotificationPageState extends State<NotificationPage> {
                         : model.notification.isEmpty
                             ? const Center(
                                 child: Text(
-                                  "Vous n'avez pas de notifications",
+                                  "Vous n'avez pas de notification.",
                                   style: TextStyle(fontSize: 24),
                                 ),
                               )

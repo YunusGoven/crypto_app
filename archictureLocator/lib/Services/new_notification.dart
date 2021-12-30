@@ -9,7 +9,6 @@ import 'package:mvvm/locator.dart';
 
 //background
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print('Handling a background message ${message.messageId}');
   RemoteNotification notification = message.notification;
   AndroidNotification android = message.notification?.android;
   if (notification != null && android != null && !kIsWeb) {
@@ -67,7 +66,6 @@ Future listen(GlobalKey<ScaffoldMessengerState> key) async {
   });
 
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-    print('A new onMessageOpenedApp event was published!');
     locator<Auth>().isAuthenticate().then((value) {
       var route = value ? HomeRoute : LoginRoute;
       locator<NavigationService>().navigateTo(route);

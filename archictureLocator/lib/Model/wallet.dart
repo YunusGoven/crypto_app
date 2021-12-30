@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_getters_setters
+
 class Wallet {
   String _walletId;
   String _cryptoId;

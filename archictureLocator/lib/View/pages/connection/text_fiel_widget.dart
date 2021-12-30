@@ -17,7 +17,7 @@ class _TextFielConnectionState extends State<TextFielConnection> {
   bool _obscure;
   @override
   void initState() {
-    _obscure = widget.text == "Password";
+    _obscure = widget.text == "Mot de passe";
     super.initState();
   }
 
@@ -41,7 +41,7 @@ class _TextFielConnectionState extends State<TextFielConnection> {
           widget.icon,
           size: 18,
         ),
-        suffixIcon: widget.text == "Password"
+        suffixIcon: widget.text == "Mot de passe"
             ? IconButton(
                 icon: const Icon(
                   Icons.visibility,

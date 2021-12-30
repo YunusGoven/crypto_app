@@ -34,7 +34,7 @@ class _WalletPageState extends State<WalletPage> {
                     runSpacing: 16,
                     children: <Widget>[
                       const Text(
-                        "Vos cryptos",
+                        "Vos cryptomonnaies",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 22),

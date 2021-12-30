@@ -1,5 +1,7 @@
 // max 8 chiffre apres la virgule
 
+// ignore_for_file: non_constant_identifier_names
+
 class Crypto {
   final String _id;
   final String _symbol;

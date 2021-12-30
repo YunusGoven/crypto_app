@@ -86,6 +86,7 @@ class User {
       this._solde, this._isAdmin);
 
   bool get isBlocked => _isBlocked;
+  // ignore: non_constant_identifier_names
   bool get EmailIsValidate => _isValidate;
   String get id => _id;
   String get firstname => _firstname;

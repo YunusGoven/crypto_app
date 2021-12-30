@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:mvvm/Routing/route_names.dart';
-import 'package:mvvm/Services/api_service.dart';
 import 'package:mvvm/Services/navigation_service.dart';
 import 'package:mvvm/View/pages/register/register_button_widget.dart';
 import 'package:mvvm/View/pages/register/register_textfield.dart';
@@ -27,11 +25,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     _passwordConfirmController.addListener(() {
       setState(() {
         if (_passwordController.text != _passwordConfirmController.text) {
-          _passConfirm = "Les mots de passe ne correspontent pas";
+          _passConfirm = "Les mots de passe ne correspondent pas";
         } else {
           _passConfirm = "";
         }
@@ -96,7 +93,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             value.isEmpty ||
                             value.length < 3 ||
                             value.contains(RegExp(r'[0-9]'))
-                        ? "Veuillez entrez votre prenom ou enlevez les numero"
+                        ? "Veuillez entrez votre prenom ou enlevez les numeros"
                         : null,
                   ),
                 ),
@@ -113,7 +110,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             value.isEmpty ||
                             value.length < 4 ||
                             value.contains(RegExp(r'[0-9]'))
-                        ? "Veuillez entrez votre nom ou enlevez les numero"
+                        ? "Veuillez entrez votre nom ou enlevez les numeros"
                         : null,
                   ),
                 ),
@@ -146,13 +143,13 @@ class _RegisterPageState extends State<RegisterPage> {
                   width: size,
                   child: TextFieldRegister(
                     controller: _passwordController,
-                    text: "Password",
+                    text: "Mot de passe",
                     icon: Icons.password,
                     validator: (value) => value == null ||
                             value.isEmpty ||
                             value.contains(' ') ||
                             value.length < 6
-                        ? "Veuillez entrez un mot de passe sans espace et plus grand que 6 caractere"
+                        ? "Veuillez entrez un mot de passe sans espace et plus grand que 6 caracteres"
                         : null,
                   ),
                 ),
@@ -163,14 +160,14 @@ class _RegisterPageState extends State<RegisterPage> {
                   width: size,
                   child: TextFieldRegister(
                     controller: _passwordConfirmController,
-                    text: "Validate Password",
+                    text: "Valider le mot de passe",
                     icon: Icons.password,
                     validator: (value) {
                       if (value == null ||
                           value.isEmpty ||
                           value.contains(' ') ||
                           value.length < 6) {
-                        return "Veuillez entrez un mot de passe sans espace et plus grand que 6 caractere";
+                        return "Veuillez entrez un mot de passe sans espace et plus grand que 6 caracteres";
                       }
                       if (_passwordController.text != value) {
                         return "Les mots de passe ne correspondent pas!";
@@ -202,7 +199,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Vous avez déjà un compte ? "),
+                    const Text("Avez vous déjà un compte ? "),
                     TextButton(
                         onPressed: () async {
                           navigationService.navigateTo(LoginRoute);

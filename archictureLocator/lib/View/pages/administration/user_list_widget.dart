@@ -32,7 +32,7 @@ class _UserListWidgetState extends State<UserListWidget> {
               child: Padding(
                 padding: EdgeInsets.only(top: 8, bottom: 8),
                 child: Text(
-                  "UserName",
+                  "Pseudo",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
               ),
@@ -45,7 +45,7 @@ class _UserListWidgetState extends State<UserListWidget> {
             ),
             Center(
               child: Text(
-                "Email Confirmed",
+                "Email confirmé",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
             ),
