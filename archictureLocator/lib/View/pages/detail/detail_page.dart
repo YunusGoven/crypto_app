@@ -47,47 +47,56 @@ class _DetailPageState extends State<DetailPage> {
         viewModelBuilder: () => CryptoViewModel(),
         onModelReady: (model) => model.getCrypto(widget.cryptoId),
         disposeViewModel: false,
-        builder: (context, model, child) => SingleChildScrollView(
-            child: Padding(
-          padding:
-              const EdgeInsets.only(top: 25, left: 20, right: 20, bottom: 25),
-          child: model.crypto == null
-              ? const LinearProgressIndicator()
-              : Column(
-                  children: [
-                    DetailUp(crypto: model.crypto),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    DetailMiddle(crypto: model.crypto),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          "Converter",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                        CalculatorWidget(cryptoValue: model.crypto),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Graph(crypto: model.crypto),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    TransactionButtonWidget(
-                      crypto: model.crypto,
-                    )
-                  ],
-                ),
-        )),
+        builder: (context, model, child) => RefreshIndicator(
+          onRefresh: () {
+            return Future.delayed(const Duration(seconds: 1), () {
+              setState(() {
+                model.getCrypto(widget.cryptoId);
+              });
+            });
+          },
+          child: SingleChildScrollView(
+              child: Padding(
+            padding:
+                const EdgeInsets.only(top: 25, left: 20, right: 20, bottom: 25),
+            child: model.crypto == null
+                ? const LinearProgressIndicator()
+                : Column(
+                    children: [
+                      DetailUp(crypto: model.crypto),
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      DetailMiddle(crypto: model.crypto),
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Converter",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          CalculatorWidget(cryptoValue: model.crypto),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Graph(crypto: model.crypto),
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      TransactionButtonWidget(
+                        crypto: model.crypto,
+                      )
+                    ],
+                  ),
+          )),
+        ),
       ),
     );
   }

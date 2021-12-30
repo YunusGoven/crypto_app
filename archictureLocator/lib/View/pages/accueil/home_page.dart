@@ -45,39 +45,50 @@ class _HomePageState extends State<HomePage> {
       viewModelBuilder: () => CryptoViewModel(),
       onModelReady: (model) => model.getAllCryptos(4),
       disposeViewModel: false,
-      builder: (context, model, child) => SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (isAuth) const HomeWalletWidget(),
-              if (kIsWeb && !isAuth) const WelcomeMessage(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      builder: (context, model, child) => RefreshIndicator(
+          onRefresh: () {
+            return Future.delayed(const Duration(seconds: 1), () {
+              setState(() {
+                model.getAllCryptos(4);
+              });
+            });
+          },
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Top Cryptomonnaie",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                  if (isAuth) const HomeWalletWidget(),
+                  if (kIsWeb && !isAuth) const WelcomeMessage(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Top Cryptomonnaie",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 24),
+                      ),
+                      TextButton.icon(
+                          onPressed: () {
+                            locator<NavigationService>()
+                                .navigateTo(CryptosRoute);
+                          },
+                          label:
+                              size > 460 ? const Text("Plus") : const Text(""),
+                          icon: const Icon(Icons.add_circle_rounded))
+                    ],
                   ),
-                  TextButton.icon(
-                      onPressed: () {
-                        locator<NavigationService>().navigateTo(CryptosRoute);
-                      },
-                      label: size > 460 ? const Text("Plus") : const Text(""),
-                      icon: const Icon(Icons.add_circle_rounded))
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  model.cryptos == null
+                      ? const CircularProgressIndicator()
+                      : CryptoListHomeWidget(cryptos: model.cryptos)
                 ],
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              model.cryptos == null
-                  ? const CircularProgressIndicator()
-                  : CryptoListHomeWidget(cryptos: model.cryptos)
-            ],
-          ),
-        ),
-      ),
+            ),
+          )),
     );
   }
 }

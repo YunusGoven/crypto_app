@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mvvm/Model/user.dart';
 import 'package:mvvm/ViewModel/message_viewmodel.dart';
@@ -19,18 +20,14 @@ class _MessageFieldState extends State<MessageField> {
   var isHover = false;
   @override
   Widget build(BuildContext context) {
-    var hovered = Matrix4.identity()..translate(0, -4, 0);
-    var transform = isHover ? hovered : Matrix4.identity();
-
     return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Row(
-        children: [
+        padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 20),
+        child: Row(children: [
           Expanded(
             child: TextField(
-                maxLines: 2,
                 controller: _controller,
                 decoration: const InputDecoration(
+                  hintText: "Message",
                   labelText: "Message",
                 ),
                 onChanged: (value) => {
@@ -42,25 +39,12 @@ class _MessageFieldState extends State<MessageField> {
           const SizedBox(
             width: 50,
           ),
-          MouseRegion(
-            onEnter: (event) => setState(() {
-              isHover = !isHover;
-            }),
-            onExit: (event) => setState(() {
-              isHover = !isHover;
-            }),
-            child: AnimatedContainer(
-                transform: transform,
-                duration: Duration(milliseconds: 200),
-                child: GestureDetector(
-                  child: const Icon(Icons.send),
-                  onTap: () =>
-                      message.trim().isEmpty ? null : sendMessage(widget.user),
-                )),
+          GestureDetector(
+            child: const Icon(Icons.send),
+            onTap: () =>
+                message.trim().isEmpty ? null : sendMessage(widget.user),
           ),
-        ],
-      ),
-    );
+        ]));
   }
 
   void sendMessage(User user) async {

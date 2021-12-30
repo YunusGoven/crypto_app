@@ -72,29 +72,37 @@ class _NotificationPageState extends State<NotificationPage> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<NotificationViewModel>.reactive(
-      viewModelBuilder: () => NotificationViewModel(),
-      onModelReady: (model) => model.getNotifications(),
-      disposeViewModel: false,
-      builder: (context, model, child) => SingleChildScrollView(
-          child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            model.notification == null
-                ? const CircularProgressIndicator()
-                : model.notification.isEmpty
-                    ? const Center(
-                        child: Text(
-                          "Vous n'avez pas de notifications",
-                          style: TextStyle(fontSize: 24),
-                        ),
-                      )
-                    : createWildget(model),
-          ],
-        ),
-      )),
-    );
+        viewModelBuilder: () => NotificationViewModel(),
+        onModelReady: (model) => model.getNotifications(),
+        disposeViewModel: false,
+        builder: (context, model, child) => RefreshIndicator(
+              onRefresh: () {
+                return Future.delayed(const Duration(seconds: 1), () {
+                  setState(() {
+                    model.getNotifications();
+                  });
+                });
+              },
+              child: SingleChildScrollView(
+                  child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    model.notification == null
+                        ? const CircularProgressIndicator()
+                        : model.notification.isEmpty
+                            ? const Center(
+                                child: Text(
+                                  "Vous n'avez pas de notifications",
+                                  style: TextStyle(fontSize: 24),
+                                ),
+                              )
+                            : createWildget(model),
+                  ],
+                ),
+              )),
+            ));
   }
 }

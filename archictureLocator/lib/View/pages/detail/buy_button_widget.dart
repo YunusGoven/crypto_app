@@ -63,7 +63,7 @@ class BuyButtonWidgetState extends State<BuyButtonWidget> {
                     },
                     controller: _numberController,
                     decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.all(0.0),
+                      contentPadding: const EdgeInsets.all(8.0),
                       labelText: 'Nombre',
                       hintText: '50000',
                       labelStyle: const TextStyle(
@@ -109,6 +109,9 @@ class BuyButtonWidgetState extends State<BuyButtonWidget> {
                       });
                     },
                   ),
+                ),
+                const SizedBox(
+                  width: 20,
                 ),
                 const Text("\$")
               ],

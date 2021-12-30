@@ -24,47 +24,50 @@ class _DiscussionPageState extends State<DiscussionPage> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
-    return Column(children: [
-      StreamBuilder<QuerySnapshot>(
-        stream: _mvm.getMessages(widget.cryptoId),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else {
-            if (snapshot.hasData) {
-              List<DocumentSnapshot> message = snapshot.data.docs;
-              return Flexible(
-                  child: ListView.builder(
-                padding: const EdgeInsets.all(10),
-                reverse: true,
-                itemCount: message.length < 100 ? message.length : 100,
-                itemBuilder: (context, index) {
-                  var mesg = message[index].get('message');
-                  var sender = message[index].get('idUser');
-                  String currentUser = user.pseudo;
-                  var isCurrentUser = sender == currentUser;
-
-                  return MessageWidget(
-                    isCurrentUser: isCurrentUser,
-                    mesg: mesg,
-                    sender: sender,
-                  );
-                },
-              ));
-            } else {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(children: [
+        StreamBuilder<QuerySnapshot>(
+          stream: _mvm.getMessages(widget.cryptoId),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
+            } else {
+              if (snapshot.hasData) {
+                List<DocumentSnapshot> message = snapshot.data.docs;
+                return Flexible(
+                    child: ListView.builder(
+                  padding: const EdgeInsets.all(10),
+                  reverse: true,
+                  itemCount: message.length < 100 ? message.length : 100,
+                  itemBuilder: (context, index) {
+                    var mesg = message[index].get('message');
+                    var sender = message[index].get('idUser');
+                    String currentUser = user.pseudo;
+                    var isCurrentUser = sender == currentUser;
+
+                    return MessageWidget(
+                      isCurrentUser: isCurrentUser,
+                      mesg: mesg,
+                      sender: sender,
+                    );
+                  },
+                ));
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
             }
-          }
-        },
-      ),
-      MessageField(
-        user: user,
-        cryptoId: widget.cryptoId,
-      )
-    ]);
+          },
+        ),
+        MessageField(
+          user: user,
+          cryptoId: widget.cryptoId,
+        )
+      ]),
+    );
   }
 }
