@@ -24,7 +24,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final _firstanemContro = TextEditingController();
   final _surnameContro = TextEditingController();
   var _passConfirm = '';
-
+  var isSend = false;
   @override
   void dispose() {
     _pseudoController.dispose();
@@ -363,31 +363,41 @@ class _RegisterPageState extends State<RegisterPage> {
                 const SizedBox(
                   height: 30,
                 ),
-                ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState.validate()) {
-                      var register = await _apiService.register(
-                          _pseudoController.text,
-                          _passwordController.text,
-                          _mailController.text,
-                          _firstanemContro.text,
-                          _surnameContro.text);
-                      final snackBar = SnackBar(
-                        content: Text(
-                          register.value,
-                          style: const TextStyle(fontSize: 20),
+                !isSend
+                    ? ElevatedButton(
+                        onPressed: () async {
+                          if (_formKey.currentState.validate()) {
+                            setState(() async {
+                              isSend = true;
+                              var register = await _apiService.register(
+                                  _pseudoController.text,
+                                  _passwordController.text,
+                                  _mailController.text,
+                                  _firstanemContro.text,
+                                  _surnameContro.text);
+                              setState(() {
+                                isSend = false;
+                              });
+                              final snackBar = SnackBar(
+                                content: Text(
+                                  register.value,
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                                backgroundColor: register.code == 200
+                                    ? Colors.green
+                                    : Colors.red,
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            });
+                          }
+                        },
+                        child: const Text(
+                          'Inscription',
+                          style: TextStyle(fontSize: 16.0),
                         ),
-                        backgroundColor:
-                            register.code == 200 ? Colors.green : Colors.red,
-                      );
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    }
-                  },
-                  child: const Text(
-                    'Inscription',
-                    style: TextStyle(fontSize: 16.0),
-                  ),
-                ),
+                      )
+                    : const CircularProgressIndicator(),
                 const SizedBox(
                   height: 20,
                 ),

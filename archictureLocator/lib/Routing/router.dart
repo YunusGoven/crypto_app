@@ -15,7 +15,7 @@ import 'package:mvvm/View/pages/notification/notification_page.dart';
 import 'package:mvvm/View/pages/classement/ranking_page.dart';
 import 'package:mvvm/View/pages/register/register_page.dart';
 import 'package:mvvm/View/pages/portefeuille/wallet_page.dart';
-import 'package:mvvm/View/pages/confirmation_page/registration_page.dart';
+import 'package:mvvm/View/pages/confirmation_page/registration_confirm_page.dart';
 
 import 'package:provider/provider.dart';
 
