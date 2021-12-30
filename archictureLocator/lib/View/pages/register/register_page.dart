@@ -3,6 +3,8 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:mvvm/Routing/route_names.dart';
 import 'package:mvvm/Services/api_service.dart';
 import 'package:mvvm/Services/navigation_service.dart';
+import 'package:mvvm/View/pages/register/register_button_widget.dart';
+import 'package:mvvm/View/pages/register/register_textfield.dart';
 import 'package:mvvm/locator.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -13,22 +15,36 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  bool _obscure1 = true;
-  bool _obscure2 = true;
-  final _formKey = GlobalKey<FormState>();
-  final _apiService = locator<ApiService>();
   final navigationService = locator<NavigationService>();
+  final _formKey = GlobalKey<FormState>();
   final _pseudoController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _passwordConfirmController = TextEditingController();
   final _mailController = TextEditingController();
   final _firstanemContro = TextEditingController();
   final _surnameContro = TextEditingController();
   var _passConfirm = '';
-  var isSend = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _passwordConfirmController.addListener(() {
+      setState(() {
+        if (_passwordController.text != _passwordConfirmController.text) {
+          _passConfirm = "Les mots de passe ne correspontent pas";
+        } else {
+          _passConfirm = "";
+        }
+      });
+    });
+    super.initState();
+  }
+
   @override
   void dispose() {
     _pseudoController.dispose();
     _passwordController.dispose();
+    _passwordConfirmController.dispose();
     _mailController.dispose();
     _firstanemContro.dispose();
     _surnameContro.dispose();
@@ -55,37 +71,10 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 SizedBox(
                   width: size,
-                  child: TextFormField(
+                  child: TextFieldRegister(
                     controller: _pseudoController,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.all(0.0),
-                      labelText: 'Pseudo',
-                      hintText: 'UserName',
-                      labelStyle: const TextStyle(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      hintStyle: const TextStyle(
-                        fontSize: 14.0,
-                      ),
-                      prefixIcon: const Icon(
-                        Icons.supervised_user_circle,
-                        size: 18,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.grey[700], width: 2),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      floatingLabelStyle: const TextStyle(
-                        fontSize: 18.0,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.grey[700], width: 1.5),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
+                    text: "Pseudo",
+                    icon: Icons.supervised_user_circle,
                     validator: (value) => value == null ||
                             value.isEmpty ||
                             value.length < 6 ||
@@ -99,37 +88,10 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 SizedBox(
                   width: size,
-                  child: TextFormField(
+                  child: TextFieldRegister(
                     controller: _firstanemContro,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.all(0.0),
-                      labelText: 'Prenom',
-                      hintText: 'Prenom',
-                      labelStyle: const TextStyle(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      hintStyle: const TextStyle(
-                        fontSize: 14.0,
-                      ),
-                      prefixIcon: const Icon(
-                        Icons.perm_identity,
-                        size: 18,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.grey[700], width: 2),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      floatingLabelStyle: const TextStyle(
-                        fontSize: 18.0,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.grey[700], width: 1.5),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
+                    icon: Icons.perm_identity,
+                    text: "Prenom",
                     validator: (value) => value == null ||
                             value.isEmpty ||
                             value.length < 3 ||
@@ -143,42 +105,15 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 SizedBox(
                   width: size,
-                  child: TextFormField(
+                  child: TextFieldRegister(
                     controller: _surnameContro,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.all(0.0),
-                      labelText: 'Nom',
-                      hintText: 'Nom',
-                      labelStyle: const TextStyle(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      hintStyle: const TextStyle(
-                        fontSize: 14.0,
-                      ),
-                      prefixIcon: const Icon(
-                        Icons.perm_identity_rounded,
-                        size: 18,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.grey[700], width: 2),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      floatingLabelStyle: const TextStyle(
-                        fontSize: 18.0,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.grey[700], width: 1.5),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
+                    text: "Nom",
+                    icon: Icons.perm_identity_rounded,
                     validator: (value) => value == null ||
                             value.isEmpty ||
                             value.length < 4 ||
                             value.contains(RegExp(r'[0-9]'))
-                        ? "Veuillez entrez votre prenom ou enlevez les numero"
+                        ? "Veuillez entrez votre nom ou enlevez les numero"
                         : null,
                   ),
                 ),
@@ -187,38 +122,10 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 SizedBox(
                   width: size,
-                  child: TextFormField(
+                  child: TextFieldRegister(
                     controller: _mailController,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.all(0.0),
-                      labelText: 'Mail',
-                      hintText: 'Mail',
-                      labelStyle: const TextStyle(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      hintStyle: const TextStyle(
-                        fontSize: 14.0,
-                      ),
-                      prefixIcon: const Icon(
-                        Icons.mail,
-                        size: 18,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.grey[700], width: 2),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      floatingLabelStyle: const TextStyle(
-                        fontSize: 18.0,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.grey[700], width: 1.5),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                    keyboardType: TextInputType.emailAddress,
+                    text: "Mail",
+                    icon: Icons.mail,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "Veuillez entrez votre adresse mail";
@@ -237,48 +144,10 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 SizedBox(
                   width: size,
-                  child: TextFormField(
+                  child: TextFieldRegister(
                     controller: _passwordController,
-                    obscureText: _obscure1,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.all(0.0),
-                      labelText: 'Password',
-                      hintText: 'Password',
-                      hintStyle: const TextStyle(
-                        fontSize: 14.0,
-                      ),
-                      labelStyle: const TextStyle(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      prefixIcon: const Icon(
-                        Icons.password,
-                        size: 18,
-                      ),
-                      suffixIcon: IconButton(
-                        icon: const Icon(
-                          Icons.visibility,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _obscure1 = !_obscure1;
-                          });
-                        },
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.grey[700], width: 2),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      floatingLabelStyle: const TextStyle(
-                        fontSize: 18.0,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.grey[700], width: 1.5),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
+                    text: "Password",
+                    icon: Icons.password,
                     validator: (value) => value == null ||
                             value.isEmpty ||
                             value.contains(' ') ||
@@ -292,69 +161,23 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 SizedBox(
                   width: size,
-                  child: TextFormField(
-                      obscureText: _obscure2,
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.all(0.0),
-                        labelText: 'Validate Password',
-                        hintText: 'Validate Password',
-                        hintStyle: const TextStyle(
-                          fontSize: 14.0,
-                        ),
-                        labelStyle: const TextStyle(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        prefixIcon: const Icon(
-                          Icons.password,
-                          size: 18,
-                        ),
-                        suffixIcon: IconButton(
-                          icon: const Icon(
-                            Icons.visibility,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _obscure2 = !_obscure2;
-                            });
-                          },
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.grey[700], width: 2),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        floatingLabelStyle: const TextStyle(
-                          fontSize: 18.0,
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.grey[700], width: 1.5),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null ||
-                            value.isEmpty ||
-                            value.contains(' ') ||
-                            value.length < 6) {
-                          return "Veuillez entrez un mot de passe sans espace et plus grand que 6 caractere";
-                        }
-                        if (_passwordController.text != value) {
-                          return "Les mots de passe ne correspondent pas!";
-                        }
-                        return null;
-                      },
-                      onChanged: (value) {
-                        setState(() {
-                          if (_passwordController.text != value) {
-                            _passConfirm =
-                                "Les mots de passe ne correspontent pas";
-                          } else {
-                            _passConfirm = "";
-                          }
-                        });
-                      }),
+                  child: TextFieldRegister(
+                    controller: _passwordConfirmController,
+                    text: "Validate Password",
+                    icon: Icons.password,
+                    validator: (value) {
+                      if (value == null ||
+                          value.isEmpty ||
+                          value.contains(' ') ||
+                          value.length < 6) {
+                        return "Veuillez entrez un mot de passe sans espace et plus grand que 6 caractere";
+                      }
+                      if (_passwordController.text != value) {
+                        return "Les mots de passe ne correspondent pas!";
+                      }
+                      return null;
+                    },
+                  ),
                 ),
                 Text(
                   _passConfirm,
@@ -363,64 +186,14 @@ class _RegisterPageState extends State<RegisterPage> {
                 const SizedBox(
                   height: 30,
                 ),
-                !isSend
-                    ? ElevatedButton(
-                        onPressed: () async {
-                          if (_formKey.currentState.validate()) {
-                            setState(() async {
-                              isSend = true;
-                              var register = await _apiService.register(
-                                  _pseudoController.text,
-                                  _passwordController.text,
-                                  _mailController.text,
-                                  _firstanemContro.text,
-                                  _surnameContro.text);
-                              setState(() {
-                                isSend = false;
-                              });
-                              final snackBar = SnackBar(
-                                content: Text(
-                                  register.value,
-                                  style: const TextStyle(fontSize: 20),
-                                ),
-                                backgroundColor: register.code == 200
-                                    ? Colors.green
-                                    : Colors.red,
-                              );
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
-                            });
-                          }
-                        },
-                        child: const Text(
-                          'Inscription',
-                          style: TextStyle(fontSize: 16.0),
-                        ),
-                      )
-                    : const CircularProgressIndicator(),
-                const SizedBox(
-                  height: 20,
-                ),
-                SignInButton(
-                  Buttons.Google,
-                  text: "Création avec Google",
-                  onPressed: () async {
-                    var resp = await ApiService().creationGoogle();
-                    var msg = "";
-                    if (resp.code == 200) {
-                      msg = "votre compte a été créer";
-                    } else {
-                      msg = resp.value;
-                    }
-                    final snackBar = SnackBar(
-                        content: Text(
-                          msg,
-                          style: const TextStyle(fontSize: 20),
-                        ),
-                        backgroundColor:
-                            resp.code == 200 ? Colors.green : Colors.red);
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  },
+                RegisterButtonWidget(
+                  firstanemContro: _firstanemContro,
+                  formKey: _formKey,
+                  mailController: _mailController,
+                  passwordConfirmController: _passwordConfirmController,
+                  passwordController: _passwordController,
+                  pseudoController: _pseudoController,
+                  surnameContro: _surnameContro,
                 ),
                 const SizedBox(
                   height: 40,

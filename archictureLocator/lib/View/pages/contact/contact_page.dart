@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mvvm/Services/api_service.dart';
+import 'package:mvvm/View/pages/contact/sending_button.dart';
+import 'package:mvvm/View/pages/contact/text_field.dart';
 import 'package:mvvm/locator.dart';
 
 class ContactPage extends StatefulWidget {
@@ -11,12 +13,11 @@ class ContactPage extends StatefulWidget {
 
 class _ContactPageState extends State<ContactPage> {
   final formKey = GlobalKey<FormState>();
-  String name = '';
-  String email = '';
-  String subject = '';
-  String text = '';
+  TextEditingController nameController = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController subject = TextEditingController();
+  TextEditingController text = TextEditingController();
   bool isCopy = false;
-  bool waiting = false;
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +41,9 @@ class _ContactPageState extends State<ContactPage> {
                 children: [
                   SizedBox(
                     width: taille,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Nom',
-                        border: OutlineInputBorder(),
-                      ),
+                    child: ContactTextField(
+                      label: "Nom",
+                      controller: nameController,
                       validator: (value) {
                         if (value.length < 3) {
                           return 'Veuillez entrez un nom';
@@ -52,17 +51,14 @@ class _ContactPageState extends State<ContactPage> {
                           return null;
                         }
                       },
-                      onSaved: (newValue) => setState(() => name = newValue),
                     ),
                   ),
                   const SizedBox(height: 16),
                   SizedBox(
                     width: taille,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Email',
-                        border: OutlineInputBorder(),
-                      ),
+                    child: ContactTextField(
+                      label: "Email",
+                      controller: email,
                       validator: (value) {
                         const pattern =
                             r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)';
@@ -76,39 +72,29 @@ class _ContactPageState extends State<ContactPage> {
                           return null;
                         }
                       },
-                      keyboardType: TextInputType.emailAddress,
-                      onSaved: (value) => setState(() => email = value),
                     ),
                   ),
                   const SizedBox(height: 16),
                   SizedBox(
                     width: taille,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Objet',
-                        border: OutlineInputBorder(),
-                      ),
+                    child: ContactTextField(
+                      label: "Objet",
+                      controller: subject,
                       validator: (value) {
                         if (value.length < 5) {
-                          return 'Veuillez entrez un objet';
+                          return 'Veuillez entrez un objet plus long';
                         } else {
                           return null;
                         }
                       },
-                      maxLength: 25,
-                      onSaved: (newValue) => setState(() => subject = newValue),
                     ),
                   ),
                   const SizedBox(height: 16),
                   SizedBox(
                     width: taille,
-                    child: TextFormField(
-                      maxLines: 10,
-                      decoration: const InputDecoration(
-                        alignLabelWithHint: true,
-                        labelText: 'Message',
-                        border: OutlineInputBorder(),
-                      ),
+                    child: ContactTextField(
+                      label: "Message",
+                      controller: text,
                       validator: (value) {
                         if (value.length < 20) {
                           return 'Veuillez détailler votre message';
@@ -116,8 +102,6 @@ class _ContactPageState extends State<ContactPage> {
                           return null;
                         }
                       },
-                      maxLength: 2500,
-                      onSaved: (newValue) => setState(() => text = newValue),
                     ),
                   ),
                   Row(
@@ -138,47 +122,14 @@ class _ContactPageState extends State<ContactPage> {
                   const SizedBox(
                     height: 20,
                   ),
-                  !waiting
-                      ? TextButton(
-                          style: TextButton.styleFrom(
-                            padding: const EdgeInsets.all(4),
-                            primary: Colors.white,
-                            backgroundColor: Colors.teal,
-                            onSurface: Colors.grey,
-                          ),
-                          child: const Text(
-                            "Envoyer",
-                            style: TextStyle(fontSize: 22),
-                          ),
-                          onPressed: () async {
-                            final isValidate = formKey.currentState.validate();
-                            if (isValidate) {
-                              setState(() {
-                                waiting = !waiting;
-                              });
-                              formKey.currentState.save();
-
-                              var send = await locator<ApiService>()
-                                  .sendMail(name, email, subject, text, isCopy);
-                              setState(() {
-                                waiting = !waiting;
-                              });
-                              final message = send.value;
-                              final snackBar = SnackBar(
-                                content: Text(
-                                  message,
-                                  style: const TextStyle(fontSize: 20),
-                                ),
-                                backgroundColor: send.code == 200
-                                    ? Colors.green
-                                    : Colors.red,
-                              );
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
-                            }
-                          },
-                        )
-                      : const CircularProgressIndicator()
+                  ContactSendingButton(
+                    email: email,
+                    formKey: formKey,
+                    isCopy: isCopy,
+                    nameController: nameController,
+                    subject: subject,
+                    text: text,
+                  ),
                 ],
               ),
             ),

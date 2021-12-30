@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:mvvm/Model/user.dart';
 import 'package:mvvm/Routing/route_names.dart';
 import 'package:mvvm/Services/navigation_service.dart';
-import 'package:mvvm/Services/userinfo_service.dart';
-import 'package:mvvm/View/pages/detail/buy_button_widget.dart';
 import 'package:mvvm/View/pages/detail/calculator_widget.dart';
 import 'package:mvvm/View/pages/detail/detail_graph_widget.dart';
 import 'package:mvvm/View/pages/detail/detail_midde_lwidget.dart';
 import 'package:mvvm/View/pages/detail/detail_up_widget.dart';
-import 'package:mvvm/View/pages/detail/sell_button_widget.dart';
+import 'package:mvvm/View/pages/detail/transaction_button_widget.dart';
 import 'package:mvvm/ViewModel/crypto_viewmodel.dart';
 import 'package:mvvm/locator.dart';
 import 'package:stacked/stacked.dart';
@@ -84,47 +82,9 @@ class _DetailPageState extends State<DetailPage> {
                     const SizedBox(
                       height: 50,
                     ),
-                    FutureBuilder<bool>(
-                      future: locator<Auth>().isAuthenticate(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          if (snapshot.data) {
-                            return Row(
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                FloatingActionButton.extended(
-                                  onPressed: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) => BuyButtonWidget(
-                                              crypto: model.crypto,
-                                            ));
-                                  },
-                                  label: const Text("Acheter"),
-                                  icon: const Icon(Icons.add_shopping_cart),
-                                ),
-                                const SizedBox(
-                                  width: 15,
-                                ),
-                                FloatingActionButton.extended(
-                                  onPressed: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) => SellButtonWidget(
-                                              crypto: model.crypto,
-                                            ));
-                                  },
-                                  label: const Text("Vendre"),
-                                  icon: const Icon(Icons.sell),
-                                ),
-                              ],
-                            );
-                          }
-                        }
-                        return Container();
-                      },
-                    ),
+                    TransactionButtonWidget(
+                      crypto: model.crypto,
+                    )
                   ],
                 ),
         )),
