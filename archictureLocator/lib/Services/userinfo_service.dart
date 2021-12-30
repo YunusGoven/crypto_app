@@ -68,7 +68,6 @@ class Auth {
     }
 
     var tokenn = await token();
-    print(tokenn);
     var valetModel = <ConnectedWallet>[];
     for (var item in wallets) {
       var i = item as ConnectedWallet;
@@ -135,7 +134,6 @@ class Auth {
       _user = user;
       return user;
     } catch (ex) {
-      print(ex.toString());
       return null;
     }
   }

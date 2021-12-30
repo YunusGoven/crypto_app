@@ -92,12 +92,12 @@ class _WalletWidgetState extends State<WalletWidget> {
                 children: [
                   Column(
                     children: [
-                      Text(
+                      const Text(
                         'Nom',
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Text(
@@ -108,12 +108,12 @@ class _WalletWidgetState extends State<WalletWidget> {
                   ),
                   Column(
                     children: [
-                      Text(
+                      const Text(
                         'Nombre',
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Text("${model.number} ${model.cryptoId}"),
@@ -121,12 +121,12 @@ class _WalletWidgetState extends State<WalletWidget> {
                   ),
                   Column(
                     children: [
-                      Text(
+                      const Text(
                         'G/P %',
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Text(
@@ -139,12 +139,12 @@ class _WalletWidgetState extends State<WalletWidget> {
                   ),
                   Column(
                     children: [
-                      Text(
+                      const Text(
                         'G/P \$',
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Text('${model.gainsPertes} \$',
@@ -156,12 +156,12 @@ class _WalletWidgetState extends State<WalletWidget> {
                   ),
                   Column(
                     children: [
-                      Text(
+                      const Text(
                         'Total',
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Text('${model.gainsPertesTotal} \$')

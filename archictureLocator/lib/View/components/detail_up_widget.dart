@@ -54,7 +54,7 @@ class _DetailUpState extends State<DetailUp> {
       const SizedBox(
         height: 10,
       ),
-      SizedBox(
+      const SizedBox(
         width: 25,
       ),
       Row(

@@ -56,10 +56,10 @@ class _ScreenTemplateState extends State<ScreenTemplate> {
                       ),
                     ),
                     NavigationBarMobile(drawerContext: context),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
-                    Text(
+                    const Text(
                       'Goven & Collignon © - all rights reserved ',
                       style: TextStyle(
                         fontSize: 14,

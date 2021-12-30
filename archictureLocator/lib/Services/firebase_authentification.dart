@@ -27,7 +27,6 @@ class FirebaseAuthentification {
       var token = await _auth.currentUser.getIdToken();
       return token;
     } catch (exception) {
-      print(exception.toString());
       return null;
     }
   }
@@ -39,7 +38,6 @@ class FirebaseAuthentification {
       User user = result.user;
       return _connectionStatus(user);
     } catch (exception) {
-      print(exception.toString());
       return false;
     }
   }
@@ -48,7 +46,6 @@ class FirebaseAuthentification {
     try {
       return await _auth.signOut();
     } catch (exception) {
-      print(exception.toString());
       return null;
     }
   }

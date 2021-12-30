@@ -34,7 +34,7 @@ class CryptoWidget extends StatelessWidget {
                   ],
                 ),
                 if (size >= 550)
-                  SizedBox(
+                  const SizedBox(
                     width: 30,
                   ),
                 if (size >= 550) Text(model.Name),
