@@ -15,7 +15,7 @@ import 'package:mvvm/View/pages/notification/notification_page.dart';
 import 'package:mvvm/View/pages/classement/ranking_page.dart';
 import 'package:mvvm/View/pages/register/register_page.dart';
 import 'package:mvvm/View/pages/portefeuille/wallet_page.dart';
-import 'package:mvvm/View/pages/registration_page.dart';
+import 'package:mvvm/View/pages/confirmation_page/registration_page.dart';
 
 import 'package:provider/provider.dart';
 
@@ -27,7 +27,8 @@ class Rooter {
     var routingData = settings.name.getRoutingData;
     switch (routingData.route) {
       case RegistrationCompletedRoute:
-        return _getPageRoute(RegistrationCompletedPage(), settings);
+        var id = routingData['success'];
+        return _getPageRoute(RegistrationCompletedPage(success: id), settings);
       case AdminPanelRoute:
         if (user == null || !user.admin) {
           return _getPageRoute(const HomePage(), settings);
