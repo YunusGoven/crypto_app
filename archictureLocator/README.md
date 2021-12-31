@@ -2,6 +2,12 @@
 
 Ceci est un projet réalisé avec le Framework Flutter.
 
+# Lien pour acceder au site web déployé
+https://dartagnan-intra.cg.helmo.be/~e180810/archi/#/
+
+# Lien pour télécharger la version android du projet
+https://drive.google.com/file/d/1VEYcsWVIumPXo0wGZxMD8KRiJKfOnzTI/view?usp=sharing
+
 ## Getting Started
 
 Ce projet contiens touts les élèments de code de notre application Flutter.
