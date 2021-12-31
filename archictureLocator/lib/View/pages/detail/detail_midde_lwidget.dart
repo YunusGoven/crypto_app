@@ -18,19 +18,23 @@ class _DetailMiddleState extends State<DetailMiddle> {
       children: [
         DetailPerDay(
           day: "30d",
-          price: widget.crypto.D30Price,
+          price: widget.crypto.Price + widget.crypto.D30Price,
+          currentPrice: widget.crypto.Price,
         ),
         DetailPerDay(
           day: "7d",
-          price: widget.crypto.D7Price,
+          price: widget.crypto.Price + widget.crypto.D7Price,
+          currentPrice: widget.crypto.Price,
         ),
         DetailPerDay(
           day: "1d",
-          price: widget.crypto.D1Price,
+          price: widget.crypto.Price + widget.crypto.D1Price,
+          currentPrice: widget.crypto.Price,
         ),
         DetailPerDay(
           day: "1h",
-          price: widget.crypto.H1Price,
+          price: widget.crypto.Price + widget.crypto.H1Price,
+          currentPrice: widget.crypto.Price,
         ),
       ],
     );

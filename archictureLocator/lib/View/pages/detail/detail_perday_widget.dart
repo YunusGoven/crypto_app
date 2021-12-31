@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 class DetailPerDay extends StatelessWidget {
   final String day;
   final num price;
-  const DetailPerDay({Key key, this.day, this.price}) : super(key: key);
+  final num currentPrice;
+  const DetailPerDay({Key key, this.day, this.price, this.currentPrice})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +19,9 @@ class DetailPerDay extends StatelessWidget {
           height: 10,
         ),
         Text(
-          price.toStringAsFixed(3),
+          price.toStringAsFixed(5),
           style: TextStyle(
-            color: price < 0 ? Colors.red : Colors.green,
+            color: price < currentPrice ? Colors.red : Colors.green,
           ),
         ),
       ],

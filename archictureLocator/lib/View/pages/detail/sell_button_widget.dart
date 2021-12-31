@@ -60,18 +60,31 @@ class SellButtonWidgetState extends State<SellButtonWidget> {
                               child: TextFormField(
                                 validator: (value) {
                                   try {
-                                    var encoded = num.parse(value);
-                                    if (encoded <= 0) {
+                                    if (_total == 0.0000) {
+                                      _error = "Vous ne gagnez rien !";
+                                      return _error;
+                                    }
+                                    var encode =
+                                        num.tryParse(value)?.toStringAsFixed(8);
+                                    var encoded = num.tryParse(encode);
+                                    if (encoded == null) {
+                                      _error =
+                                          "Veuillez ne pas entrez de lettre";
+                                      return _error;
+                                    }
+                                    if (encoded != null && encoded <= 0) {
                                       _error =
                                           "Veuillez entrez un montant plus grand que 0";
 
                                       return _error;
                                     }
-                                    if (encoded > _userSolde) {
+                                    if (encoded != null &&
+                                        (encoded > _userSolde)) {
                                       _error =
                                           "Vous pouvez vendre au max  pour $_userSolde ${widget.crypto.Id}";
                                       return _error;
                                     }
+
                                     _error = '';
                                     return null;
                                   } catch (ex) {
@@ -116,9 +129,11 @@ class SellButtonWidgetState extends State<SellButtonWidget> {
                                             num.parse(_numberController.text);
                                         _total = number * widget.crypto.Price;
                                         _total = num.parse(
-                                            _total.toStringAsFixed(3));
+                                            _total.toStringAsFixed(2));
                                         if (number > _userSolde) {
                                           _error = 'Max: $_userSolde';
+                                        } else if (_total == 0.0000) {
+                                          _error = "Vous ne gagnez rien !";
                                         } else {
                                           _error = '';
                                         }
@@ -149,8 +164,8 @@ class SellButtonWidgetState extends State<SellButtonWidget> {
                           height: 40,
                         ),
                         Text(
-                            "Valeur Actuelle : ${widget.crypto.Price.toStringAsFixed(3)} \$"),
-                        Text("Total: $_total \$"),
+                            "Valeur Actuelle : ${widget.crypto.Price.toStringAsFixed(5)} \$"),
+                        Text("Total: ${_total.toStringAsFixed(2)} \$"),
                         const SizedBox(
                           height: 40,
                         ),

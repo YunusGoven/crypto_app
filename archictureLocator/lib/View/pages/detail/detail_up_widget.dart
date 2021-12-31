@@ -48,7 +48,7 @@ class _DetailUpState extends State<DetailUp> {
   List<Widget> _cours() {
     return [
       Text(
-        "${widget.crypto.Price.toStringAsFixed(3)} \$",
+        "${widget.crypto.Price.toStringAsFixed(5)} \$",
         style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       ),
       const SizedBox(

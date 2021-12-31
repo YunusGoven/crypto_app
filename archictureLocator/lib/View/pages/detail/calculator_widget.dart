@@ -25,7 +25,7 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
     var value = widget.cryptoValue.Price;
     return Row(
       children: [
-        const Text("Money"),
+        const Text("Argent"),
         Expanded(
           child: TextField(
             controller: _controllerMonet,

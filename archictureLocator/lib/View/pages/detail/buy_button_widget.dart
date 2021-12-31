@@ -42,14 +42,19 @@ class BuyButtonWidgetState extends State<BuyButtonWidget> {
                   child: TextFormField(
                     validator: (value) {
                       try {
-                        var encoded = num.parse(value);
-                        if (encoded <= 0) {
+                        var encode = num.tryParse(value).toStringAsFixed(3);
+                        var encoded = num.tryParse(encode);
+                        if (encoded == null) {
+                          _error = "Veuillez ne pas entrez de lettre";
+                          return _error;
+                        }
+                        if (encoded != null && encoded <= 0) {
                           _error =
                               "Veuillez entrez un montant plus grand que 0";
 
                           return _error;
                         }
-                        if (encoded > _userSolde) {
+                        if (encoded != null && (encoded > _userSolde)) {
                           _error =
                               "Vous pouvez acheter au max  pour $_userSolde \$";
                           return _error;
@@ -127,7 +132,7 @@ class BuyButtonWidgetState extends State<BuyButtonWidget> {
               height: 40,
             ),
             Text(
-                "Valeur Actuelle : ${widget.crypto.Price.toStringAsFixed(3)} \$"),
+                "Valeur Actuelle : ${widget.crypto.Price.toStringAsFixed(5)} \$"),
             Text("Total: $_total ${widget.crypto.Id}"),
             const SizedBox(
               height: 40,

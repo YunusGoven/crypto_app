@@ -50,8 +50,8 @@ class HistoryWidget extends StatelessWidget {
           (kIsWeb)
               ? Text(
                   model.type == "VENTE"
-                      ? model.number.toString() + "   " + model.cryptoId
-                      : model.value.toString() + "   " + model.cryptoId,
+                      ? model.number.toStringAsFixed(8) + "   " + model.cryptoId
+                      : model.value.toStringAsFixed(8) + "   " + model.cryptoId,
                   style: screenwidht >= 1004
                       ? TextStyle(
                           fontWeight: FontWeight.bold,
@@ -66,8 +66,12 @@ class HistoryWidget extends StatelessWidget {
                   children: [
                     Text(
                       model.type == "VENTE"
-                          ? model.number.toString() + "   " + model.cryptoId
-                          : model.value.toString() + "   " + model.cryptoId,
+                          ? model.number.toStringAsFixed(8) +
+                              "   " +
+                              model.cryptoId
+                          : model.value.toStringAsFixed(8) +
+                              "   " +
+                              model.cryptoId,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
@@ -78,8 +82,8 @@ class HistoryWidget extends StatelessWidget {
                     ),
                     Text(
                         model.type == "VENTE"
-                            ? model.value.toString() + "\$"
-                            : model.number.toString() + "\$",
+                            ? model.value.toStringAsFixed(2) + "\$"
+                            : model.number.toStringAsFixed(2) + "\$",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
@@ -88,7 +92,7 @@ class HistoryWidget extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                        model.onTransactionValue.toString() +
+                        model.onTransactionValue.toStringAsFixed(4) +
                             "\$ /1 " +
                             model.cryptoId,
                         style: const TextStyle(fontSize: 18)),
@@ -99,8 +103,8 @@ class HistoryWidget extends StatelessWidget {
                   children: [
                     Text(
                       model.type == "VENTE"
-                          ? model.value.toString() + "\$"
-                          : model.number.toString() + "\$",
+                          ? model.value.toStringAsFixed(2) + "\$"
+                          : model.number.toStringAsFixed(2) + "\$",
                       style: screenwidht >= 1004
                           ? TextStyle(
                               fontWeight: FontWeight.bold,
@@ -112,7 +116,7 @@ class HistoryWidget extends StatelessWidget {
                     const SizedBox(
                       height: 5,
                     ),
-                    Text(model.onTransactionValue.toString() +
+                    Text(model.onTransactionValue.toStringAsFixed(4) +
                         "\$ /1 " +
                         model.cryptoId),
                   ],

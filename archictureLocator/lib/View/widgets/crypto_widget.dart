@@ -50,7 +50,7 @@ class CryptoWidget extends StatelessWidget {
             ),
             Column(
               children: [
-                Text("${model.Price.toStringAsFixed(4)} \$",
+                Text("${model.Price.toStringAsFixed(5)} \$",
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
