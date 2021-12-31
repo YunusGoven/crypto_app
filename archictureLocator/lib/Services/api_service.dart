@@ -20,9 +20,9 @@ class ApiService {
   final _auth = locator<Auth>();
   final FirebaseAuthentification _firebaseAuthentification =
       FirebaseAuthentification();
-  final url = "http://127.0.0.1:44336/api";
+  //final url = "http://127.0.0.1:44336/api";
   // final url = "http://10.0.2.2:44336/api";
-  // final url = "https://porthos-intra.cg.helmo.be/grGU/api";
+  final url = "https://porthos-intra.cg.helmo.be/grGU/api";
   final Map<String, String> headers = {
     'Content-type': 'application/json',
     'Accept': 'text/plain',
@@ -340,11 +340,9 @@ class ApiService {
   //Disable Notification
   Future<ApiResponse> disableNotification(String crytpoId) async {
     try {
-      var body = '"${crytpoId}"';
       _verifyTokenHeaders();
-      var uri = Uri.parse('$url/Wallets/DisableNotification');
-      var response =
-          await http.post(uri, headers: connectedHeaders, body: body);
+      var uri = Uri.parse('$url/Wallets/$crytpoId');
+      var response = await http.put(uri, headers: connectedHeaders);
       return ApiResponse(code: response.statusCode, value: response.body);
     } catch (ex) {
       return const ApiResponse(
